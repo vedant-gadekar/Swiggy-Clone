@@ -30,7 +30,6 @@ class MainActivity : ComponentActivity() {
             SwiggyyTheme {
                 Scaffold(modifier = Modifier.statusBarsPadding()) { innerPadding ->
                     HomeScreen(viewModel)
-                    //home screen created
                 }
             }
         }
