@@ -69,15 +69,13 @@ fun HomeScreen(viewModel: HomeViewModel) {
             onQueryChange = { viewModel.handleIntent(HomeIntent.SearchQueryChanged(it)) }
         )
 
-        BannerCard(
-            title = state.bannerMessage,
-            subtitle = state.bannerSubMessage,
-            onClick = { viewModel.handleIntent(HomeIntent.BannerClicked) }
-        )
+        Spacer(Modifier.height(20.dp))
+
 
         CategoryGrid(
             categories = state.categories,
-            onCategoryClick = { viewModel.handleIntent(HomeIntent.CategoryClicked(it)) }
+            onCategoryClick = {}
+//            onCategoryClick = { viewModel.handleIntent(HomeIntent.CategoryClicked(it)) }
         )
 
         CreditCardOffer(state.creditCardOffer)
@@ -142,7 +140,7 @@ fun SearchBar(
             tint = Color.Gray
         )
 
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.width(20.dp))
 
         // Text Field without underline
         BasicTextField(
@@ -153,7 +151,8 @@ fun SearchBar(
                 if (query.isEmpty()) {
                     Text(
                         text = "Search for 'Milk'",
-                        color = Color.Gray
+                        color = Color.Gray,
+                        fontFamily = SwiggyFontFamily
                     )
                 }
                 innerTextField()
@@ -184,22 +183,6 @@ fun SearchBar(
 }
 
 
-@Composable
-fun BannerCard(title: String, subtitle: String, onClick: () -> Unit) {
-    Card(
-        shape = RoundedCornerShape(8.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFEDE7F6)),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp)
-            .clickable { onClick() }
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(title, fontWeight = FontWeight.Bold)
-            Text(subtitle, color = Color.Gray)
-        }
-    }
-}
 
 @Composable
 fun CategoryGrid(categories: List<Category>, onCategoryClick: (Category) -> Unit) {

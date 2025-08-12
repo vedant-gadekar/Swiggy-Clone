@@ -6,6 +6,8 @@ data class HomeState(
     val searchQuery: String = "",
     val bannerMessage: String = "Vedant, your one expires soon!",
     val bannerSubMessage: String = "You've saved ₹157 with current plan. Renew now & keep saving more.",
+
+
     val categories: List<Category> = listOf(
         Category("Food Delivery", "From restaurants", "UP TO 60% OFF & FREE DEL"),
         Category("Instamart", "Get anything instantly", "UP TO ₹100 OFF"),

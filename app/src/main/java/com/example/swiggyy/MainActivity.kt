@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.compose.rememberNavController
 import com.example.swiggy.feature_home.HomeViewModel
+import com.example.swiggyy.feature_bottomNavBar.BottomNavViewModel
 import com.example.swiggyy.feature_bottomNavBar.BottomNavigationBar
 import com.example.swiggyy.feature_bottomNavBar.NavigationGraph
 import com.example.swiggyy.ui.theme.SwiggyyTheme
@@ -25,13 +26,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val BottomNavViewModel: BottomNavViewModel by viewModels()
 
             val navController=rememberNavController()
             val homeViewModel: HomeViewModel by viewModels()
             SwiggyyTheme {
                 Scaffold(modifier = Modifier.statusBarsPadding(),
                     bottomBar = {
-                        BottomNavigationBar(navController = navController)
+                        BottomNavigationBar(navController = navController,BottomNavViewModel)
                     }) {
                     NavigationGraph(navController = navController, homeViewModel)
                 }
