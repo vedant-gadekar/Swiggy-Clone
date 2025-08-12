@@ -1,7 +1,6 @@
-package com.example.swiggyy
+package com.example.swiggyy.feature_bottomNavBar
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -15,17 +14,17 @@ import com.example.swiggyy.feature_instamart.InstaMart
 fun NavigationGraph(navController: NavHostController,
                     homeViewModel: HomeViewModel
 ) {
-    NavHost(navController, startDestination = BottomNavItem.Home.screen_route) {
-        composable(BottomNavItem.Home.screen_route) {
+    NavHost(navController, startDestination = BottomNavItem.Home.screenRoute) {
+        composable(BottomNavItem.Home.screenRoute) {
             HomeScreen(homeViewModel)
         }
-        composable(BottomNavItem.InstaMart.screen_route) {
+        composable(BottomNavItem.InstaMart.screenRoute) {
             InstaMart()
         }
-        composable(BottomNavItem.Dineout.screen_route) {
+        composable(BottomNavItem.Dineout.screenRoute) {
             Dineout()
         }
-        composable(BottomNavItem.Food.screen_route) {
+        composable(BottomNavItem.Food.screenRoute) {
             Food()
         }
     }

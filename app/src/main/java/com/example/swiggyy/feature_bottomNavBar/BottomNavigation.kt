@@ -1,4 +1,4 @@
-package com.example.swiggyy
+package com.example.swiggyy.feature_bottomNavBar
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
@@ -23,7 +23,7 @@ fun BottomNavigationBar(navController: NavController) {
         BottomNavItem.Dineout,
     )
 
-    NavigationBar(containerColor = Color(0xFFFFFFFF)) {
+    NavigationBar(containerColor = Color.White) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
 
@@ -33,33 +33,36 @@ fun BottomNavigationBar(navController: NavController) {
                 icon = {
                     Box(
                         modifier = Modifier
-                            .size(35.dp), // or whatever size fits your icon
+                            .size(30.dp),
                         contentAlignment = Alignment.Center
                     )
                     {
                         Icon(
                             painterResource(id = item.icon),
                             contentDescription = item.title,
-                            Modifier.align(Alignment.Center)
+//                            Modifier.align(Alignment.Center),
                         )
                     }
                 },
                 label = { Text(text = item.title, fontSize = 11.sp) },
-                selected = currentRoute == item.screen_route,
+                selected = currentRoute == item.screenRoute,
                 onClick = {
-                    navController.navigate(item.screen_route) {
-                        navController.graph.startDestinationRoute?.let { route ->
-                            popUpTo(route) { saveState = true }
+                    if (currentRoute != item.screenRoute) {
+                        navController.navigate(item.screenRoute) {
+                            popUpTo(navController.graph.startDestinationRoute ?: return@navigate) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
                         }
-                        launchSingleTop = true
-                        restoreState = true
                     }
                 },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color.Black,
+                    selectedIconColor = Color(0xFFFF6F00),
                     unselectedIconColor = Color.Black.copy(alpha = 0.4f),
-                    selectedTextColor = Color.Black,
-                    unselectedTextColor = Color.Black.copy(alpha = 0.4f)
+                    selectedTextColor = Color(0xFFFF6F00),
+                    unselectedTextColor = Color.Black.copy(alpha = 0.4f),
+                    indicatorColor = Color.Transparent
                 )
             )
         }
