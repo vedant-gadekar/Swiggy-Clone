@@ -18,6 +18,12 @@ class HomeViewModel : ViewModel() {
             is HomeIntent.SearchQueryChanged -> {
                 _state.update { it.copy(searchQuery = intent.query) }
             }
+            is HomeIntent.CarouselItemClicked -> {
+                // Handle carousel item click
+            }
+            is HomeIntent.PageChanged -> {
+                _state.update { it.copy(currentPage = intent.page) }
+            }
 
         }
     }
@@ -26,12 +32,13 @@ class HomeViewModel : ViewModel() {
         // Static UI, so nothing dynamic for now
     }
 
-
 }
-
 
 sealed class HomeIntent {
     object LoadHome : HomeIntent()
     data class SearchQueryChanged(val query: String) : HomeIntent()
+
+    data class CarouselItemClicked(val item: CarouselItem) : HomeIntent()
+    data class PageChanged(val page: Int) : HomeIntent()
 
 }
