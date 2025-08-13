@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -16,15 +17,18 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.swiggyy.R
 import com.example.swiggyy.ui.theme.SwiggyFontFamily
+
 
 
 @Composable
@@ -77,6 +81,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
             onCategoryClick = {}
 //            onCategoryClick = { viewModel.handleIntent(HomeIntent.CategoryClicked(it)) }
         )
+        Spacer(Modifier.height(20.dp))
 
         CreditCardOffer(state.creditCardOffer)
     }
@@ -188,19 +193,77 @@ fun SearchBar(
 fun CategoryGrid(categories: List<Category>, onCategoryClick: (Category) -> Unit) {
     Column {
         categories.chunked(2).forEach { rowItems ->
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 rowItems.forEach { category ->
                     Card(
                         modifier = Modifier
                             .weight(1f)
+                            .height(140.dp)
                             .clickable { onCategoryClick(category) },
-                        shape = RoundedCornerShape(8.dp)
+                        shape = RoundedCornerShape(12.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color.White),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                     ) {
-                        Column(modifier = Modifier.padding(8.dp)) {
-                            Text(category.title, fontWeight = FontWeight.Bold)
-                            Text(category.subtitle, color = Color.Gray)
-                            Text(category.offer, color = Color.Red, fontWeight = FontWeight.Bold)
+                        Box(
+                            Modifier
+                                .fillMaxSize()
+                                .padding(top=12.dp, start = 12.dp)
+                        ){
+                            Column(
+                                Modifier
+                                    .align(Alignment.TopStart),
+                                verticalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                Text(
+                                    text= category.title,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 16.sp,
+                                    color = Color.Black
+                                )
+                                Text(
+                                    text = category.subtitle,
+                                    color = Color.Gray,
+                                    fontSize = 13.sp,
+                                    modifier = Modifier.padding(top = 3.dp, bottom = 3.dp)
+                                    )
+                                if (category.offer!=null){
+                                    Box(
+                                        modifier = Modifier
+                                            .background(
+                                                brush = Brush.linearGradient(
+                                                    colors = listOf(
+                                                        Color(0xFFFFECB3),
+                                                        Color(0xFFFFFFFF),
+                                                    )
+                                                ),
+                                                shape = RoundedCornerShape(8.dp)
+                                            )
+
+                                            .padding(4.dp)
+                                    ) {
+                                        Text(
+                                            text = category.offer,
+                                            color = Color(0xFFFF6F00),
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = 10.sp
+                                        )
+                                    }
+                                }
+
+                            }
+
+                            Image(
+                                painterResource(id=category.imageRes),
+                                contentDescription = category.title,
+                                modifier = Modifier
+                                    .size(100.dp)
+                                    .align(Alignment.BottomEnd)
+                                    .offset(12.dp,17.dp)
+                            )
                         }
+
                     }
                 }
             }

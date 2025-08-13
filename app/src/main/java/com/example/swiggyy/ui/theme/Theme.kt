@@ -10,6 +10,10 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.material3.Typography
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.sp
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -33,6 +37,30 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+
+
+
+val SwiggyTypography = Typography(
+    displayLarge = TextStyle(
+        fontFamily = SwiggyFontFamily,
+        fontWeight = FontWeight.ExtraBold,
+    ),
+    titleLarge = TextStyle(
+        fontFamily = SwiggyFontFamily,
+        fontWeight = FontWeight.Medium,
+    ),
+    bodyLarge = TextStyle(
+        fontFamily = SwiggyFontFamily,
+        fontWeight = FontWeight.Normal,
+    ),
+    labelLarge = TextStyle(
+        fontFamily = SwiggyFontFamily,
+        fontWeight = FontWeight.Medium,
+    )
+    // Add other styles as needed
+)
+
+
 @Composable
 fun SwiggyyTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -52,7 +80,7 @@ fun SwiggyyTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = SwiggyTypography,
         content = content
     )
 }
