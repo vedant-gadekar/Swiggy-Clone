@@ -14,7 +14,7 @@ class HomeViewModel : ViewModel() {
 
     fun handleIntent(intent: HomeIntent) {
         when (intent) {
-            is HomeIntent.LoadHome -> loadHome()
+
             is HomeIntent.SearchQueryChanged -> {
                 _state.update { it.copy(searchQuery = intent.query) }
             }
@@ -27,15 +27,9 @@ class HomeViewModel : ViewModel() {
 
         }
     }
-
-    private fun loadHome() {
-        // Static UI, so nothing dynamic for now
-    }
-
 }
 
 sealed class HomeIntent {
-    object LoadHome : HomeIntent()
     data class SearchQueryChanged(val query: String) : HomeIntent()
 
     data class CarouselItemClicked(val item: CarouselItem) : HomeIntent()

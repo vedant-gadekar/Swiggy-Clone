@@ -63,7 +63,7 @@ fun HomeScreen(viewModel: HomeViewModel) {
                 horizontalAlignment = Alignment.End)
             {
                  Image(
-                     painter = painterResource(R.drawable.profile_picture),
+                     painter = painterResource(R.drawable.profile),
                      contentDescription = "Profile Picture",
                      modifier = Modifier
                          .size(36.dp)
@@ -86,7 +86,6 @@ fun HomeScreen(viewModel: HomeViewModel) {
         CategoryGrid(
             categories = state.categories,
             onCategoryClick = {}
-//            onCategoryClick = { viewModel.handleIntent(HomeIntent.CategoryClicked(it)) }
         )
         Spacer(Modifier.height(20.dp))
 
@@ -264,7 +263,6 @@ fun SearchBar(
 }
 
 
-
 @Composable
 fun CategoryGrid(categories: List<Category>, onCategoryClick: (Category) -> Unit) {
     Column {
@@ -357,6 +355,7 @@ fun Carousel(
     onButtonClick: (CarouselItem) -> Unit
 ) {
     val pagerState= rememberPagerState(initialPage = currentPage, pageCount = {items.size})
+
     LaunchedEffect(pagerState.currentPage) {
         onPageChanged(pagerState.currentPage)
     }
