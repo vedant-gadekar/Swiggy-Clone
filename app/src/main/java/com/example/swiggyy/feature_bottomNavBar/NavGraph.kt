@@ -16,7 +16,7 @@ fun NavigationGraph(navController: NavHostController,
 ) {
     NavHost(navController, startDestination = BottomNavItem.Home.screenRoute) {
         composable(BottomNavItem.Home.screenRoute) {
-            HomeScreen(homeViewModel)
+            HomeScreen(homeViewModel, navController)
         }
         composable(BottomNavItem.InstaMart.screenRoute) {
             InstaMart()

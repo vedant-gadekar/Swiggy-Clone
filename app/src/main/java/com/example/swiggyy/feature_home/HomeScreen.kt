@@ -33,12 +33,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import com.example.swiggyy.R
+import com.example.swiggyy.shared.components.LocationBar
+import com.example.swiggyy.shared.components.SearchBar
 import com.example.swiggyy.ui.theme.SwiggyFontFamily
+import com.example.swiggyy.feature_bottomNavBar.BottomNavItem
 
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel) {
+fun HomeScreen(viewModel: HomeViewModel, navController: androidx.navigation.NavHostController) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     val scrollState = rememberScrollState()
@@ -85,7 +89,18 @@ fun HomeScreen(viewModel: HomeViewModel) {
 
         CategoryGrid(
             categories = state.categories,
-            onCategoryClick = {}
+            onCategoryClick = { category ->
+                // Navigate to Food tab when FOOD DELIVERY category is clicked
+                if (category.title == "FOOD DELIVERY") {
+                    navController.navigate(BottomNavItem.Food.screenRoute) {
+                        popUpTo(navController.graph.startDestinationRoute ?: return@navigate) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
+            }
         )
         Spacer(Modifier.height(20.dp))
 
@@ -159,106 +174,6 @@ fun FeaturedHeader(
             thickness = 1.dp,
             color = Color.Gray
         )
-    }
-}
-@Composable
-fun LocationBar(name: String, address: String) {
-    Column {
-        Row {
-            Image(
-                painter = painterResource(R.drawable.icon_location),
-                contentDescription = "Location arrow",
-                modifier = Modifier
-                    .size(20.dp),
-                contentScale = ContentScale.Crop
-            )
-            Text(name,
-                fontWeight = FontWeight.ExtraBold,
-                fontFamily = SwiggyFontFamily
-            )
-
-
-            Icon(
-                imageVector = Icons.Filled.KeyboardArrowDown,
-                contentDescription = "Dropdown arrow",
-                tint = Color.Gray,
-                modifier = Modifier
-                    .size(20.dp)
-
-            )
-        }
-
-        Text(address,
-            color = Color.Gray,
-            fontFamily = SwiggyFontFamily,
-            fontSize = MaterialTheme.typography.bodySmall.fontSize)
-
-
-    }
-}
-
-@Composable
-fun SearchBar(
-    query: String,
-    onQueryChange: (String) -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(24.dp))
-            .border(1.dp, Color.LightGray, RoundedCornerShape(24.dp))
-            .background(Color.White)
-            .padding(horizontal = 12.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        // Search Icon
-        Icon(
-            modifier = Modifier.size(24.dp),
-            imageVector = Icons.Default.Search,
-            contentDescription = "Search",
-            tint = Color.Gray
-        )
-
-        Spacer(modifier = Modifier.width(10.dp))
-
-        // Text Field without underline
-        BasicTextField(
-            value = query,
-            onValueChange = onQueryChange,
-            singleLine = true,
-            decorationBox = { innerTextField ->
-                if (query.isEmpty()) {
-                    Text(
-                        text = "Search for 'Milk'",
-                        color = Color.Gray,
-                        fontFamily = SwiggyFontFamily,
-
-                    )
-                }
-                innerTextField()
-            },
-            modifier = Modifier.weight(1f)
-        )
-
-        // Divider between text and mic icon
-        Box(
-            modifier = Modifier
-                .width(1.dp)
-                .height(24.dp)
-                .background(Color.LightGray)
-        )
-
-        Spacer(modifier = Modifier.width(8.dp))
-
-        // Mic Icon
-        IconButton(onClick = {}) {
-            Icon(
-                modifier = Modifier.size(24.dp),
-                painter=painterResource(R.drawable.icon_mic),
-                contentDescription = "Voice Search",
-                tint = Color(0xFFFF6F00) // Orange
-            )
-        }
     }
 }
 
