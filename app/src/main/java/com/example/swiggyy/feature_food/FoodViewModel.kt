@@ -73,14 +73,56 @@ class FoodViewModel : ViewModel() {
 
 
     private fun getDummyCategories(): List<FoodCategory> = listOf(
-        FoodCategory("1", "DeskEats"),
-        FoodCategory("2", "Burgers"),
-        FoodCategory("3", "Pizzas"),
-        FoodCategory("4", "North Indi..."),
-        FoodCategory("5", "Biryani"),
-        FoodCategory("6", "Chinese"),
-        FoodCategory("7", "South Indian"),
-        FoodCategory("8", "Desserts")
+        FoodCategory(
+            id = "1",
+            name = "Burgers",
+            imageRes = R.drawable.foodimage1
+        ),
+        FoodCategory(
+            id = "2",
+            name = "Pizza",
+            imageRes = R.drawable.foodimage2
+        ),
+        FoodCategory(
+            id = "3",
+            name = "North Indian",
+            imageRes = R.drawable.homeimage1
+        ),
+        FoodCategory(
+            id = "4",
+            name = "Biryani",
+            imageRes = R.drawable.homeimage2
+        ),
+        FoodCategory(
+            id = "5",
+            name = "Chinese",
+            imageRes = R.drawable.homeimage3
+        ),
+        FoodCategory(
+            id = "6",
+            name = "South Indian",
+            imageRes = R.drawable.homeimage4
+        ),
+        FoodCategory(
+            id = "7",
+            name = "Desserts",
+            imageRes = R.drawable.homeslide1
+        ),
+        FoodCategory(
+            id = "8",
+            name = "Beverages",
+            imageRes = R.drawable.homeslide2
+        ),
+        FoodCategory(
+            id = "9",
+            name = "Fast Food",
+            imageRes = R.drawable.homeslide3
+        ),
+        FoodCategory(
+            id = "10",
+            name = "Healthy",
+            imageRes = R.drawable.homeslide4
+        )
     )
 
     private fun getDummyReorderRestaurants(): List<Restaurant> = listOf(
@@ -92,7 +134,8 @@ class FoodViewModel : ViewModel() {
             deliveryTime = "10-15 mins",
             cuisines = listOf("Burgers"),
             offer = "30% OFF UPTO ₹75",
-            isAd = true
+            isAd = true,
+            imageRes = R.drawable.foodimage1
         ),
         Restaurant(
             id = "2",
@@ -101,7 +144,8 @@ class FoodViewModel : ViewModel() {
             reviewCount = "20-25 mins",
             deliveryTime = "20-25 mins",
             cuisines = listOf("Pizzas"),
-            hasFreeDelivery = true
+            hasFreeDelivery = true,
+            imageRes = R.drawable.foodimage2
         ),
         Restaurant(
             id = "3",
@@ -110,7 +154,8 @@ class FoodViewModel : ViewModel() {
             reviewCount = "50-55 mins",
             deliveryTime = "50-55 mins",
             cuisines = listOf("Indian"),
-            hasOneBenefits = true
+            hasOneBenefits = true,
+            imageRes = R.drawable.homeimage1
         )
     )
 
@@ -125,7 +170,8 @@ class FoodViewModel : ViewModel() {
             location = "Baner",
             distance = "1.5 km",
             hasFreeDelivery = true,
-            hasOneBenefits = true
+            hasOneBenefits = true,
+            imageRes = R.drawable.homeimage2
         ),
         Restaurant(
             id = "5",
@@ -137,7 +183,8 @@ class FoodViewModel : ViewModel() {
             location = "Baner",
             distance = "2.4 km",
             hasFreeDelivery = true,
-            hasOneBenefits = true
+            hasOneBenefits = true,
+            imageRes = R.drawable.homeimage3
         ),
         Restaurant(
             id = "6",
@@ -149,7 +196,8 @@ class FoodViewModel : ViewModel() {
             location = "Balewadi",
             distance = "1.1 km",
             hasFreeDelivery = true,
-            hasOneBenefits = true
+            hasOneBenefits = true,
+            imageRes = R.drawable.homeimage4
         )
     )
 
@@ -161,7 +209,8 @@ class FoodViewModel : ViewModel() {
             discountedPrice = 59,
             rating = 4.4,
             reviewCount = "84",
-            description = "Akshay Pure Veg"
+            description = "Akshay Pure Veg",
+            imageRes = R.drawable.homeslide1
         ),
         StoreItem(
             id = "2",
@@ -170,7 +219,8 @@ class FoodViewModel : ViewModel() {
             discountedPrice = 19,
             rating = 4.5,
             reviewCount = "763",
-            description = "Shegaon Kachori"
+            description = "Shegaon Kachori",
+            imageRes = R.drawable.homeslide2
         ),
         StoreItem(
             id = "3",
@@ -179,7 +229,8 @@ class FoodViewModel : ViewModel() {
             discountedPrice = 49,
             rating = 3.3,
             reviewCount = "1",
-            description = "Schokolade Pati..."
+            description = "Schokolade Pati...",
+            imageRes = R.drawable.homeslide3
         )
     )
 
@@ -216,7 +267,8 @@ class FoodViewModel : ViewModel() {
             cuisines = listOf("Kebabs", "Fast Food", "Snacks"),
             offer = "3 DEALS LEFT",
             hasFreeDelivery = true,
-            hasOneBenefits = true
+            hasOneBenefits = true,
+            imageRes = R.drawable.homeslide4
         ),
         Restaurant(
             id = "8",
@@ -227,7 +279,8 @@ class FoodViewModel : ViewModel() {
             cuisines = listOf("Chinese", "Thai", "Asian"),
             offer = "60% OFF UPTO ₹120",
             hasFreeDelivery = true,
-            hasOneBenefits = true
+            hasOneBenefits = true,
+            imageRes = R.drawable.homeslide5
         ),
         Restaurant(
             id = "9",
@@ -237,7 +290,8 @@ class FoodViewModel : ViewModel() {
             deliveryTime = "25-30 mins",
             cuisines = listOf("Coffee", "Wraps", "Sandwiches"),
             hasFreeDelivery = true,
-            hasOneBenefits = true
+            hasOneBenefits = true,
+            imageRes = R.drawable.homeslide6
         ),
         Restaurant(
             id = "10",
@@ -247,7 +301,8 @@ class FoodViewModel : ViewModel() {
             deliveryTime = "10-15 mins",
             cuisines = listOf("North Indian", "Biryani"),
             hasFreeDelivery = true,
-            hasOneBenefits = true
+            hasOneBenefits = true,
+            imageRes = R.drawable.homeslide7
         )
     )
 }

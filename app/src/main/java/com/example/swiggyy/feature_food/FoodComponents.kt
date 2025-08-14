@@ -18,6 +18,8 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -53,10 +55,10 @@ fun TopBar(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
-                    painter = painterResource(R.drawable.carousel),
+                    imageVector = Icons.Default.LocationOn,
                     contentDescription = "Location",
                     modifier = Modifier.size(16.dp),
-                    tint = Color.Black
+                    tint = Color(0xFFFF6F00)
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
@@ -101,7 +103,7 @@ fun TopBar(
         
         // Profile Picture
         Image(
-            painter = painterResource(R.drawable.carousel),
+            painter = painterResource(R.drawable.profile),
             contentDescription = "Profile",
             modifier = Modifier
                 .size(36.dp)
@@ -196,20 +198,27 @@ fun CategoriesSection(
     categories: List<FoodCategory>,
     onCategoryClick: (FoodCategory) -> Unit
 ) {
-    Column(modifier = Modifier.padding(vertical = 16.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp)
+    ) {
+        // Simple title matching reference design
         Text(
             text = "What's on your mind?",
             style = MaterialTheme.typography.titleMedium.copy(
                 fontFamily = SwiggyFontFamily,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black
+                color = Color(0xFF3D4152)
             ),
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
         )
         
+        // Simple horizontal scroll matching reference design
         LazyRow(
             contentPadding = PaddingValues(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = Modifier.fillMaxWidth()
         ) {
             items(categories) { category ->
                 CategoryItem(
@@ -228,22 +237,31 @@ fun CategoryItem(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.clickable { onClick() }
+        modifier = Modifier
+            .width(80.dp)
+            .clickable { onClick() }
     ) {
+        // Simple circular image matching reference design
         Image(
-            painter = painterResource(category.imageRes),
+            painter = painterResource(category.imageRes ?: R.drawable.carousel),
             contentDescription = category.name,
             modifier = Modifier
-                .size(60.dp)
+                .size(72.dp)
                 .clip(CircleShape),
             contentScale = ContentScale.Crop
         )
-        Spacer(modifier = Modifier.height(4.dp))
+        
+        Spacer(modifier = Modifier.height(8.dp))
+        
+        // Simple text matching reference design
         Text(
             text = category.name,
             fontSize = 12.sp,
+            fontWeight = FontWeight.Normal,
+            fontFamily = SwiggyFontFamily,
             textAlign = TextAlign.Center,
-            color = Color.Black
+            color = Color(0xFF686B78),
+            maxLines = 1
         )
     }
 }
@@ -297,7 +315,7 @@ fun RestaurantCard(
         Column {
             Box {
                 Image(
-                    painter = painterResource(restaurant.imageRes),
+                    painter = painterResource(restaurant.imageRes ?: R.drawable.carousel),
                     contentDescription = restaurant.name,
                     modifier = Modifier
                         .fillMaxWidth()
