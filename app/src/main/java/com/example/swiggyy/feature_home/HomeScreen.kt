@@ -1,4 +1,4 @@
-package com.example.swiggy.feature_home
+package com.example.swiggyy.feature_home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

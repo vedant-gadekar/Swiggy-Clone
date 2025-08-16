@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.swiggyy.R
 import com.example.swiggyy.ui.theme.SwiggyFontFamily
+import com.example.swiggyy.feature_food.model.*
 
 @Composable
 fun TopBar(
@@ -195,8 +196,8 @@ fun SearchSection(
 
 @Composable
 fun CategoriesSection(
-    categories: List<FoodCategory>,
-    onCategoryClick: (FoodCategory) -> Unit
+    categories: List<Category>,
+    onCategoryClick: (Category) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -232,7 +233,7 @@ fun CategoriesSection(
 
 @Composable
 fun CategoryItem(
-    category: FoodCategory,
+    category: Category,
     onClick: () -> Unit
 ) {
     Column(
@@ -243,7 +244,7 @@ fun CategoryItem(
     ) {
         // Simple circular image matching reference design
         Image(
-            painter = painterResource(category.imageRes ?: R.drawable.carousel),
+            painter = painterResource(category.imageRes),
             contentDescription = category.name,
             modifier = Modifier
                 .size(72.dp)
@@ -315,7 +316,7 @@ fun RestaurantCard(
         Column {
             Box {
                 Image(
-                    painter = painterResource(restaurant.imageRes ?: R.drawable.carousel),
+                    painter = painterResource(restaurant.imageRes),
                     contentDescription = restaurant.name,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -655,12 +656,14 @@ fun SwiggyOptionCard(
                 color = Color.Black,
                 textAlign = TextAlign.Center
             )
-            Text(
-                text = option.subtitle,
-                fontSize = 8.sp,
-                color = Color.Gray,
-                textAlign = TextAlign.Center
-            )
+            if (option.description.isNotEmpty()) {
+                Text(
+                    text = option.description,
+                    fontSize = 8.sp,
+                    color = Color.Gray,
+                    textAlign = TextAlign.Center
+                )
+            }
         }
     }
 }
@@ -812,13 +815,7 @@ fun FeaturedRestaurantCard(
                     maxLines = 1
                 )
                 
-                if (restaurant.location.isNotEmpty()) {
-                    Text(
-                        text = "${restaurant.location} • ${restaurant.distance}",
-                        fontSize = 12.sp,
-                        color = Color.Gray
-                    )
-                }
+
                 
                 if (restaurant.hasFreeDelivery || restaurant.hasOneBenefits) {
                     Row(

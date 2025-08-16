@@ -38,6 +38,10 @@ import com.example.swiggyy.R
 import com.example.swiggyy.shared.components.LocationBar
 import com.example.swiggyy.shared.components.SearchBar
 import com.example.swiggyy.ui.theme.SwiggyFontFamily
+import com.example.swiggyy.feature_food.viewmodel.FoodViewModel
+import com.example.swiggyy.feature_food.intent.FoodIntent
+import com.example.swiggyy.feature_food.state.FoodState
+import com.example.swiggyy.feature_food.state.UiState
 
 @Composable
 fun Food() {
@@ -45,7 +49,7 @@ fun Food() {
     val state by viewModel.state.collectAsStateWithLifecycle()
     
     val scrollState = rememberScrollState()
-
+    
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -94,44 +98,162 @@ fun Food() {
         Spacer(Modifier.height(20.dp))
 
         // What's on your mind? Categories
-        CategoriesSection(
-            categories = state.categories,
-            onCategoryClick = { viewModel.handleIntent(FoodIntent.CategoryClicked(it)) }
-        )
+        val categoriesState = state.categories
+        when (categoriesState) {
+            is UiState.Success -> {
+                CategoriesSection(
+                    categories = categoriesState.data,
+                    onCategoryClick = { viewModel.handleIntent(FoodIntent.CategoryClicked(it)) }
+                )
+            }
+            is UiState.Loading -> {
+                // Show loading state
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            }
+            is UiState.Error -> {
+                // Show error state
+                Text(
+                    text = categoriesState.message,
+                    color = Color.Red,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            }
+            is UiState.Empty -> {
+                // Show empty state
+                Text(
+                    text = "No categories available",
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            }
+        }
 
         Spacer(Modifier.height(20.dp))
 
         // Restaurant Sections
-        RestaurantSection(
-            title = "REORDER",
-            restaurants = state.reorderRestaurants,
-            onRestaurantClick = { viewModel.handleIntent(FoodIntent.RestaurantClicked(it)) }
-        )
+        val reorderRestaurantsState = state.reorderRestaurants
+        when (reorderRestaurantsState) {
+            is UiState.Success -> {
+                RestaurantSection(
+                    title = "REORDER",
+                    restaurants = reorderRestaurantsState.data,
+                    onRestaurantClick = { viewModel.handleIntent(FoodIntent.RestaurantClicked(it)) }
+                )
+            }
+            is UiState.Loading -> {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            }
+            is UiState.Error -> {
+                Text(
+                    text = reorderRestaurantsState.message,
+                    color = Color.Red,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            }
+            is UiState.Empty -> {
+                Text(
+                    text = "No reorder restaurants available",
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            }
+        }
 
         Spacer(Modifier.height(20.dp))
 
-        RestaurantSection(
-            title = "FOOD IN 10 MINS",
-            restaurants = state.quickDeliveryRestaurants,
-            onRestaurantClick = { viewModel.handleIntent(FoodIntent.RestaurantClicked(it)) }
-        )
+        val quickDeliveryRestaurantsState = state.quickDeliveryRestaurants
+        when (quickDeliveryRestaurantsState) {
+            is UiState.Success -> {
+                RestaurantSection(
+                    title = "FOOD IN 10 MINS",
+                    restaurants = quickDeliveryRestaurantsState.data,
+                    onRestaurantClick = { viewModel.handleIntent(FoodIntent.RestaurantClicked(it)) }
+                )
+            }
+            is UiState.Loading -> {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            }
+            is UiState.Error -> {
+                Text(
+                    text = quickDeliveryRestaurantsState.message,
+                    color = Color.Red,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            }
+            is UiState.Empty -> {
+                Text(
+                    text = "No quick delivery restaurants available",
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            }
+        }
 
         Spacer(Modifier.height(20.dp))
 
         // 99 Store Section
-        NinetyNineStoreSection(
-            items = state.ninetyNineStoreItems,
-            onItemClick = { viewModel.handleIntent(FoodIntent.StoreItemClicked(it)) },
-            onSeeAllClick = { viewModel.handleIntent(FoodIntent.SeeAllNinetyNineStore) }
-        )
+        val ninetyNineStoreItemsState = state.ninetyNineStoreItems
+        when (ninetyNineStoreItemsState) {
+            is UiState.Success -> {
+                NinetyNineStoreSection(
+                    items = ninetyNineStoreItemsState.data,
+                    onItemClick = { viewModel.handleIntent(FoodIntent.StoreItemClicked(it)) },
+                    onSeeAllClick = { viewModel.handleIntent(FoodIntent.SeeAllNinetyNineStore) }
+                )
+            }
+            is UiState.Loading -> {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            }
+            is UiState.Error -> {
+                Text(
+                    text = ninetyNineStoreItemsState.message,
+                    color = Color.Red,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            }
+            is UiState.Empty -> {
+                Text(
+                    text = "No store items available",
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            }
+        }
 
         Spacer(Modifier.height(20.dp))
 
         // More on Swiggy Section
-        MoreOnSwiggySection(
-            options = state.moreOnSwiggyOptions,
-            onOptionClick = { viewModel.handleIntent(FoodIntent.SwiggyOptionClicked(it)) }
-        )
+        val swiggyOptionsState = state.swiggyOptions
+        when (swiggyOptionsState) {
+            is UiState.Success -> {
+                MoreOnSwiggySection(
+                    options = swiggyOptionsState.data,
+                    onOptionClick = { viewModel.handleIntent(FoodIntent.SwiggyOptionClicked(it)) }
+                )
+            }
+            is UiState.Loading -> {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            }
+            is UiState.Error -> {
+                Text(
+                    text = swiggyOptionsState.message,
+                    color = Color.Red,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            }
+            is UiState.Empty -> {
+                Text(
+                    text = "No Swiggy options available",
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            }
+        }
 
         Spacer(Modifier.height(20.dp))
 
@@ -146,11 +268,11 @@ fun Food() {
         Spacer(Modifier.height(20.dp))
 
         // Featured Restaurants Title
-        Text(
+                    Text(
             text = "Top 2090 restaurants to explore",
             style = MaterialTheme.typography.titleMedium.copy(
                 fontFamily = SwiggyFontFamily,
-                fontWeight = FontWeight.Bold,
+                        fontWeight = FontWeight.Bold,
                 color = Color.Black
             ),
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
@@ -166,11 +288,34 @@ fun Food() {
         )
 
         // Featured Restaurants List
-        state.featuredRestaurants.forEach { restaurant ->
-            FeaturedRestaurantCard(
-                restaurant = restaurant,
-                onRestaurantClick = { viewModel.handleIntent(FoodIntent.RestaurantClicked(it)) }
-            )
+        val featuredRestaurantsState = state.featuredRestaurants
+        when (featuredRestaurantsState) {
+            is UiState.Success -> {
+                featuredRestaurantsState.data.forEach { restaurant ->
+                    FeaturedRestaurantCard(
+                        restaurant = restaurant,
+                        onRestaurantClick = { viewModel.handleIntent(FoodIntent.RestaurantClicked(it)) }
+                    )
+                }
+            }
+            is UiState.Loading -> {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            }
+            is UiState.Error -> {
+                Text(
+                    text = featuredRestaurantsState.message,
+                    color = Color.Red,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            }
+            is UiState.Empty -> {
+                Text(
+                    text = "No featured restaurants available",
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            }
         }
 
         Spacer(modifier = Modifier.height(100.dp))
@@ -208,9 +353,9 @@ fun FeastivalBanner() {
             ) {
                 // Top section with FEAST-IVAL text and floating icons
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(120.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(120.dp)
                 ) {
                     // Floating decorative icons with better positioning
                     Text(
@@ -332,7 +477,7 @@ fun FeastivalBanner() {
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     // Dishes From ₹29
-                    OfferCard(
+                    com.example.swiggyy.feature_food.components.OfferCard(
                         title = "Dishes\nFrom ₹29",
                         subtitle = "FLASH\nDEALS",
                         backgroundColor = Color(0xFFE91E63),
@@ -340,7 +485,7 @@ fun FeastivalBanner() {
                     )
                     
                     // Flat ₹150 OFF
-                    OfferCard(
+                    com.example.swiggyy.feature_food.components.OfferCard(
                         title = "Flat ₹150\nOFF",
                         subtitle = "💰",
                         backgroundColor = Color(0xFF4CAF50),
@@ -348,7 +493,7 @@ fun FeastivalBanner() {
                     )
                     
                     // Food In 10 Mins
-                    OfferCard(
+                    com.example.swiggyy.feature_food.components.OfferCard(
                         title = "Food In\n10 Mins",
                         subtitle = "⚡ Bolt",
                         backgroundColor = Color(0xFF2196F3),
@@ -356,7 +501,7 @@ fun FeastivalBanner() {
                     )
                     
                     // Meals at ₹99
-                    OfferCard(
+                    com.example.swiggyy.feature_food.components.OfferCard(
                         title = "Meals\nat ₹99",
                         subtitle = "₹99",
                         backgroundColor = Color(0xFFFF9800),
@@ -368,7 +513,7 @@ fun FeastivalBanner() {
                 
                 // Enhanced HDFC Bank offer
                 Card(
-                    modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
                     colors = CardDefaults.cardColors(containerColor = Color(0xFF1E3A8A)),
                     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
@@ -421,74 +566,3 @@ fun FeastivalBanner() {
     }
 }
 
-@Composable
-fun OfferCard(
-    title: String,
-    subtitle: String,
-    backgroundColor: Color = Color(0xFF1E4A4A),
-    modifier: Modifier = Modifier
-) {
-    Card(
-        modifier = modifier.height(90.dp),
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = backgroundColor),
-        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    brush = androidx.compose.ui.graphics.Brush.verticalGradient(
-                        colors = listOf(
-                            backgroundColor,
-                            backgroundColor.copy(alpha = 0.8f)
-                        )
-                    )
-                )
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(12.dp),
-                verticalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = title,
-                    color = Color.White,
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = SwiggyFontFamily,
-                    lineHeight = 13.sp,
-                    style = androidx.compose.ui.text.TextStyle(
-                        shadow = androidx.compose.ui.graphics.Shadow(
-                            color = Color.Black.copy(alpha = 0.2f),
-                            offset = androidx.compose.ui.geometry.Offset(1f, 1f),
-                            blurRadius = 2f
-                        )
-                    )
-                )
-                
-                Text(
-                    text = subtitle,
-                    color = if (subtitle.contains("FLASH") || subtitle.contains("Bolt") || subtitle.contains("⚡")) 
-                        Color(0xFFFFD700) else Color.White,
-                    fontSize = when {
-                        subtitle.contains("₹99") -> 18.sp
-                        subtitle.contains("💰") -> 16.sp
-                        subtitle.contains("⚡") -> 13.sp
-                        else -> 12.sp
-                    },
-                    fontWeight = FontWeight.ExtraBold,
-                    fontFamily = SwiggyFontFamily,
-                    style = androidx.compose.ui.text.TextStyle(
-                        shadow = androidx.compose.ui.graphics.Shadow(
-                            color = Color.Black.copy(alpha = 0.2f),
-                            offset = androidx.compose.ui.geometry.Offset(1f, 1f),
-                            blurRadius = 2f
-                        )
-                    )
-                )
-            }
-        }
-    }
-}

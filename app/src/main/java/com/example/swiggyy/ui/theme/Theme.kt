@@ -25,41 +25,7 @@ private val LightColorScheme = lightColorScheme(
     primary = Purple40,
     secondary = PurpleGrey40,
     tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
 )
-
-
-
-
-val SwiggyTypography = Typography(
-    displayLarge = TextStyle(
-        fontFamily = SwiggyFontFamily,
-        fontWeight = FontWeight.ExtraBold,
-    ),
-    titleLarge = TextStyle(
-        fontFamily = SwiggyFontFamily,
-        fontWeight = FontWeight.Medium,
-    ),
-    bodyLarge = TextStyle(
-        fontFamily = SwiggyFontFamily,
-        fontWeight = FontWeight.Normal,
-    ),
-    labelLarge = TextStyle(
-        fontFamily = SwiggyFontFamily,
-        fontWeight = FontWeight.Medium,
-    )
-    // Add other styles as needed
-)
-
 
 @Composable
 fun SwiggyyTheme(
@@ -80,7 +46,7 @@ fun SwiggyyTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = SwiggyTypography,
+        typography = Typography,
         content = content
     )
 }

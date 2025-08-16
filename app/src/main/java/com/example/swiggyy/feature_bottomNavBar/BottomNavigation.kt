@@ -25,50 +25,47 @@ fun BottomNavigationBar(navController: NavController,
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
 
+        state.items.forEach { item ->
+            NavigationBarItem(
 
-        NavigationBar(containerColor = Color.White) {
-            state.items.forEach { item ->
-                NavigationBarItem(
-
-                    icon = {
-                        Box(
-                            modifier = Modifier
-                                .size(30.dp),
-                            contentAlignment = Alignment.Center
-                        )
-                        {
-                            Icon(
-                                painterResource(id = item.icon),
-                                contentDescription = item.title,
-//                            Modifier.align(Alignment.Center),
-                            )
-                        }
-                    },
-                    label = { Text(text = item.title, fontSize = 11.sp) },
-                    selected = currentRoute == item.screenRoute,
-                    onClick = {
-                        if (currentRoute != item.screenRoute) {
-                            navController.navigate(item.screenRoute) {
-                                popUpTo(
-                                    navController.graph.startDestinationRoute ?: return@navigate
-                                ) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        }
-                    },
-                    colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = Color(0xFFFF6F00),
-                        unselectedIconColor = Color.Black.copy(alpha = 0.4f),
-                        selectedTextColor = Color(0xFFFF6F00),
-                        unselectedTextColor = Color.Black.copy(alpha = 0.4f),
-                        indicatorColor = Color.Transparent
+                icon = {
+                    Box(
+                        modifier = Modifier
+                            .size(30.dp),
+                        contentAlignment = Alignment.Center
                     )
+                    {
+                        Icon(
+                            painterResource(id = item.icon),
+                            contentDescription = item.title,
+//                            Modifier.align(Alignment.Center),
+                        )
+                    }
+                },
+                label = { Text(text = item.title, fontSize = 11.sp) },
+                selected = currentRoute == item.screenRoute,
+                onClick = {
+                    if (currentRoute != item.screenRoute) {
+                        navController.navigate(item.screenRoute) {
+                            popUpTo(
+                                navController.graph.startDestinationRoute ?: return@navigate
+                            ) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    }
+                },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = Color(0xFFFF6F00),
+                    unselectedIconColor = Color.Black.copy(alpha = 0.4f),
+                    selectedTextColor = Color(0xFFFF6F00),
+                    unselectedTextColor = Color.Black.copy(alpha = 0.4f),
+                    indicatorColor = Color.Transparent
                 )
+            )
 
-            }
         }
     }
 }

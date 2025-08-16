@@ -26,8 +26,14 @@ import com.example.swiggyy.R
 import com.example.swiggyy.ui.theme.SwiggyFontFamily
 
 @Composable
-fun LocationBar(name: String, address: String) {
-    Column {
+fun LocationBar(name: String, address: String, onLocationClick: (() -> Unit)? = null) {
+    Column(
+        modifier = if (onLocationClick != null) {
+            Modifier.clickable { onLocationClick() }
+        } else {
+            Modifier
+        }
+    ) {
         Row {
             Image(
                 painter = painterResource(R.drawable.icon_location),
@@ -60,10 +66,11 @@ fun LocationBar(name: String, address: String) {
 @Composable
 fun SearchBar(
     query: String,
-    onQueryChange: (String) -> Unit
+    onQueryChange: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(24.dp))
             .border(1.dp, Color.LightGray, RoundedCornerShape(24.dp))
