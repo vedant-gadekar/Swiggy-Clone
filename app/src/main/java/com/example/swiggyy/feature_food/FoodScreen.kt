@@ -42,6 +42,7 @@ import com.example.swiggyy.feature_food.viewmodel.FoodViewModel
 import com.example.swiggyy.feature_food.intent.FoodIntent
 import com.example.swiggyy.feature_food.state.FoodState
 import com.example.swiggyy.feature_food.state.UiState
+import com.example.swiggyy.feature_food.components.RestaurantCarousel
 
 @Composable
 fun Food() {
@@ -131,62 +132,43 @@ fun Food() {
 
         Spacer(Modifier.height(20.dp))
 
-        // Restaurant Sections
+        // Restaurant Carousel with Toggle Tabs
         val reorderRestaurantsState = state.reorderRestaurants
-        when (reorderRestaurantsState) {
-            is UiState.Success -> {
-                RestaurantSection(
-                    title = "REORDER",
-                    restaurants = reorderRestaurantsState.data,
-                    onRestaurantClick = { viewModel.handleIntent(FoodIntent.RestaurantClicked(it)) }
+        val quickDeliveryRestaurantsState = state.quickDeliveryRestaurants
+        
+        when {
+            reorderRestaurantsState is UiState.Success && quickDeliveryRestaurantsState is UiState.Success -> {
+                RestaurantCarousel(
+                    reorderRestaurants = reorderRestaurantsState.data,
+                    quickDeliveryRestaurants = quickDeliveryRestaurantsState.data,
+                    onRestaurantClick = { viewModel.handleIntent(FoodIntent.RestaurantClicked(it)) },
+                    onFavoriteClick = { restaurant -> 
+                        viewModel.handleIntent(FoodIntent.ToggleFavorite(restaurant.id, !restaurant.isFavorite))
+                    }
                 )
             }
-            is UiState.Loading -> {
+            reorderRestaurantsState is UiState.Loading || quickDeliveryRestaurantsState is UiState.Loading -> {
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
             }
-            is UiState.Error -> {
+            reorderRestaurantsState is UiState.Error -> {
                 Text(
                     text = reorderRestaurantsState.message,
                     color = Color.Red,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
             }
-            is UiState.Empty -> {
-                Text(
-                    text = "No reorder restaurants available",
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
-            }
-        }
-
-        Spacer(Modifier.height(20.dp))
-
-        val quickDeliveryRestaurantsState = state.quickDeliveryRestaurants
-        when (quickDeliveryRestaurantsState) {
-            is UiState.Success -> {
-                RestaurantSection(
-                    title = "FOOD IN 10 MINS",
-                    restaurants = quickDeliveryRestaurantsState.data,
-                    onRestaurantClick = { viewModel.handleIntent(FoodIntent.RestaurantClicked(it)) }
-                )
-            }
-            is UiState.Loading -> {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
-            }
-            is UiState.Error -> {
+            quickDeliveryRestaurantsState is UiState.Error -> {
                 Text(
                     text = quickDeliveryRestaurantsState.message,
                     color = Color.Red,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
             }
-            is UiState.Empty -> {
+            reorderRestaurantsState is UiState.Empty && quickDeliveryRestaurantsState is UiState.Empty -> {
                 Text(
-                    text = "No quick delivery restaurants available",
+                    text = "No restaurants available",
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
             }
