@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -73,6 +74,8 @@ fun OfferCard(
     Card(
         modifier = modifier
             .padding(4.dp)
+            .widthIn(min = 140.dp)
+            .heightIn(min = 96.dp)
             .graphicsLayer(
                 scaleX = cardScale * clickScale,
                 scaleY = cardScale * clickScale,
@@ -107,7 +110,9 @@ fun OfferCard(
                     fontWeight = FontWeight.Bold,
                     lineHeight = 20.sp,
                     fontFamily = SwiggyFontFamily,
-                    textAlign = TextAlign.Start
+                    textAlign = TextAlign.Start,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
                 )
                 
                 Spacer(modifier = Modifier.height(4.dp))
@@ -118,7 +123,9 @@ fun OfferCard(
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Medium,
                     fontFamily = SwiggyFontFamily,
-                    textAlign = TextAlign.Start
+                    textAlign = TextAlign.Start,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         }

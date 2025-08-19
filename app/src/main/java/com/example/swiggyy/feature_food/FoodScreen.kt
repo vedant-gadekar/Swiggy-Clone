@@ -54,6 +54,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.swiggyy.R
 import com.example.swiggyy.feature_food.components.OfferCard
+import com.example.swiggyy.feature_food.components.ReorderSection
 import com.example.swiggyy.shared.components.LocationBar
 import com.example.swiggyy.shared.components.SearchBar
 import com.example.swiggyy.ui.theme.SwiggyFontFamily
@@ -61,7 +62,6 @@ import com.example.swiggyy.feature_food.viewmodel.FoodViewModel
 import com.example.swiggyy.feature_food.intent.FoodIntent
 import com.example.swiggyy.feature_food.state.FoodState
 import com.example.swiggyy.feature_food.state.UiState
-import com.example.swiggyy.feature_food.components.RestaurantCarousel
 
 @Composable
 fun Food() {
@@ -158,11 +158,10 @@ fun Food() {
         
         when {
             reorderRestaurantsState is UiState.Success && quickDeliveryRestaurantsState is UiState.Success -> {
-                RestaurantCarousel(
-                    reorderRestaurants = reorderRestaurantsState.data,
-                    quickDeliveryRestaurants = quickDeliveryRestaurantsState.data,
+                ReorderSection(
+                    restaurants = reorderRestaurantsState.data,
                     onRestaurantClick = { viewModel.handleIntent(FoodIntent.RestaurantClicked(it)) },
-                    onFavoriteClick = { restaurant -> 
+                    onFavoriteClick = { restaurant ->
                         viewModel.handleIntent(FoodIntent.ToggleFavorite(restaurant.id, !restaurant.isFavorite))
                     }
                 )
@@ -228,37 +227,7 @@ fun Food() {
 
         Spacer(Modifier.height(20.dp))
 
-        // More on Swiggy Section
-        val swiggyOptionsState = state.swiggyOptions
-        when (swiggyOptionsState) {
-            is UiState.Success -> {
-                MoreOnSwiggySection(
-                    options = swiggyOptionsState.data,
-                    onOptionClick = { viewModel.handleIntent(FoodIntent.SwiggyOptionClicked(it)) }
-                )
-            }
-            is UiState.Loading -> {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
-            }
-            is UiState.Error -> {
-                Text(
-                    text = swiggyOptionsState.message,
-                    color = Color.Red,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
-            }
-            is UiState.Empty -> {
-                Text(
-                    text = "No Swiggy options available",
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
-            }
-        }
 
-
-        Spacer(Modifier.height(20.dp))
 
         // Featured Restaurants Header
         SectionHeader(
@@ -479,10 +448,14 @@ fun FeastivalBanner() {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    OfferCard(title = "Dishes\nFrom ₹29", subtitle = "FLASH\nDEALS", backgroundColor = Color(0xFFE91E63), modifier = Modifier.weight(1f), index = 0)
-                    OfferCard(title = "Flat ₹150\nOFF", subtitle = "💰", backgroundColor = Color(0xFF4CAF50), modifier = Modifier.weight(1f), index = 1)
-                    OfferCard(title = "Food In\n10 Mins", subtitle = "⚡ Bolt", backgroundColor = Color(0xFF2196F3), modifier = Modifier.weight(1f), index = 2)
-                    OfferCard(title = "Meals\nat ₹99", subtitle = "₹99", backgroundColor = Color(0xFFFF9800), modifier = Modifier.weight(1f), index = 3)
+                    val cardModifier = Modifier
+                        .width(150.dp)
+                        .height(120.dp)
+
+//                    OfferCard(title = "Dishes\nFrom ₹29", subtitle = "FLASH\nDEALS", backgroundColor = Color(0xFFE91E63), modifier = cardModifier, index = 0)
+//                    OfferCard(title = "Flat ₹150\nOFF", subtitle = "💰", backgroundColor = Color(0xFF4CAF50), modifier = cardModifier, index = 1)
+                    OfferCard(title = "Food In\n10 Mins", subtitle = "⚡ Bolt", backgroundColor = Color(0xFF2196F3), modifier = cardModifier, index = 2)
+                    OfferCard(title = "Meals\nat ₹99", subtitle = "₹99", backgroundColor = Color(0xFFFF9800), modifier = cardModifier, index = 3)
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 val shimmerEffect by infiniteTransition.animateFloat(
