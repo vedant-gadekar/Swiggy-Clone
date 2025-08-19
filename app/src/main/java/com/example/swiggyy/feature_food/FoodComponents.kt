@@ -1,5 +1,8 @@
 package com.example.swiggyy.feature_food
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -26,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -81,33 +85,58 @@ fun CategoryItem(
     category: Category,
     onClick: () -> Unit
 ) {
+    var isPressed by remember { mutableStateOf(false) }
+    
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .width(80.dp)
-            .clickable { onClick() }
+            .width(90.dp)
+            .clickable { 
+                isPressed = true
+                onClick() 
+            }
     ) {
-        // Simple circular image matching reference design
-        Image(
-            painter = painterResource(category.imageRes),
-            contentDescription = category.name,
+        // Enhanced circular image with shadow, border and animation
+        Box(
             modifier = Modifier
-                .size(72.dp)
-                .clip(CircleShape),
-            contentScale = ContentScale.Crop
-        )
+                .padding(bottom = if (isPressed) 0.dp else 2.dp)
+        ) {
+            Card(
+                modifier = Modifier
+                    .size(80.dp),
+                shape = CircleShape,
+                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.White),
+                border = BorderStroke(1.dp, Color(0xFFE8E8E8))
+            ) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(category.imageRes),
+                        contentDescription = category.name,
+                        modifier = Modifier
+                            .size(70.dp)
+                            .clip(CircleShape),
+                        contentScale = ContentScale.Crop
+                    )
+                }
+            }
+        }
         
         Spacer(modifier = Modifier.height(8.dp))
         
-        // Simple text matching reference design
+        // Enhanced text with better typography
         Text(
             text = category.name,
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Normal,
+            fontSize = 13.sp,
+            fontWeight = FontWeight.Medium,
             fontFamily = SwiggyFontFamily,
             textAlign = TextAlign.Center,
-            color = Color(0xFF686B78),
-            maxLines = 1
+            color = Color(0xFF3D4152),
+            maxLines = 2,
+            lineHeight = 16.sp
         )
     }
 }
@@ -268,207 +297,6 @@ fun RestaurantCard(
 }
 
 @Composable
-fun NinetyNineStoreSection(
-    items: List<StoreItem>,
-    onItemClick: (StoreItem) -> Unit,
-    onSeeAllClick: () -> Unit
-) {
-    if (items.isNotEmpty()) {
-        Column(modifier = Modifier.padding(vertical = 16.dp)) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = "99",
-                        style = MaterialTheme.typography.titleLarge.copy(
-                            fontWeight = FontWeight.Bold,
-                            color = Color(0xFFFFD700)
-                        )
-                    )
-                    Text(
-                        text = " store",
-                        style = MaterialTheme.typography.titleMedium.copy(
-                            fontWeight = FontWeight.Bold,
-                            color = Color.Black
-                        )
-                    )
-                }
-                
-                TextButton(onClick = onSeeAllClick) {
-                    Text(
-                        text = "See All >",
-                        color = Color(0xFF2196F3),
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Medium
-                    )
-                }
-            }
-            
-            Text(
-                text = "✓ Free delivery with ecosaver mode",
-                fontSize = 12.sp,
-                color = Color.Gray,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
-            )
-            
-            LazyRow(
-                contentPadding = PaddingValues(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                items(items) { item ->
-                    StoreItemCard(
-                        item = item,
-                        onClick = { onItemClick(item) }
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun StoreItemCard(
-    item: StoreItem,
-    onClick: () -> Unit
-) {
-    Card(
-        modifier = Modifier
-            .width(140.dp)
-            .clickable { onClick() },
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-    ) {
-        Column {
-            Box {
-                Image(
-                    painter = painterResource(item.imageRes),
-                    contentDescription = item.name,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(100.dp),
-                    contentScale = ContentScale.Crop
-                )
-                
-                Card(
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(4.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.White),
-                    shape = CircleShape
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.carousel),
-                        contentDescription = "Add",
-                        modifier = Modifier
-                            .size(24.dp)
-                            .padding(4.dp),
-                        tint = Color(0xFF4CAF50)
-                    )
-                }
-            }
-            
-            Column(modifier = Modifier.padding(8.dp)) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        painter = painterResource(R.drawable.carousel),
-                        contentDescription = "Veg",
-                        modifier = Modifier.size(12.dp),
-                        tint = Color(0xFF4CAF50)
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(
-                        text = item.name,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = Color.Black,
-                        maxLines = 1
-                    )
-                }
-                
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(vertical = 2.dp)
-                ) {
-                    Text(
-                        text = "₹${item.originalPrice}",
-                        fontSize = 10.sp,
-                        color = Color.Gray,
-                        textDecoration = TextDecoration.LineThrough
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(
-                        text = "₹${item.discountedPrice}",
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
-                    )
-                }
-                
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        painter = painterResource(R.drawable.carousel),
-                        contentDescription = "Rating",
-                        modifier = Modifier.size(10.dp),
-                        tint = Color(0xFF4CAF50)
-                    )
-                    Spacer(modifier = Modifier.width(2.dp))
-                    Text(
-                        text = "${item.rating} (${item.reviewCount})",
-                        fontSize = 10.sp,
-                        color = Color.Gray
-                    )
-                }
-                
-                Text(
-                    text = item.description,
-                    fontSize = 10.sp,
-                    color = Color.Gray,
-                    maxLines = 1
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun MoreOnSwiggySection(
-    options: List<SwiggyOption>,
-    onOptionClick: (SwiggyOption) -> Unit
-) {
-    if (options.isNotEmpty()) {
-        Column(modifier = Modifier.padding(vertical = 16.dp)) {
-            Text(
-                text = "More on Swiggy",
-                style = MaterialTheme.typography.titleMedium.copy(
-                    fontFamily = SwiggyFontFamily,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
-                ),
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-            )
-            
-            LazyRow(
-                contentPadding = PaddingValues(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(options) { option ->
-                    SwiggyOptionCard(
-                        option = option,
-                        onClick = { onOptionClick(option) }
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
 fun SwiggyOptionCard(
     option: SwiggyOption,
     onClick: () -> Unit
@@ -513,83 +341,7 @@ fun SwiggyOptionCard(
     }
 }
 
-@Composable
-fun FilterSortRow(
-    selectedFilter: String,
-    selectedSort: String,
-    onFilterClick: (String) -> Unit,
-    onSortClick: (String) -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        // Filter Button
-        OutlinedButton(
-            onClick = { onFilterClick("filter") },
-            modifier = Modifier.weight(1f),
-            colors = ButtonDefaults.outlinedButtonColors(
-                containerColor = Color.White,
-                contentColor = Color.Black
-            ),
-            border = BorderStroke(1.dp, Color.Gray)
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.carousel),
-                contentDescription = "Filter",
-                modifier = Modifier.size(16.dp)
-            )
-            Spacer(modifier = Modifier.width(4.dp))
-            Text(text = "Filter", fontSize = 14.sp)
-        }
-        
-        // Sort By Button
-        OutlinedButton(
-            onClick = { onSortClick("sort") },
-            modifier = Modifier.weight(1f),
-            colors = ButtonDefaults.outlinedButtonColors(
-                containerColor = Color.White,
-                contentColor = Color.Black
-            ),
-            border = BorderStroke(1.dp, Color.Gray)
-        ) {
-            Text(text = "Sort By", fontSize = 14.sp)
-            Spacer(modifier = Modifier.width(4.dp))
-            Icon(
-                imageVector = Icons.Default.KeyboardArrowDown,
-                contentDescription = "Sort",
-                modifier = Modifier.size(16.dp)
-            )
-        }
-        
-        // 99 Store Button
-        OutlinedButton(
-            onClick = { onFilterClick("99store") },
-            colors = ButtonDefaults.outlinedButtonColors(
-                containerColor = Color.White,
-                contentColor = Color.Black
-            ),
-            border = BorderStroke(1.dp, Color.Gray)
-        ) {
-            Text(text = "99 Store", fontSize = 14.sp, fontWeight = FontWeight.Bold)
-        }
-        
-        // Bolt Food Button
-        OutlinedButton(
-            onClick = { onFilterClick("bolt") },
-            colors = ButtonDefaults.outlinedButtonColors(
-                containerColor = Color.White,
-                contentColor = Color.Black
-            ),
-            border = BorderStroke(1.dp, Color.Gray)
-        ) {
-            Text(text = "Bolt", fontSize = 14.sp, fontWeight = FontWeight.Bold)
-            Text(text = " Food", fontSize = 14.sp)
-        }
-    }
-}
+
 
 @Composable
 fun FeaturedRestaurantCard(
@@ -619,9 +371,9 @@ fun FeaturedRestaurantCard(
                     .clip(RoundedCornerShape(8.dp)),
                 contentScale = ContentScale.Crop
             )
-            
+
             Spacer(modifier = Modifier.width(12.dp))
-            
+
             // Restaurant Details
             Column(
                 modifier = Modifier.weight(1f)
@@ -634,7 +386,7 @@ fun FeaturedRestaurantCard(
                     ),
                     maxLines = 1
                 )
-                
+
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.padding(vertical = 2.dp)
@@ -652,16 +404,16 @@ fun FeaturedRestaurantCard(
                         color = Color.Gray
                     )
                 }
-                
+
                 Text(
                     text = restaurant.cuisines.joinToString(", "),
                     fontSize = 12.sp,
                     color = Color.Gray,
                     maxLines = 1
                 )
-                
 
-                
+
+
                 if (restaurant.hasFreeDelivery || restaurant.hasOneBenefits) {
                     Row(
                         modifier = Modifier.padding(top = 4.dp),
@@ -678,7 +430,11 @@ fun FeaturedRestaurantCard(
                         if (restaurant.hasOneBenefits) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Card(
-                                    colors = CardDefaults.cardColors(containerColor = Color(0xFFFF6F00)),
+                                    colors = CardDefaults.cardColors(
+                                        containerColor = Color(
+                                            0xFFFF6F00
+                                        )
+                                    ),
                                     shape = RoundedCornerShape(2.dp)
                                 ) {
                                     Text(
@@ -686,7 +442,10 @@ fun FeaturedRestaurantCard(
                                         color = Color.White,
                                         fontSize = 8.sp,
                                         fontWeight = FontWeight.Bold,
-                                        modifier = Modifier.padding(horizontal = 4.dp, vertical = 1.dp)
+                                        modifier = Modifier.padding(
+                                            horizontal = 4.dp,
+                                            vertical = 1.dp
+                                        )
                                     )
                                 }
                                 Spacer(modifier = Modifier.width(2.dp))
@@ -704,3 +463,332 @@ fun FeaturedRestaurantCard(
         }
     }
 }
+
+@Composable
+fun StoreItemCard(
+    item: StoreItem,
+    onClick: () -> Unit
+) {
+    var isPressed by remember { mutableStateOf(false) }
+
+    // Animation for press effect
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed) 0.95f else 1f,
+        animationSpec = tween(150)
+    )
+
+    Card(
+        modifier = Modifier
+            .width(160.dp)
+            .graphicsLayer(
+                scaleX = scale,
+                scaleY = scale
+            )
+            .clickable {
+                isPressed = !isPressed
+                onClick()
+            },
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = if (isPressed) 2.dp else 6.dp)
+    ) {
+        Column {
+            Box {
+                // Enhanced image with rounded corners
+                Image(
+                    painter = painterResource(item.imageRes),
+                    contentDescription = item.name,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(120.dp)
+                        .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
+                    contentScale = ContentScale.Crop
+                )
+
+                // Price tag overlay at top-left
+                Card(
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(8.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFFFF6B35)),
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Text(
+                        text = "₹${item.discountedPrice}",
+                        color = Color.White,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
+                        fontFamily = SwiggyFontFamily
+                    )
+                }
+
+                // Enhanced add button
+                Card(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(8.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                    shape = CircleShape,
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.carousel),
+                        contentDescription = "Add",
+                        modifier = Modifier
+                            .size(32.dp)
+                            .padding(6.dp),
+                        tint = Color(0xFF4CAF50)
+                    )
+                }
+            }
+
+            Column(modifier = Modifier.padding(12.dp)) {
+                // Enhanced item name with veg icon
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Card(
+                        modifier = Modifier.size(16.dp),
+                        shape = RoundedCornerShape(2.dp),
+                        border = BorderStroke(1.dp, Color(0xFF4CAF50)),
+                        colors = CardDefaults.cardColors(containerColor = Color.White)
+                    ) {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(8.dp)
+                                    .background(Color(0xFF4CAF50), CircleShape)
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text(
+                        text = item.name,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black,
+                        maxLines = 1,
+                        fontFamily = SwiggyFontFamily
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(6.dp))
+
+                // Enhanced price display
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(vertical = 2.dp)
+                ) {
+                    Text(
+                        text = "₹${item.originalPrice}",
+                        fontSize = 12.sp,
+                        color = Color.Gray,
+                        textDecoration = TextDecoration.LineThrough,
+                        fontFamily = SwiggyFontFamily
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text(
+                        text = "₹${item.discountedPrice}",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = Color.Black,
+                        fontFamily = SwiggyFontFamily
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(6.dp))
+
+                // Enhanced rating with card background
+                Card(
+                    shape = RoundedCornerShape(4.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFFE8F5E9))
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.carousel),
+                            contentDescription = "Rating",
+                            modifier = Modifier.size(12.dp),
+                            tint = Color(0xFF4CAF50)
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = "${item.rating}",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF4CAF50),
+                            fontFamily = SwiggyFontFamily
+                        )
+                        Text(
+                            text = " (${item.reviewCount})",
+                            fontSize = 11.sp,
+                            color = Color(0xFF4CAF50),
+                            fontFamily = SwiggyFontFamily
+                        )
+                    }
+
+                    Text(
+                        text = item.description,
+                        fontSize = 10.sp,
+                        color = Color.Gray,
+                        maxLines = 1
+                    )
+                }
+            }
+        }
+    }
+
+}
+
+@Composable
+fun MoreOnSwiggySection(
+    options: List<SwiggyOption>,
+    onOptionClick: (SwiggyOption) -> Unit
+) {
+    if (options.isNotEmpty()) {
+        Column(modifier = Modifier.padding(vertical = 16.dp)) {
+            Text(
+                text = "More on Swiggy",
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontFamily = SwiggyFontFamily,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                ),
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+            )
+
+            LazyRow(
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(options) { option ->
+                    SwiggyOptionCard(
+                        option = option,
+                        onClick = { onOptionClick(option) }
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun NinetyNineStoreSection(
+    items: List<StoreItem>,
+    onItemClick: (StoreItem) -> Unit,
+    onSeeAllClick: () -> Unit
+) {
+    if (items.isNotEmpty()) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 16.dp),
+            shape = RoundedCornerShape(20.dp),
+            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+            colors = CardDefaults.cardColors(containerColor = Color(0xFFFFFAF0))
+        ) {
+            Column(modifier = Modifier.padding(vertical = 16.dp)) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        // Enhanced 99 text with shadow and style
+                        Text(
+                            text = "99",
+                            style = MaterialTheme.typography.titleLarge.copy(
+                                fontWeight = FontWeight.ExtraBold,
+                                fontSize = 28.sp,
+                                color = Color(0xFFFFD700),
+                                shadow = androidx.compose.ui.graphics.Shadow(
+                                    color = Color.Gray.copy(alpha = 0.5f),
+                                    offset = androidx.compose.ui.geometry.Offset(1f, 1f),
+                                    blurRadius = 2f
+                                )
+                            ),
+                            fontFamily = SwiggyFontFamily
+                        )
+                        Text(
+                            text = " store",
+                            style = MaterialTheme.typography.titleMedium.copy(
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 22.sp,
+                                color = Color.Black
+                            ),
+                            fontFamily = SwiggyFontFamily
+                        )
+                    }
+                    
+                    // Enhanced See All button
+                    Button(
+                        onClick = onSeeAllClick,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF2196F3)
+                        ),
+                        shape = RoundedCornerShape(20.dp),
+                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
+                    ) {
+                        Text(
+                            text = "See All",
+                            color = Color.White,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = SwiggyFontFamily
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Icon(
+                            painter = painterResource(R.drawable.carousel),
+                            contentDescription = "See All",
+                            modifier = Modifier.size(14.dp),
+                            tint = Color.White
+                        )
+                    }
+                }
+                
+                // Enhanced free delivery text with icon
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.carousel),
+                        contentDescription = "Free Delivery",
+                        modifier = Modifier.size(16.dp),
+                        tint = Color(0xFF4CAF50)
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = "Free delivery with ecosaver mode",
+                        fontSize = 14.sp,
+                        color = Color(0xFF4CAF50),
+                        fontWeight = FontWeight.Medium,
+                        fontFamily = SwiggyFontFamily
+                    )
+                }
+                
+                LazyRow(
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    items(items) { item ->
+                        StoreItemCard(
+                            item = item,
+                        onClick = { onItemClick(item) }
+                    )
+                }
+            }
+        }
+    }
+}
+
+
+}
+
+

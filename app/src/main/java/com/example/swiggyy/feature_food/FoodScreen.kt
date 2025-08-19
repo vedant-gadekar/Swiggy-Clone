@@ -1,5 +1,6 @@
 package com.example.swiggyy.feature_food
 
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -12,6 +13,18 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -32,9 +45,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.unit.Dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.swiggyy.R
+import com.example.swiggyy.feature_food.components.OfferCard
 import com.example.swiggyy.shared.components.LocationBar
 import com.example.swiggyy.shared.components.SearchBar
 import com.example.swiggyy.ui.theme.SwiggyFontFamily
@@ -66,6 +85,7 @@ fun Food() {
             {
                 LocationBar(state.locationName, state.locationAddress)
             }
+
             Column (Modifier
                 .weight(0.20f)
                 .padding(8.dp),
@@ -237,37 +257,16 @@ fun Food() {
             }
         }
 
-        Spacer(Modifier.height(20.dp))
-
-        // Filter and Sort Row
-        FilterSortRow(
-            selectedFilter = state.selectedFilter,
-            selectedSort = state.selectedSort,
-            onFilterClick = { viewModel.handleIntent(FoodIntent.FilterSelected(it)) },
-            onSortClick = { viewModel.handleIntent(FoodIntent.SortSelected(it)) }
-        )
 
         Spacer(Modifier.height(20.dp))
 
-        // Featured Restaurants Title
-                    Text(
-            text = "Top 2090 restaurants to explore",
-            style = MaterialTheme.typography.titleMedium.copy(
-                fontFamily = SwiggyFontFamily,
-                        fontWeight = FontWeight.Bold,
-                color = Color.Black
-            ),
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+        // Featured Restaurants Header
+        SectionHeader(
+            title = "FEATURED",
+            subtitle = "Top 2090 restaurants to explore",
+
         )
-        Text(
-            text = "FEATURED RESTAURANTS",
-            style = MaterialTheme.typography.labelSmall.copy(
-                fontFamily = SwiggyFontFamily,
-                fontWeight = FontWeight.Medium,
-                color = Color.Gray
-            ),
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
-        )
+
 
         // Featured Restaurants List
         val featuredRestaurantsState = state.featuredRestaurants
@@ -304,242 +303,226 @@ fun Food() {
     }
 }
 
+@Composable
+fun SectionHeader(
+    title: String,
+    subtitle: String? = null,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp, top = 24.dp, bottom = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.headlineSmall.copy(
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = SwiggyFontFamily
+                )
+            )
+            if (subtitle != null) {
+                Text(
+                    text = subtitle,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = Color.Gray,
+                        fontFamily = SwiggyFontFamily
+                    )
+                )
+            }
+        }
+
+    }
+}
+
+
 
 
 @Composable
 fun FeastivalBanner() {
+    var isPressed by remember { mutableStateOf(false) }
+
+    var visible by remember { mutableStateOf(false) }
+    val bannerScale by animateFloatAsState(
+        targetValue = if (visible) 1f else 0.8f,
+        animationSpec = spring(dampingRatio = 0.6f, stiffness = 300f),
+        label = "BannerScale"
+    )
+    val bannerAlpha by animateFloatAsState(
+        targetValue = if (visible) 1f else 0f,
+        animationSpec = tween(durationMillis = 500),
+        label = "BannerAlpha"
+    )
+
+    LaunchedEffect(Unit) {
+        visible = true
+    }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 0.dp),
-        shape = RoundedCornerShape(20.dp),
+            .padding(horizontal = 16.dp)
+            .graphicsLayer(
+                scaleX = bannerScale,
+                scaleY = bannerScale,
+                alpha = bannerAlpha
+            )
+            .clickable { isPressed = !isPressed },
+        shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(containerColor = Color.Transparent),
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 12.dp)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                    brush = androidx.compose.ui.graphics.Brush.verticalGradient(
+                    brush = Brush.verticalGradient(
                         colors = listOf(
+                            Color(0xFF0D2B36),
                             Color(0xFF1A4A5C),
                             Color(0xFF2B5F5F),
                             Color(0xFF1E4A4A)
                         )
                     ),
-                    shape = RoundedCornerShape(20.dp)
+                    shape = RoundedCornerShape(24.dp)
                 )
         ) {
-            Column(
-                modifier = Modifier.padding(20.dp)
-            ) {
-                // Top section with FEAST-IVAL text and floating icons
+            // ✨ FIX: Create ONE infinite transition to manage all child animations
+            val infiniteTransition = rememberInfiniteTransition(label = "BannerInfiniteAnimations")
+
+            Column(modifier = Modifier.padding(20.dp)) {
                 Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(120.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(120.dp)
                 ) {
-                    // Floating decorative icons with better positioning
-                    Text(
-                        "🍕", 
-                        fontSize = 24.sp,
-                        modifier = Modifier
-                            .align(Alignment.TopStart)
-                            .padding(start = 8.dp, top = 4.dp)
+                    val animatedRotation1 by infiniteTransition.animateFloat(
+                        initialValue = -5f, targetValue = 5f,
+                        animationSpec = infiniteRepeatable(tween(2000, easing = LinearEasing), RepeatMode.Reverse),
+                        label = "Rotation1"
                     )
-                    Text(
-                        "🍦", 
-                        fontSize = 20.sp,
-                        modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .padding(end = 16.dp, top = 8.dp)
+                    val animatedRotation2 by infiniteTransition.animateFloat(
+                        initialValue = 5f, targetValue = -5f,
+                        animationSpec = infiniteRepeatable(tween(2500, easing = LinearEasing), RepeatMode.Reverse),
+                        label = "Rotation2"
                     )
-                    Text(
-                        "🎁", 
-                        fontSize = 18.sp,
-                        modifier = Modifier
-                            .align(Alignment.CenterStart)
-                            .padding(start = 4.dp)
-                    )
-                    Text(
-                        "🍩", 
-                        fontSize = 22.sp,
-                        modifier = Modifier
-                            .align(Alignment.CenterEnd)
-                            .padding(end = 8.dp)
-                    )
-                    Text(
-                        "🍿", 
-                        fontSize = 16.sp,
-                        modifier = Modifier
-                            .align(Alignment.BottomStart)
-                            .padding(start = 12.dp, bottom = 4.dp)
-                    )
-                    Text(
-                        "🍔", 
-                        fontSize = 20.sp,
-                        modifier = Modifier
-                            .align(Alignment.BottomEnd)
-                            .padding(end = 4.dp, bottom = 8.dp)
-                    )
-                    
-                    // Center content with enhanced styling
+
+                    // Floating food icons
+                    Text("🍕", fontSize = 28.sp, modifier = Modifier.align(Alignment.TopStart).padding(start = 12.dp, top = 8.dp).graphicsLayer(rotationZ = animatedRotation1))
+                    Text("🍦", fontSize = 24.sp, modifier = Modifier.align(Alignment.TopEnd).padding(end = 20.dp, top = 12.dp).graphicsLayer(rotationZ = animatedRotation2))
+                    Text("🎁", fontSize = 22.sp, modifier = Modifier.align(Alignment.CenterStart).padding(start = 8.dp).graphicsLayer(rotationZ = animatedRotation2))
+                    Text("🍩", fontSize = 26.sp, modifier = Modifier.align(Alignment.CenterEnd).padding(end = 12.dp).graphicsLayer(rotationZ = animatedRotation1))
+                    Text("🍿", fontSize = 20.sp, modifier = Modifier.align(Alignment.BottomStart).padding(start = 16.dp, bottom = 8.dp).graphicsLayer(rotationZ = animatedRotation1))
+                    Text("🍔", fontSize = 24.sp, modifier = Modifier.align(Alignment.BottomEnd).padding(end = 8.dp, bottom = 12.dp).graphicsLayer(rotationZ = animatedRotation2))
+
                     Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(Alignment.Center),
+                        modifier = Modifier.align(Alignment.Center),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        // FLAVOURFUL badge with gradient
-                        Box(
-                            modifier = Modifier
-                                .background(
-                                    brush = androidx.compose.ui.graphics.Brush.horizontalGradient(
-                                        colors = listOf(Color.White, Color(0xFFFFF8DC))
-                                    ),
-                                    shape = RoundedCornerShape(25.dp)
-                                )
-                                .padding(horizontal = 20.dp, vertical = 6.dp)
+                        Card(
+                            shape = RoundedCornerShape(25.dp),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
                         ) {
-                            Text(
-                                text = "✨ FLAVOURFUL ✨",
-                                color = Color(0xFF2B5F5F),
-                                fontWeight = FontWeight.ExtraBold,
-                                fontSize = 13.sp,
-                                fontFamily = SwiggyFontFamily
-                            )
+                            Box(
+                                modifier = Modifier
+                                    .background(Brush.horizontalGradient(listOf(Color.White, Color(0xFFFFF8DC))))
+                                    .padding(horizontal = 24.dp, vertical = 8.dp)
+                            ) {
+                                Text("✨ FLAVOURFUL ✨", color = Color(0xFF2B5F5F), fontWeight = FontWeight.ExtraBold, fontSize = 14.sp, fontFamily = SwiggyFontFamily)
+                            }
                         }
-                        
                         Spacer(modifier = Modifier.height(12.dp))
-                        
-                        // FEAST-IVAL text with shadow effect
+                        val animatedScale by infiniteTransition.animateFloat(
+                            initialValue = 1f, targetValue = 1.05f,
+                            animationSpec = infiniteRepeatable(tween(1000), RepeatMode.Reverse),
+                            label = "FeastivalScale"
+                        )
                         Text(
                             text = "FEAST-IVAL",
                             color = Color(0xFFFFD700),
-                            fontSize = 36.sp,
+                            fontSize = 40.sp,
                             fontWeight = FontWeight.ExtraBold,
                             fontFamily = SwiggyFontFamily,
-                            style = androidx.compose.ui.text.TextStyle(
-                                shadow = androidx.compose.ui.graphics.Shadow(
-                                    color = Color.Black.copy(alpha = 0.3f),
-                                    offset = androidx.compose.ui.geometry.Offset(2f, 2f),
-                                    blurRadius = 4f
-                                )
+                            style = TextStyle(shadow = Shadow(
+                                Color.Black.copy(alpha = 0.5f),
+                                Offset(3f, 3f),
+                                6f
                             )
+                            ),
+                            modifier = Modifier.graphicsLayer(scaleX = animatedScale, scaleY = animatedScale)
                         )
                     }
                 }
-                
                 Spacer(modifier = Modifier.height(20.dp))
-                
-                // Enhanced FLAT ₹150 OFF text
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .background(
-                            Color(0xFFFF6B35).copy(alpha = 0.9f),
-                            RoundedCornerShape(12.dp)
-                        )
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                val animatedAlpha by infiniteTransition.animateFloat(
+                    initialValue = 0.9f, targetValue = 1f,
+                    animationSpec = infiniteRepeatable(tween(800, easing = FastOutSlowInEasing), RepeatMode.Reverse),
+                    label = "OfferAlpha"
+                )
+                Card(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    shape = RoundedCornerShape(16.dp),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
                 ) {
-                    Text(
-                        text = "🎉 FLAT ₹150 OFF 🎉",
-                        color = Color.White,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.ExtraBold,
-                        fontFamily = SwiggyFontFamily
-                    )
+                    Box(
+                        modifier = Modifier
+                            .background(Brush.horizontalGradient(listOf(Color(0xFFFF4500), Color(0xFFFF6B35), Color(0xFFFF4500))))
+                            .padding(horizontal = 20.dp, vertical = 10.dp)
+                            .graphicsLayer(alpha = animatedAlpha)
+                    ) {
+                        Text("🎉 FLAT ₹150 OFF 🎉", color = Color.White, fontSize = 22.sp, fontWeight = FontWeight.ExtraBold, fontFamily = SwiggyFontFamily)
+                    }
                 }
-                
                 Spacer(modifier = Modifier.height(20.dp))
-                
-                // Enhanced offer cards row
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    // Dishes From ₹29
-                    com.example.swiggyy.feature_food.components.OfferCard(
-                        title = "Dishes\nFrom ₹29",
-                        subtitle = "FLASH\nDEALS",
-                        backgroundColor = Color(0xFFE91E63),
-                        modifier = Modifier.weight(1f)
-                    )
-                    
-                    // Flat ₹150 OFF
-                    com.example.swiggyy.feature_food.components.OfferCard(
-                        title = "Flat ₹150\nOFF",
-                        subtitle = "💰",
-                        backgroundColor = Color(0xFF4CAF50),
-                        modifier = Modifier.weight(1f)
-                    )
-                    
-                    // Food In 10 Mins
-                    com.example.swiggyy.feature_food.components.OfferCard(
-                        title = "Food In\n10 Mins",
-                        subtitle = "⚡ Bolt",
-                        backgroundColor = Color(0xFF2196F3),
-                        modifier = Modifier.weight(1f)
-                    )
-                    
-                    // Meals at ₹99
-                    com.example.swiggyy.feature_food.components.OfferCard(
-                        title = "Meals\nat ₹99",
-                        subtitle = "₹99",
-                        backgroundColor = Color(0xFFFF9800),
-                        modifier = Modifier.weight(1f)
-                    )
+                    OfferCard(title = "Dishes\nFrom ₹29", subtitle = "FLASH\nDEALS", backgroundColor = Color(0xFFE91E63), modifier = Modifier.weight(1f), index = 0)
+                    OfferCard(title = "Flat ₹150\nOFF", subtitle = "💰", backgroundColor = Color(0xFF4CAF50), modifier = Modifier.weight(1f), index = 1)
+                    OfferCard(title = "Food In\n10 Mins", subtitle = "⚡ Bolt", backgroundColor = Color(0xFF2196F3), modifier = Modifier.weight(1f), index = 2)
+                    OfferCard(title = "Meals\nat ₹99", subtitle = "₹99", backgroundColor = Color(0xFFFF9800), modifier = Modifier.weight(1f), index = 3)
                 }
-                
                 Spacer(modifier = Modifier.height(16.dp))
-                
-                // Enhanced HDFC Bank offer
+                val shimmerEffect by infiniteTransition.animateFloat(
+                    initialValue = -1000f, targetValue = 1000f,
+                    animationSpec = infiniteRepeatable(tween(2000, easing = LinearEasing), RepeatMode.Restart),
+                    label = "Shimmer"
+                )
                 Card(
-                        modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
                     colors = CardDefaults.cardColors(containerColor = Color(0xFF1E3A8A)),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                    elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
                 ) {
-                    Row(
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(12.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        // HDFC Bank logo with better styling
-                        Box(
-                            modifier = Modifier
-                                .background(
-                                    Color.White,
-                                    RoundedCornerShape(8.dp)
+                            .background(
+                                brush = Brush.linearGradient(
+                                    colors = listOf(Color.Transparent, Color.White.copy(alpha = 0.3f), Color.Transparent),
+                                    start = Offset(x = shimmerEffect - 300f, y = 0f),
+                                    end = Offset(x = shimmerEffect, y = 0f)
                                 )
-                                .padding(horizontal = 12.dp, vertical = 6.dp)
+                            )
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(12.dp),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(
-                                text = "🏦 HDFC",
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.ExtraBold,
-                                color = Color(0xFF1E3A8A),
-                                fontFamily = SwiggyFontFamily
-                            )
-                        }
-                        
-                        Spacer(modifier = Modifier.width(12.dp))
-                        
-                        Column {
-                            Text(
-                                text = "💳 Flat ₹75 OFF*",
-                                color = Color.White,
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Bold,
-                                fontFamily = SwiggyFontFamily
-                            )
-                            Text(
-                                text = "using HDFC Bank Credit card",
-                                color = Color.White.copy(alpha = 0.8f),
-                                fontSize = 11.sp,
-                                fontFamily = SwiggyFontFamily
-                            )
+                            Box(
+                                modifier = Modifier
+                                    .background(Color.White, RoundedCornerShape(8.dp))
+                                    .padding(horizontal = 12.dp, vertical = 6.dp)
+                            ) {
+                                Text("🏦 HDFC", fontSize = 12.sp, fontWeight = FontWeight.ExtraBold, color = Color(0xFF1E3A8A), fontFamily = SwiggyFontFamily)
+                            }
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Column {
+                                Text("💳 Flat ₹75 OFF*", color = Color.White, fontSize = 14.sp, fontWeight = FontWeight.Bold, fontFamily = SwiggyFontFamily)
+                                Text("using HDFC Bank Credit card", color = Color.White.copy(alpha = 0.8f), fontSize = 11.sp, fontFamily = SwiggyFontFamily)
+                            }
                         }
                     }
                 }
