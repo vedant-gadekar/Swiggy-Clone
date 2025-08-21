@@ -34,7 +34,7 @@ data class GroceryCategory(
     val imageUrl: String,
     val iconRes: Int? = null
 )
-
+//
 data class ProductItem(
     val name: String,
     val imageUrl: String,
