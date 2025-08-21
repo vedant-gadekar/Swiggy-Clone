@@ -38,35 +38,35 @@ fun LocationBar(name: String, address: String, onLocationClick: (() -> Unit)? = 
     // Animation states
     var isHovered by remember { mutableStateOf(false) }
     var isVisible by remember { mutableStateOf(false) }
-    
+
     // Entrance animation
     val locationBarScale by animateFloatAsState(
         targetValue = if (isVisible) 1f else 0.95f,
         animationSpec = spring(dampingRatio = 0.8f, stiffness = 300f)
     )
-    
+
     val locationBarAlpha by animateFloatAsState(
         targetValue = if (isVisible) 1f else 0f,
         animationSpec = tween(durationMillis = 300, delayMillis = 100)
     )
-    
+
     // Hover animation
     val locationBarElevation by animateFloatAsState(
         targetValue = if (isHovered) 4f else 0f,
         animationSpec = tween(durationMillis = 200)
     )
-    
+
     // Arrow rotation animation
     val arrowRotation by animateFloatAsState(
         targetValue = if (isHovered) 180f else 0f,
         animationSpec = tween(durationMillis = 200)
     )
-    
+
     // Trigger entrance animation
     LaunchedEffect(Unit) {
         isVisible = true
     }
-    
+
     // Enhanced location bar with animations
     Card(
         modifier = Modifier
@@ -91,7 +91,7 @@ fun LocationBar(name: String, address: String, onLocationClick: (() -> Unit)? = 
                     targetValue = if (isHovered) Color(0xFFFF6F00) else Color.Black,
                     animationSpec = tween(durationMillis = 200)
                 )
-                
+
                 Image(
                     painter = painterResource(R.drawable.icon_location),
                     contentDescription = "Location arrow",
@@ -108,9 +108,9 @@ fun LocationBar(name: String, address: String, onLocationClick: (() -> Unit)? = 
                     contentScale = ContentScale.Crop,
                     colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(iconColor)
                 )
-                
+
                 Spacer(modifier = Modifier.width(4.dp))
-                
+
                 Text(
                     text = name,
                     fontWeight = FontWeight.ExtraBold,
@@ -147,34 +147,34 @@ fun SearchBar(
     // Animation states
     var isVisible by remember { mutableStateOf(false) }
     var isFocused by remember { mutableStateOf(false) }
-    
+
     // Entrance animation
     val searchBarScale by animateFloatAsState(
         targetValue = if (isVisible) 1f else 0.95f,
         animationSpec = spring(dampingRatio = 0.8f, stiffness = 300f)
     )
-    
+
     val searchBarAlpha by animateFloatAsState(
         targetValue = if (isVisible) 1f else 0f,
         animationSpec = tween(durationMillis = 300)
     )
-    
+
     // Focus animation
     val searchBarElevation by animateFloatAsState(
         targetValue = if (isFocused) 8f else 2f,
         animationSpec = tween(durationMillis = 200)
     )
-    
+
     val borderColor by animateColorAsState(
         targetValue = if (isFocused) Color(0xFFFF6F00) else Color.LightGray,
         animationSpec = tween(durationMillis = 200)
     )
-    
+
     // Trigger entrance animation
     LaunchedEffect(Unit) {
         isVisible = true
     }
-    
+
     // Enhanced search bar with shadow and animations
     Card(
         modifier = modifier
@@ -198,11 +198,11 @@ fun SearchBar(
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Animated search icon
-                val searchIconColor by animateColorAsState(
-                    targetValue = if (isFocused) Color(0xFFFF6F00) else Color.Gray,
-                    animationSpec = tween(durationMillis = 200)
-                )
-            
+            val searchIconColor by animateColorAsState(
+                targetValue = if (isFocused) Color(0xFFFF6F00) else Color.Gray,
+                animationSpec = tween(durationMillis = 200)
+            )
+
             Icon(
                 modifier = Modifier.size(24.dp),
                 imageVector = Icons.Default.Search,
@@ -215,7 +215,7 @@ fun SearchBar(
             // Text Field without underline
             BasicTextField(
                 value = query,
-                onValueChange = { 
+                onValueChange = {
                     onQueryChange(it)
                     if (!isFocused) isFocused = true
                 },
@@ -247,51 +247,51 @@ fun SearchBar(
                     .background(Color.LightGray)
             )
 
-        Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(8.dp))
 
-        // Mic Icon with animation
-        val microphoneScale = remember { Animatable(1f) }
-        val coroutineScope = rememberCoroutineScope()
-        var isPressed by remember { mutableStateOf(false) }
-        
-        LaunchedEffect(isFocused, isPressed) {
-            if (isFocused || isPressed) {
-                // Pulse animation when focused
-                microphoneScale.animateTo(
-                    targetValue = 0.8f,
-                    animationSpec = tween(durationMillis = 50)
-                )
-                microphoneScale.animateTo(
-                    targetValue = 1.2f,
-                    animationSpec = spring(dampingRatio = 0.4f, stiffness = 300f)
-                )
-                microphoneScale.animateTo(
-                    targetValue = 1f,
-                    animationSpec = tween(durationMillis = 100)
+            // Mic Icon with animation
+            val microphoneScale = remember { Animatable(1f) }
+            val coroutineScope = rememberCoroutineScope()
+            var isPressed by remember { mutableStateOf(false) }
+
+            LaunchedEffect(isFocused, isPressed) {
+                if (isFocused || isPressed) {
+                    // Pulse animation when focused
+                    microphoneScale.animateTo(
+                        targetValue = 0.8f,
+                        animationSpec = tween(durationMillis = 50)
+                    )
+                    microphoneScale.animateTo(
+                        targetValue = 1.2f,
+                        animationSpec = spring(dampingRatio = 0.4f, stiffness = 300f)
+                    )
+                    microphoneScale.animateTo(
+                        targetValue = 1f,
+                        animationSpec = tween(durationMillis = 100)
+                    )
+                }
+            }
+
+            IconButton(
+                onClick = {
+                    // Trigger pulse animation on click
+                    isPressed = true
+                }
+            ) {
+                Icon(
+                    modifier = Modifier
+                        .size(24.dp)
+                        .graphicsLayer {
+                            scaleX = microphoneScale.value
+                            scaleY = microphoneScale.value
+                        },
+                    painter = painterResource(R.drawable.icon_mic),
+                    contentDescription = "Voice Search",
+                    tint = Color(0xFFFF6F00) // Orange
                 )
             }
-        }
-        
-        IconButton(
-            onClick = {
-                // Trigger pulse animation on click
-                isPressed = true
-            }
-        ) {
-            Icon(
-                modifier = Modifier
-                    .size(24.dp)
-                    .graphicsLayer {
-                        scaleX = microphoneScale.value
-                        scaleY = microphoneScale.value
-                    },
-                painter = painterResource(R.drawable.icon_mic),
-                contentDescription = "Voice Search",
-                tint = Color(0xFFFF6F00) // Orange
-            )
         }
     }
-}
 }
 
 @Composable

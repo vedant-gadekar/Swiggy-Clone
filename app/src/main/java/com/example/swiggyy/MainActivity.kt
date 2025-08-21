@@ -10,11 +10,12 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.example.swiggyy.feature_home.HomeViewModel
+import com.example.swiggyy.feature.bottomnav.viewmodel.NavigationGraph
 import com.example.swiggyy.feature_bottomNavBar.BottomNavViewModel
 import com.example.swiggyy.feature_bottomNavBar.BottomNavigationBar
-import com.example.swiggyy.feature_bottomNavBar.NavigationGraph
+import com.example.swiggyy.feature_home.HomeViewModel
 import com.example.swiggyy.ui.theme.SwiggyyTheme
+import kotlin.getValue
 
 
 class MainActivity : ComponentActivity() {
