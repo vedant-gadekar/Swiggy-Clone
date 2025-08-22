@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.swiggyy.feature.instamart.utils.InstamartConstants
 
 @Composable
 fun SectionHeader(
@@ -21,23 +22,23 @@ fun SectionHeader(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(Color.White)
-            .padding(horizontal = 25.dp, vertical = 18.dp),
+            .background(InstamartConstants.Colors.White)
+            .padding(horizontal = InstamartConstants.Dimensions.SpacingXXLarge, vertical = InstamartConstants.Dimensions.SpacingLarge + InstamartConstants.Dimensions.SpacingSmall),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = title,
-            fontSize = 16.sp,
+            fontSize = InstamartConstants.Typography.FontSizeXLarge,
             fontWeight = FontWeight.SemiBold,
-            color = Color(0xFF0A0B0A)
+            color = InstamartConstants.Colors.DarkGray
         )
 
         Text(
-            text = "See all",
-            fontSize = 14.sp,
+            text = InstamartConstants.Strings.SeeAll,
+            fontSize = InstamartConstants.Typography.FontSizeLarge,
             fontWeight = FontWeight.SemiBold,
-            color = Color(0xFF0CA201),
+            color = InstamartConstants.Colors.PrimaryGreen,
             modifier = Modifier.clickable { onSeeAllClick() }
         )
     }

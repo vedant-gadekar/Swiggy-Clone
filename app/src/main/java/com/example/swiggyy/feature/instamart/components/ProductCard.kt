@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.instamart.state.ProductData
+import com.example.swiggyy.feature.instamart.utils.InstamartConstants
 
 @Composable
 fun ProductCard(
@@ -34,12 +35,12 @@ fun ProductCard(
 ) {
     Box(
         modifier = modifier
-            .width(170.dp)
-            .height(245.dp)
-            .clip(RoundedCornerShape(15.dp))
-            .background(Color.White)
+            .width(InstamartConstants.Dimensions.ProductCardWidth)
+            .height(InstamartConstants.Dimensions.ProductCardHeight)
+            .clip(RoundedCornerShape(InstamartConstants.Dimensions.CornerRadiusLarge))
+            .background(InstamartConstants.Colors.White)
             .clickable { onProductClick() }
-            .padding(5.dp)
+            .padding(InstamartConstants.Dimensions.SpacingXSmall)
     ) {
         Column(
             modifier = Modifier.fillMaxSize()
@@ -48,16 +49,16 @@ fun ProductCard(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(147.dp)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(Color(0xFFF6F6F6)),
+                    .height(InstamartConstants.Dimensions.ProductImageHeight)
+                    .clip(RoundedCornerShape(InstamartConstants.Dimensions.CornerRadiusMedium))
+                    .background(InstamartConstants.Colors.LightGray),
                 contentAlignment = Alignment.Center
             ) {
                 if (productData.imageUrl!=0) {
                     AsyncImage(
                         model = productData.imageUrl,
                         contentDescription = productData.name,
-                        modifier = Modifier.size(146.dp),
+                        modifier = Modifier.size(InstamartConstants.Dimensions.ProductImageSize),
                         contentScale = ContentScale.Fit
                     )
                 }
@@ -67,44 +68,44 @@ fun ProductCard(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp, vertical = 14.dp)
+                    .padding(horizontal = InstamartConstants.Dimensions.SpacingSmall, vertical = InstamartConstants.Dimensions.SpacingLarge)
             ) {
                 // Product Name
                 Text(
                     text = productData.name,
-                    fontSize = 16.sp,
+                    fontSize = InstamartConstants.Typography.FontSizeXLarge,
                     fontWeight = FontWeight.SemiBold,
-                    color = Color.Black
+                    color = InstamartConstants.Colors.Black
                 )
 
                 // Rating Row
                 Row(
-                    modifier = Modifier.padding(top = 8.dp),
+                    modifier = Modifier.padding(top = InstamartConstants.Dimensions.SpacingSmall),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
                         imageVector = Icons.Default.Star,
                         contentDescription = null,
-                        tint = Color(0xFFFFD500),
-                        modifier = Modifier.size(16.dp)
+                        tint = InstamartConstants.Colors.StarYellow,
+                        modifier = Modifier.size(InstamartConstants.Dimensions.IconSizeMedium)
                     )
 
                     Text(
                         text = productData.rating,
-                        fontSize = 14.sp,
+                        fontSize = InstamartConstants.Typography.FontSizeLarge,
                         fontWeight = FontWeight.Medium,
-                        color = Color.Black,
-                        modifier = Modifier.padding(start = 8.dp)
+                        color = InstamartConstants.Colors.Black,
+                        modifier = Modifier.padding(start = InstamartConstants.Dimensions.SpacingSmall)
                     )
                 }
 
                 // Price
                 Text(
                     text = productData.price,
-                    fontSize = 16.sp,
+                    fontSize = InstamartConstants.Typography.FontSizeXLarge,
                     fontWeight = FontWeight.SemiBold,
-                    color = Color.Black,
-                    modifier = Modifier.padding(top = 8.dp)
+                    color = InstamartConstants.Colors.Black,
+                    modifier = Modifier.padding(top = InstamartConstants.Dimensions.SpacingSmall)
                 )
             }
         }
@@ -113,16 +114,16 @@ fun ProductCard(
         Box(
             modifier = Modifier
                 .align(Alignment.CenterEnd)
-                .padding(end = 13.dp)
-                .size(38.dp)
+                .padding(end = InstamartConstants.Dimensions.SpacingNormal)
+                .size(InstamartConstants.Dimensions.AddButtonSize)
                 .shadow(
-                    elevation = 7.dp,
+                    elevation = InstamartConstants.Dimensions.ShadowElevation,
                     shape = CircleShape,
-                    ambientColor = Color.Black.copy(alpha = 0.05f)
+                    ambientColor = InstamartConstants.Colors.ShadowBlack
                 )
                 .clip(CircleShape)
-                .background(Color.White)
-                .border(1.dp, Color(0xFFECECEC), CircleShape)
+                .background(InstamartConstants.Colors.White)
+                .border(InstamartConstants.Dimensions.BorderWidth, InstamartConstants.Colors.BorderGray, CircleShape)
         ) {
             if (quantity == 0) {
                 // Add Button
@@ -132,9 +133,9 @@ fun ProductCard(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
-                        contentDescription = "Add to cart",
-                        tint = Color.Black,
-                        modifier = Modifier.size(18.dp)
+                        contentDescription = InstamartConstants.Strings.AddToCart,
+                        tint = InstamartConstants.Colors.Black,
+                        modifier = Modifier.size(InstamartConstants.Dimensions.IconSizeLarge)
                     )
                 }
             } else {
@@ -151,34 +152,34 @@ fun ProductCard(
                                 onQuantityChange(quantity - 1)
                             }
                         },
-                        modifier = Modifier.size(18.dp)
+                        modifier = Modifier.size(InstamartConstants.Dimensions.IconSizeLarge)
                     ) {
                         Icon(
                             imageVector = Icons.Default.Remove,
-                            contentDescription = "Remove",
-                            tint = Color.Black,
-                            modifier = Modifier.size(12.dp)
+                            contentDescription = InstamartConstants.Strings.Remove,
+                            tint = InstamartConstants.Colors.Black,
+                            modifier = Modifier.size(InstamartConstants.Dimensions.IconSizeSmall)
                         )
                     }
 
                     // Quantity Display
                     Text(
                         text = quantity.toString(),
-                        fontSize = 14.sp,
+                        fontSize = InstamartConstants.Typography.FontSizeLarge,
                         fontWeight = FontWeight.SemiBold,
-                        color = Color.Black
+                        color = InstamartConstants.Colors.Black
                     )
 
                     // Increase Button
                     IconButton(
                         onClick = { onQuantityChange(quantity + 1) },
-                        modifier = Modifier.size(18.dp)
+                        modifier = Modifier.size(InstamartConstants.Dimensions.IconSizeLarge)
                     ) {
                         Icon(
                             imageVector = Icons.Default.Add,
-                            contentDescription = "Add more",
-                            tint = Color.Black,
-                            modifier = Modifier.size(12.dp)
+                            contentDescription = InstamartConstants.Strings.AddMore,
+                            tint = InstamartConstants.Colors.Black,
+                            modifier = Modifier.size(InstamartConstants.Dimensions.IconSizeSmall)
                         )
                     }
                 }

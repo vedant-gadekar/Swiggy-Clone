@@ -7,6 +7,7 @@ import com.example.instamart.state.*
 import com.example.swiggyy.R
 import com.example.swiggyy.feature.instamart.state.InstamartEffect
 import com.example.swiggyy.feature.instamart.state.InstamartEvent
+import com.example.swiggyy.feature.instamart.utils.InstamartConstants
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -36,6 +37,7 @@ class InstamartViewModel : ViewModel() {
             is InstamartEvent.SearchQueryChanged -> updateSearchQuery(event.query)
         }
     }
+
     private fun updateSearchQuery(query: String) {
         _state.update { it.copy(searchQuery = query) }
     }
@@ -76,7 +78,7 @@ class InstamartViewModel : ViewModel() {
         _state.value = _state.value.copy(cartItems = currentCart)
 
         viewModelScope.launch {
-            _effect.emit(InstamartEffect.ShowToast("Added to cart"))
+            _effect.emit(InstamartEffect.ShowToast(InstamartConstants.Strings.AddedToCart))
         }
     }
 
@@ -133,78 +135,252 @@ class InstamartViewModel : ViewModel() {
         _state.value = _state.value.copy(error = null)
     }
 
-    // Updated mock data loading functions
+    // Updated mock data loading functions using InstamartConstants
     private fun loadCategories(): List<CategoryData> {
         return listOf(
-            CategoryData("1", "Fruits", R.drawable.bananas),
-            CategoryData("2", "Milk & egg", R.drawable.dairy_eggs),
-            CategoryData("3", "Beverages", R.drawable.beverages),
-            CategoryData("4", "Laundry", R.drawable.icon_swiggy),
-            CategoryData("5", "Vegetables", R.drawable.icon_swiggy)
+            CategoryData(
+                InstamartConstants.CategoryIds.Fruits,
+                InstamartConstants.Strings.CategoryFruits,
+                InstamartConstants.ImageUrls.CategoryFruitsImage
+            ),
+            CategoryData(
+                InstamartConstants.CategoryIds.MilkEgg,
+                InstamartConstants.Strings.CategoryMilkEgg,
+                InstamartConstants.ImageUrls.CategoryMilkEggImage
+            ),
+            CategoryData(
+                InstamartConstants.CategoryIds.Beverages,
+                InstamartConstants.Strings.CategoryBeverages,
+                InstamartConstants.ImageUrls.CategoryBeveragesImage
+            ),
+            CategoryData(
+                InstamartConstants.CategoryIds.Laundry,
+                InstamartConstants.Strings.CategoryLaundry,
+                InstamartConstants.ImageUrls.CategoryLaundryImage
+            ),
+            CategoryData(
+                InstamartConstants.CategoryIds.Vegetables,
+                InstamartConstants.Strings.CategoryVegetables,
+                InstamartConstants.ImageUrls.CategoryVegetablesImage
+            )
         )
     }
 
     private fun loadFruits(): List<ProductData> {
         return listOf(
-            ProductData("f1", "Banana", "4.8 (287)", "$3.99", R.drawable.bananas, "fruits"),
-            ProductData("f2", "Pepper", "4.8 (287)", "$2.99", R.drawable.bell_pepper, "fruits"),
-            ProductData("f3", "Orange", "4.8 (287)", "$3.99", R.drawable.icon_swiggy, "fruits"),
-            ProductData("f4", "Strawberry", "4.8 (287)", "$1.99", R.drawable.icon_swiggy, "fruits"),
-            ProductData("f5", "Lemon", "4.8 (287)", "$1.99", R.drawable.icon_swiggy, "fruits"),
-            ProductData("f6", "Water lemon", "4.8 (287)", "$1.99", R.drawable.icon_swiggy, "fruits"),
-            ProductData("f7", "Apple", "4.8 (287)", "$1.99", R.drawable.icon_swiggy, "fruits"),
-            ProductData("f8", "Mango", "4.8 (287)", "$4.99", R.drawable.icon_swiggy, "fruits"),
-            ProductData("f9", "Grapes", "4.8 (287)", "$3.45", R.drawable.icon_swiggy, "fruits"),
-            ProductData("f10", "Pineapple", "4.8 (287)", "$2.89", R.drawable.icon_swiggy, "fruits")
+            ProductData(
+                InstamartConstants.ProductIds.Banana,
+                InstamartConstants.Strings.ProductBanana,
+                InstamartConstants.Strings.DefaultRating,
+                InstamartConstants.Prices.Price399,
+                InstamartConstants.ImageUrls.BananaImage,
+                InstamartConstants.Categories.Fruits
+            ),
+            ProductData(
+                InstamartConstants.ProductIds.Pepper,
+                InstamartConstants.Strings.ProductPepper,
+                InstamartConstants.Strings.DefaultRating,
+                InstamartConstants.Prices.Price299,
+                InstamartConstants.ImageUrls.PepperImage,
+                InstamartConstants.Categories.Fruits
+            ),
+            ProductData(
+                InstamartConstants.ProductIds.Orange,
+                InstamartConstants.Strings.ProductOrange,
+                InstamartConstants.Strings.DefaultRating,
+                InstamartConstants.Prices.Price399,
+                InstamartConstants.ImageUrls.BananaImage,
+                InstamartConstants.Categories.Fruits
+            ),
+            ProductData(
+                InstamartConstants.ProductIds.Strawberry,
+                InstamartConstants.Strings.ProductStrawberry,
+                InstamartConstants.Strings.DefaultRating,
+                InstamartConstants.Prices.Price199,
+                InstamartConstants.ImageUrls.BananaImage,
+                InstamartConstants.Categories.Fruits
+            ),
+            ProductData(
+                InstamartConstants.ProductIds.Lemon,
+                InstamartConstants.Strings.ProductLemon,
+                InstamartConstants.Strings.DefaultRating,
+                InstamartConstants.Prices.Price199,
+                InstamartConstants.ImageUrls.BananaImage,
+                InstamartConstants.Categories.Fruits
+            ),
+            ProductData(
+                InstamartConstants.ProductIds.WaterLemon,
+                InstamartConstants.Strings.ProductWaterLemon,
+                InstamartConstants.Strings.DefaultRating,
+                InstamartConstants.Prices.Price199,
+                InstamartConstants.ImageUrls.WaterLemonImage,
+                InstamartConstants.Categories.Fruits
+            ),
+            ProductData(
+                InstamartConstants.ProductIds.Apple,
+                InstamartConstants.Strings.ProductApple,
+                InstamartConstants.Strings.DefaultRating,
+                InstamartConstants.Prices.Price199,
+                InstamartConstants.ImageUrls.BananaImage,
+                InstamartConstants.Categories.Fruits
+            ),
+            ProductData(
+                InstamartConstants.ProductIds.Mango,
+                InstamartConstants.Strings.ProductMango,
+                InstamartConstants.Strings.DefaultRating,
+                InstamartConstants.Prices.Price499,
+                InstamartConstants.ImageUrls.BananaImage,
+                InstamartConstants.Categories.Fruits
+            ),
+            ProductData(
+                InstamartConstants.ProductIds.Grapes,
+                InstamartConstants.Strings.ProductGrapes,
+                InstamartConstants.Strings.DefaultRating,
+                InstamartConstants.Prices.Price345,
+                InstamartConstants.ImageUrls.BananaImage,
+                InstamartConstants.Categories.Fruits
+            ),
+            ProductData(
+                InstamartConstants.ProductIds.PawPaw,
+                InstamartConstants.Strings.ProductPawPaw,
+                InstamartConstants.Strings.DefaultRating,
+                InstamartConstants.Prices.Price289,
+                InstamartConstants.ImageUrls.BananaImage,
+                InstamartConstants.Categories.Fruits
+            )
         )
     }
 
     private fun loadDetergents(): List<ProductData> {
         return listOf(
-            ProductData("d1", "Purex", "4.8 (287)", "$5.29", R.drawable.icon_swiggy, "detergent"),
-            ProductData("d2", "Varnish", "4.8 (287)", "$5.29", R.drawable.icon_swiggy, "detergent"),
-            ProductData("d3", "Harpic", "4.8 (287)", "$5.29", R.drawable.icon_swiggy, "detergent"),
-            ProductData("d4", "Harpic", "4.8 (287)", "$5.29", R.drawable.icon_swiggy, "detergent"),
-            ProductData("d5", "Purex", "4.8 (287)", "$3.45", R.drawable.icon_swiggy, "detergent"),
-            ProductData("d6", "Dettol", "4.8 (287)", "$2.29", R.drawable.icon_swiggy, "detergent")
+            ProductData(
+                InstamartConstants.ProductIds.Purex1,
+                InstamartConstants.Strings.ProductPurex,
+                InstamartConstants.Strings.DefaultRating,
+                InstamartConstants.Prices.Price529,
+                InstamartConstants.ImageUrls.PurexImage,
+                InstamartConstants.Categories.Detergent
+            ),
+            ProductData(
+                InstamartConstants.ProductIds.Varnish,
+                InstamartConstants.Strings.ProductVarnish,
+                InstamartConstants.Strings.DefaultRating,
+                InstamartConstants.Prices.Price529,
+                InstamartConstants.ImageUrls.VarnishImage,
+                InstamartConstants.Categories.Detergent
+            ),
+            ProductData(
+                InstamartConstants.ProductIds.Harpic1,
+                InstamartConstants.Strings.ProductHarpic,
+                InstamartConstants.Strings.DefaultRating,
+                InstamartConstants.Prices.Price529,
+                InstamartConstants.ImageUrls.HarpicImage,
+                InstamartConstants.Categories.Detergent
+            ),
+            ProductData(
+                InstamartConstants.ProductIds.Harpic2,
+                InstamartConstants.Strings.ProductHarpic,
+                InstamartConstants.Strings.DefaultRating,
+                InstamartConstants.Prices.Price529,
+                InstamartConstants.ImageUrls.HarpicImage,
+                InstamartConstants.Categories.Detergent
+            ),
+            ProductData(
+                InstamartConstants.ProductIds.Purex2,
+                InstamartConstants.Strings.ProductPurex,
+                InstamartConstants.Strings.DefaultRating,
+                InstamartConstants.Prices.Price345,
+                InstamartConstants.ImageUrls.PurexImage,
+                InstamartConstants.Categories.Detergent
+            ),
+            ProductData(
+                InstamartConstants.ProductIds.Dettol,
+                InstamartConstants.Strings.ProductDettol,
+                InstamartConstants.Strings.DefaultRating,
+                InstamartConstants.Prices.Price229,
+                InstamartConstants.ImageUrls.PurexImage,
+                InstamartConstants.Categories.Detergent
+            )
         )
     }
 
     private fun loadBiscuits(): List<ProductData> {
         return listOf(
-            ProductData("b1", "Parle", "4.8 (287)", "$2.25", R.drawable.icon_swiggy, "biscuit"),
-            ProductData("b2", "Marie", "4.8 (287)", "$2.25", R.drawable.icon_swiggy, "biscuit"),
-            ProductData("b3", "Biscoff", "4.8 (287)", "$10.25", R.drawable.icon_swiggy, "biscuit"),
-            ProductData("b4", "Hide n Seek", "4.8 (287)", "$2.99", R.drawable.icon_swiggy, "biscuit"),
-            ProductData("b5", "TUC", "4.8 (287)", "$3.99", R.drawable.icon_swiggy, "biscuit"),
-            ProductData("b6", "Cherries", "4.8 (287)", "$1.99", R.drawable.icon_swiggy, "biscuit")
+            ProductData(
+                InstamartConstants.ProductIds.Loacker1,
+                InstamartConstants.Strings.ProductLoacker,
+                InstamartConstants.Strings.DefaultRating,
+                InstamartConstants.Prices.Price225,
+                InstamartConstants.ImageUrls.LoackerImage1,
+                InstamartConstants.Categories.Biscuit
+            ),
+            ProductData(
+                InstamartConstants.ProductIds.Loacker2,
+                InstamartConstants.Strings.ProductLoacker,
+                InstamartConstants.Strings.DefaultRating,
+                InstamartConstants.Prices.Price225,
+                InstamartConstants.ImageUrls.LoackerImage2,
+                InstamartConstants.Categories.Biscuit
+            ),
+            ProductData(
+                InstamartConstants.ProductIds.Biscoff,
+                InstamartConstants.Strings.ProductBiscoff,
+                InstamartConstants.Strings.DefaultRating,
+                InstamartConstants.Prices.Price1025,
+                InstamartConstants.ImageUrls.BiscoffImage,
+                InstamartConstants.Categories.Biscuit
+            ),
+            ProductData(
+                InstamartConstants.ProductIds.TUC1,
+                InstamartConstants.Strings.ProductTUC,
+                InstamartConstants.Strings.DefaultRating,
+                InstamartConstants.Prices.Price299,
+                InstamartConstants.ImageUrls.BiscoffImage,
+                InstamartConstants.Categories.Biscuit
+            ),
+            ProductData(
+                InstamartConstants.ProductIds.TUC2,
+                InstamartConstants.Strings.ProductTUC,
+                InstamartConstants.Strings.DefaultRating,
+                InstamartConstants.Prices.Price399,
+                InstamartConstants.ImageUrls.BiscoffImage,
+                InstamartConstants.Categories.Biscuit
+            ),
+            ProductData(
+                InstamartConstants.ProductIds.Cherries,
+                InstamartConstants.Strings.ProductCherries,
+                InstamartConstants.Strings.DefaultRating,
+                InstamartConstants.Prices.Price199,
+                InstamartConstants.ImageUrls.BiscoffImage,
+                InstamartConstants.Categories.Biscuit
+            )
         )
     }
 
     private fun loadPromotionalSliders(): List<SliderData> {
         return listOf(
             SliderData(
-                id = "s1",
-                title = "Up to 30% offer",
-                subtitle = "Enjoy our big offer",
-                buttonText = "Shop Now",
-                backgroundColor = Color(0xFFD7FFD4),
-                textColor = Color(0xFF0CA201),
-                buttonBackgroundColor = Color(0xFF0CA201),
-                buttonTextColor = Color.White,
-                imageUrl = R.drawable.icon_swiggy,
+                id = InstamartConstants.SliderIds.Promo30,
+                title = InstamartConstants.Strings.Offer30Title,
+                subtitle = InstamartConstants.Strings.Offer30Subtitle,
+                buttonText = InstamartConstants.Strings.ShopNow,
+                backgroundColor = InstamartConstants.Colors.LightGreen,
+                textColor = InstamartConstants.Colors.PrimaryGreen,
+                buttonBackgroundColor = InstamartConstants.Colors.PrimaryGreen,
+                buttonTextColor = InstamartConstants.Colors.White,
+                imageUrl = InstamartConstants.ImageUrls.PromoLargeImage,
                 isLarge = true
             ),
             SliderData(
-                id = "s2",
-                title = "Up to 25% offer",
-                subtitle = "On first buyers",
-                buttonText = "Shop Now",
-                backgroundColor = Color(0xFF0CA201),
-                textColor = Color.White,
-                buttonBackgroundColor = Color.White,
-                buttonTextColor = Color(0xFF0A0B0A),
-                imageUrl = R.drawable.icon_swiggy,
+                id = InstamartConstants.SliderIds.Promo25,
+                title = InstamartConstants.Strings.Offer25Title,
+                subtitle = InstamartConstants.Strings.Offer25Subtitle,
+                buttonText = InstamartConstants.Strings.ShopNow,
+                backgroundColor = InstamartConstants.Colors.PrimaryGreen,
+                textColor = InstamartConstants.Colors.White,
+                buttonBackgroundColor = InstamartConstants.Colors.White,
+                buttonTextColor = InstamartConstants.Colors.DarkGray,
+                imageUrl = InstamartConstants.ImageUrls.PromoSmallImage,
                 isLarge = false
             )
         )
