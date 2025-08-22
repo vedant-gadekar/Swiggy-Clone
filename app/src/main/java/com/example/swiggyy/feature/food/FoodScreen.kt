@@ -44,8 +44,8 @@ import com.example.swiggyy.shared.components.LocationBar
 import com.example.swiggyy.shared.components.SearchBar
 import com.example.swiggyy.ui.theme.SwiggyFontFamily
 import com.example.swiggyy.feature_food.viewmodel.FoodViewModel
-import com.example.swiggyy.feature_food.intent.FoodIntent
-import com.example.swiggyy.feature_food.state.UiState
+import com.example.swiggyy.feature.food.state.FoodIntent
+import com.example.swiggyy.feature.food.state.UiState
 
 @Composable
 fun Food() {

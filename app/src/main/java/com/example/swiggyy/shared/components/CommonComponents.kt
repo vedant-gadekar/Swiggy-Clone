@@ -8,6 +8,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -29,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.swiggyy.R
+import com.example.swiggyy.feature_home.CarouselItem
 import com.example.swiggyy.ui.theme.SwiggyFontFamily
 import kotlinx.coroutines.launch
 import kotlin.math.sin
@@ -294,25 +297,153 @@ fun SearchBar(
     }
 }
 
+
+
 @Composable
-fun VegFilterButton(
-    isVegFilterEnabled: Boolean,
-    onVegFilterToggle: () -> Unit
+fun Carousel(
+    items: List<CarouselItem>,
+    currentPage: Int,
+    onPageChanged: (Int) -> Unit,
+    onButtonClick: (CarouselItem) -> Unit
+) {
+    val pagerState= rememberPagerState(initialPage = currentPage, pageCount = {items.size})
+
+    LaunchedEffect(pagerState.currentPage) {
+        onPageChanged(pagerState.currentPage)
+    }
+
+    Column {
+        HorizontalPager(
+            state = pagerState,
+            pageSpacing = 12.dp,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp),
+            contentPadding = PaddingValues(horizontal = 7.dp)
+        ) { page ->
+            CarouselCard(item = items[page], onButtonClick = onButtonClick)
+        }
+
+    }
+}
+
+@Composable
+fun CarouselCard(
+    item: CarouselItem,
+    onButtonClick: (CarouselItem) -> Unit
 ) {
     Card(
-        onClick = onVegFilterToggle,
-        colors = CardDefaults.cardColors(
-            containerColor = if (isVegFilterEnabled) Color(0xFF4CAF50) else Color.White
-        ),
-        shape = RoundedCornerShape(8.dp),
-        border = BorderStroke(1.dp, if (isVegFilterEnabled) Color(0xFF4CAF50) else Color.Gray)
+        shape = RoundedCornerShape(16.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(250.dp),
+        elevation = CardDefaults.cardElevation(4.dp)
     ) {
-        Text(
-            text = "VEG",
-            color = if (isVegFilterEnabled) Color.White else Color.Black,
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
-        )
+
+        Column(
+            modifier = Modifier
+                .background(Color(0xFFE5E5E5))
+                .fillMaxSize()
+                .padding(10.dp),
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            item.chip?.let {
+                Box(
+                    modifier = Modifier
+                        .background(
+                            color = Color(0xFFFFE0B2),
+                            shape = RoundedCornerShape(50)
+                        )
+                        .padding(horizontal = 8.dp)
+                ) {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.labelSmall.copy(
+                            fontWeight = FontWeight.Medium,
+                            fontFamily = SwiggyFontFamily,
+                            color = Color(0xFFFF5722)
+                        )
+                    )
+                }
+            }
+            Row(
+                modifier = Modifier
+                    .padding(10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    // Overline
+                    item.overline?.let {
+                        Text(
+                            text = it,
+                            style = MaterialTheme.typography.labelSmall.copy(
+                                fontFamily = SwiggyFontFamily,
+                                fontWeight = FontWeight.SemiBold,
+                                color = Color.Gray
+                            ),
+                            modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
+                        )
+                    }
+
+                    // Main Title
+                    Text(
+                        text = item.title,
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontFamily = SwiggyFontFamily,
+                            fontWeight = FontWeight.ExtraBold,
+                            fontSize = 20.sp,
+                            color = Color.Black
+                        ),
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    )
+
+                    // Subtitle
+                    item.subtitle?.let {
+                        Text(
+                            text = it,
+                            style = MaterialTheme.typography.bodySmall.copy(
+                                fontFamily = SwiggyFontFamily,
+                                fontWeight = FontWeight.Normal,
+                                color = Color.Gray
+                            )
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.width(12.dp))
+
+                Image(
+                    painter = painterResource(id = item.imageRes),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(90.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                )
+            }
+
+            Button(
+                onClick = { onButtonClick(item) },
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF5722)),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .height(36.dp)
+            ) {
+                Text(
+                    text = item.buttonText,
+                    color = Color.White,
+                    style = MaterialTheme.typography.labelMedium.copy(
+                        fontFamily = SwiggyFontFamily,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+            }
+        }
     }
 }

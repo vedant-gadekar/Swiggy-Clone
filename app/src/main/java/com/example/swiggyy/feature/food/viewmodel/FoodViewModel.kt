@@ -2,10 +2,10 @@ package com.example.swiggyy.feature_food.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.swiggyy.feature_food.intent.FoodIntent
+import com.example.swiggyy.feature.food.state.FoodIntent
 import com.example.swiggyy.feature_food.model.*
-import com.example.swiggyy.feature_food.state.FoodState
-import com.example.swiggyy.feature_food.state.UiState
+import com.example.swiggyy.feature.food.state.FoodState
+import com.example.swiggyy.feature.food.state.UiState
 import com.example.swiggyy.R
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
