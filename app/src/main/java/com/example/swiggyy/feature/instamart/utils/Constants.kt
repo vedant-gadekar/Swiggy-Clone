@@ -3,8 +3,52 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.swiggyy.R
+import com.example.swiggyy.feature_home.CarouselItem
 
 object InstamartConstants {
+    object InstamartDefaults {
+
+        const val DEFAULT_LOCATION_NAME = "Amar Business Zone"
+        const val DEFAULT_LOCATION_ADDRESS = "Baner - Mahalunge Road, Veerbhadra..."
+        const val DEFAULT_SEARCH_HINT = "Search for 'Cake' 'Sweets'"
+
+        val defaultCarouselItems = listOf(
+            CarouselItem(
+                "FRESH DEALS TODAY",
+                "LIMITED TIME",
+                "Up to 50% OFF",
+                "On fresh fruits & vegetables!",
+                "Shop Now",
+                R.drawable.vegetables
+            ),
+            CarouselItem(
+                "DAIRY ESSENTIALS",
+                "STARTING AT ₹49",
+                "Milk, Butter & More",
+                "Delivered in minutes to your doorstep!",
+                "Order Now",
+                R.drawable.dairy_eggs
+            ),
+            CarouselItem(
+                "INSTANT SNACKS",
+                "BUY 1 GET 1 FREE",
+                "Your favorite chips & biscuits",
+                "Hurry! Limited stock available.",
+                "Grab Now",
+                R.drawable.snacks
+            ),
+            CarouselItem(
+                "HOUSEHOLD MUST-HAVES",
+                "EVERYDAY LOW PRICES",
+                "Cleaning & Kitchen Essentials",
+                "Never run out of daily needs!",
+                "Shop Essentials",
+
+                R.drawable.household
+            )
+        )
+    }
+
 
     // Colors
     object Colors {
@@ -28,9 +72,10 @@ object InstamartConstants {
         val SpacingMedium = 10.dp
         val SpacingNormal = 13.dp
         val SpacingLarge = 15.dp
+        val SpacingXLarge2 = 17.dp
         val SpacingXLarge = 20.dp
         val SpacingXXLarge = 25.dp
-        val SpacingXXXLarge = 34.dp
+        val SpacingXXXLarge = 36.dp
 
         // Card dimensions
         val ProductCardWidth = 170.dp
@@ -44,6 +89,9 @@ object InstamartConstants {
         val IconSizeSmall = 12.dp
         val IconSizeMedium = 16.dp
         val IconSizeLarge = 18.dp
+
+        val TEXT_WEIGHT_S = 0.2f
+        val TEXT_WEIGHT_M = 0.8f
 
         // Promotional slider dimensions
         val SliderLargeWidth = 383.dp
@@ -65,6 +113,8 @@ object InstamartConstants {
         val SliderButtonCornerRadiusSmall = 3.612.dp
         val BorderWidth = 1.dp
         val ShadowElevation = 7.dp
+
+        val SECTION_HEIGHT=100.dp
     }
 
     // Typography
@@ -80,6 +130,8 @@ object InstamartConstants {
 
     // Text Strings
     object Strings {
+        const val ZERO=0;
+        const val ONE=1;
         const val SeeAll = "See all"
         const val ShopNow = "Shop Now"
         const val AddToCart = "Add to cart"
@@ -98,7 +150,7 @@ object InstamartConstants {
         const val CategoryBeverages = "Beverages"
         const val CategoryLaundry = "Laundry"
         const val CategoryVegetables = "Vegetables"
-
+        const val ProfilePicture="Profile Picture"
         // Promotional texts
         const val Offer30Title = "Up to 30% offer"
         const val Offer30Subtitle = "Enjoy our big offer"
@@ -115,7 +167,6 @@ object InstamartConstants {
         const val ProductApple = "Apple"
         const val ProductMango = "Mango"
         const val ProductGrapes = "Grapes"
-        const val ProductPawPaw = "Paw Paw"
         const val ProductPurex = "Purex"
         const val ProductVarnish = "Varnish"
         const val ProductHarpic = "Harpic"
@@ -133,14 +184,14 @@ object InstamartConstants {
     object ImageUrls {
         // Category images
         val CategoryFruitsImage = R.drawable.icon_swiggy
-        val CategoryMilkEggImage = R.drawable.icon_swiggy
-        val CategoryBeveragesImage = R.drawable.icon_swiggy
+        val CategoryMilkEggImage = R.drawable.dairy_eggs
+        val CategoryBeveragesImage = R.drawable.beverages
         val CategoryLaundryImage = R.drawable.icon_swiggy
-        val CategoryVegetablesImage = R.drawable.icon_swiggy
+        val CategoryVegetablesImage = R.drawable.vegetables
 
         // Product images
-        val BananaImage = R.drawable.icon_swiggy
-        val PepperImage = R.drawable.icon_swiggy
+        val BananaImage = R.drawable.bananas
+        val PepperImage = R.drawable.bell_pepper
         val WaterLemonImage = R.drawable.icon_swiggy
         val PurexImage = R.drawable.icon_swiggy
         val VarnishImage = R.drawable.icon_swiggy
@@ -173,9 +224,9 @@ object InstamartConstants {
 
     // Product Categories
     object Categories {
-        const val Fruits = "fruits"
-        const val Detergent = "detergent"
-        const val Biscuit = "biscuit"
+        const val FRUITS = "fruits"
+        const val DETERGENT = "detergent"
+        const val BISCUIT = "biscuit"
     }
 
     // Product IDs

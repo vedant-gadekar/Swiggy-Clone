@@ -26,6 +26,18 @@ import com.example.instamart.viewmodel.InstamartViewModel
 import com.example.swiggyy.R
 import com.example.swiggyy.feature.instamart.state.InstamartEffect
 import com.example.swiggyy.feature.instamart.state.InstamartEvent
+import com.example.swiggyy.feature.instamart.utils.InstamartConstants.Categories.BISCUIT
+import com.example.swiggyy.feature.instamart.utils.InstamartConstants.Categories.DETERGENT
+import com.example.swiggyy.feature.instamart.utils.InstamartConstants.Categories.FRUITS
+import com.example.swiggyy.feature.instamart.utils.InstamartConstants.Dimensions.BorderWidth
+import com.example.swiggyy.feature.instamart.utils.InstamartConstants.Dimensions.SECTION_HEIGHT
+import com.example.swiggyy.feature.instamart.utils.InstamartConstants.Dimensions.SpacingLarge
+import com.example.swiggyy.feature.instamart.utils.InstamartConstants.Dimensions.SpacingSmall
+import com.example.swiggyy.feature.instamart.utils.InstamartConstants.Dimensions.SpacingXLarge2
+import com.example.swiggyy.feature.instamart.utils.InstamartConstants.Dimensions.SpacingXXXLarge
+import com.example.swiggyy.feature.instamart.utils.InstamartConstants.Dimensions.TEXT_WEIGHT_M
+import com.example.swiggyy.feature.instamart.utils.InstamartConstants.Dimensions.TEXT_WEIGHT_S
+import com.example.swiggyy.feature.instamart.utils.InstamartConstants.Strings.ProfilePicture
 import com.example.swiggyy.shared.components.LocationBar
 import com.example.swiggyy.shared.components.SearchBar
 import kotlinx.coroutines.flow.collectLatest
@@ -80,32 +92,32 @@ fun InstaMart(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(backgroundColor)
-                .padding(16.dp)
+                .padding(SpacingLarge)
                 .verticalScroll(scrollState),
-            verticalArrangement = Arrangement.spacedBy(17.dp)
+            verticalArrangement = Arrangement.spacedBy(SpacingXLarge2)
         )
         {
 
             Row (Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier
-                    .weight(0.80f)
-                    .padding(8.dp))
+                    .weight(TEXT_WEIGHT_M)
+                    .padding(SpacingSmall))
                 {
                     LocationBar(state.locationName, state.locationAddress)
                 }
 
                 Column (Modifier
-                    .weight(0.20f)
-                    .padding(8.dp),
+                    .weight(TEXT_WEIGHT_S)
+                    .padding(SpacingSmall),
                     horizontalAlignment = Alignment.End)
                 {
                     Image(
                         painter = painterResource(R.drawable.profile),
-                        contentDescription = "Profile Picture",
+                        contentDescription = ProfilePicture,
                         modifier = Modifier
-                            .size(36.dp)
+                            .size(SpacingXXXLarge)
                             .clip(CircleShape)
-                            .border(1.dp, Color.LightGray, CircleShape),
+                            .border(BorderWidth, Color.LightGray, CircleShape),
                         contentScale = ContentScale.Crop
                     )
                 }
@@ -130,9 +142,9 @@ fun InstaMart(
 
             // Fruits Section
                 SectionHeader(
-                    title = "Fruits",
+                    title = FRUITS,
                     onSeeAllClick = {
-                        viewModel.handleEvent(InstamartEvent.SeeAllClicked("fruits"))
+                        viewModel.handleEvent(InstamartEvent.SeeAllClicked(FRUITS))
                     }
                 )
 
@@ -151,9 +163,9 @@ fun InstaMart(
 
             // Detergent Section
                 SectionHeader(
-                    title = "Detergent",
+                    title = DETERGENT,
                     onSeeAllClick = {
-                        viewModel.handleEvent(InstamartEvent.SeeAllClicked("detergent"))
+                        viewModel.handleEvent(InstamartEvent.SeeAllClicked(DETERGENT))
                     }
                 )
 
@@ -171,9 +183,9 @@ fun InstaMart(
 
             // Biscuit Section
                 SectionHeader(
-                    title = "Biscuit",
+                    title = BISCUIT,
                     onSeeAllClick = {
-                        viewModel.handleEvent(InstamartEvent.SeeAllClicked("biscuit"))
+                        viewModel.handleEvent(InstamartEvent.SeeAllClicked(BISCUIT))
                     }
                 )
 
@@ -188,7 +200,7 @@ fun InstaMart(
                     }
                 )
 
-            Spacer(Modifier.height(100.dp))
+            Spacer(Modifier.height(SECTION_HEIGHT))
         }
     }
 
@@ -201,47 +213,5 @@ fun InstaMart(
     }
 }
 
-@Composable
-private fun CategoriesSection(
-    categories: List<com.example.instamart.state.CategoryData>,
-    onCategoryClick: (String) -> Unit
-) {
-    LazyRow(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp),
-        horizontalArrangement = Arrangement.spacedBy(20.dp)
-    ) {
-        items(categories) { category ->
-            CategoryItem(
-                categoryData = category,
-                onCategoryClick = { onCategoryClick(category.id) }
-            )
-        }
-    }
-}
 
-@Composable
-private fun ProductSection(
-    products: List<com.example.instamart.state.ProductData>,
-    cartItems: Map<String, Int>,
-    onProductClick: (String) -> Unit,
-    onQuantityChange: (String, Int) -> Unit
-) {
-    LazyRow(
-        modifier = Modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(start = 15.dp, end = 15.dp),
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-        items(products) { product ->
-            ProductCard(
-                productData = product,
-                quantity = cartItems[product.id] ?: 0,
-                onProductClick = { onProductClick(product.id) },
-                onQuantityChange = { quantity ->
-                    onQuantityChange(product.id, quantity)
-                }
-            )
-        }
-    }
-}
+

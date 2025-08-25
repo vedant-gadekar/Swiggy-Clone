@@ -214,6 +214,59 @@ class FoodViewModel : ViewModel() {
                 isFavorite = true
             ),
             Restaurant(
+                id = "4",
+                name = "Subway",
+                imageRes = R.drawable.foodimage2,
+                rating = 4.3f,
+                reviewCount = 510,
+                deliveryTime = "15-20 mins",
+                cuisines = listOf("Healthy", "Sandwiches"),
+                offer = "Flat ₹75 OFF",
+                hasOneBenefits = true,
+                isAd = true,
+                isFavorite = true
+            ),
+            Restaurant(
+                id = "5",
+                name = "KFC",
+                imageRes = R.drawable.foodimage1,
+                rating = 4.0f,
+                reviewCount = 700,
+                deliveryTime = "25-30 mins",
+                cuisines = listOf("Chicken", "Fast Food"),
+                offer = "UPTO ₹100 Cashback",
+                hasOneBenefits = false,
+                isAd = true,
+                isFavorite = false
+            ),
+            Restaurant(
+                id = "6",
+                name = "Haldiram's",
+                imageRes = R.drawable.foodimage1,
+                rating = 4.5f,
+                reviewCount = 800,
+                deliveryTime = "20-25 mins",
+                cuisines = listOf("North Indian", "Sweets"),
+                offer = "Free Dessert on Orders Above ₹299",
+                hasOneBenefits = false,
+                isAd = false,
+                isFavorite = true
+            ),
+            Restaurant(
+                id = "7",
+                name = "Chinese Wok",
+                imageRes = R.drawable.foodimage1,
+                rating = 4.2f,
+                reviewCount = 620,
+                deliveryTime = "30-35 mins",
+                cuisines = listOf("Chinese", "Asian"),
+                offer = "20% OFF on First Order",
+                hasOneBenefits = true,
+                isAd = false,
+                isFavorite = false
+            ),
+
+            Restaurant(
                 id = "6",
                 name = "Pizza Express",
                 imageRes = R.drawable.foodimage1,
@@ -227,9 +280,11 @@ class FoodViewModel : ViewModel() {
                 isFavorite = false
             )
         )
+
     }
-    
+
     private fun getSampleFeaturedRestaurants(): List<Restaurant> {
+
         return listOf(
             Restaurant(
                 id = "5",
@@ -263,10 +318,10 @@ class FoodViewModel : ViewModel() {
                 cuisines = listOf("North Indian", "Sweets", "Snacks"),
                 offer = "25% OFF up to ₹50",
                 hasFreeDelivery = true
-            )
+            ),
         )
     }
-    
+
     private fun getSampleStoreItems(): List<StoreItem> {
         return listOf(
             StoreItem(
@@ -288,10 +343,91 @@ class FoodViewModel : ViewModel() {
                 rating = 4.0f,
                 reviewCount = 200,
                 description = "Fresh cow milk, 1 liter"
+            ),
+            StoreItem(
+                id = "3",
+                name = "Brown Bread",
+                imageRes = R.drawable.foodimage1,
+                originalPrice = 40,
+                discountedPrice = 30,
+                rating = 4.3f,
+                reviewCount = 120,
+                description = "Soft and healthy brown bread, 400g"
+            ),
+            StoreItem(
+                id = "4",
+                name = "Almonds 500g",
+                imageRes = R.drawable.foodimage1,
+                originalPrice = 550,
+                discountedPrice = 499,
+                rating = 4.6f,
+                reviewCount = 80,
+                description = "Premium quality raw almonds, 500 grams"
+            ),
+            StoreItem(
+                id = "5",
+                name = "Basmati Rice 1kg",
+                imageRes = R.drawable.foodimage1,
+                originalPrice = 120,
+                discountedPrice = 99,
+                rating = 4.4f,
+                reviewCount = 220,
+                description = "Long-grain Basmati rice, 1 kg pack"
+            ),
+            StoreItem(
+                id = "6",
+                name = "Butter 500g",
+                imageRes = R.drawable.foodimage1,
+                originalPrice = 250,
+                discountedPrice = 210,
+                rating = 4.5f,
+                reviewCount = 140,
+                description = "Creamy salted butter, 500 grams"
+            ),
+            StoreItem(
+                id = "7",
+                name = "Potato Chips",
+                imageRes = R.drawable.foodimage1,
+                originalPrice = 40,
+                discountedPrice = 35,
+                rating = 4.1f,
+                reviewCount = 300,
+                description = "Crispy salted potato chips, 150 grams"
+            ),
+            StoreItem(
+                id = "8",
+                name = "Orange Juice 1L",
+                imageRes = R.drawable.foodimage1,
+                originalPrice = 120,
+                discountedPrice = 99,
+                rating = 4.2f,
+                reviewCount = 180,
+                description = "Refreshing orange juice, no added sugar"
+            ),
+            StoreItem(
+                id = "9",
+                name = "Paneer 500g",
+                imageRes = R.drawable.foodimage1,
+                originalPrice = 220,
+                discountedPrice = 199,
+                rating = 4.6f,
+                reviewCount = 210,
+                description = "Fresh and soft paneer, 500 grams"
+            ),
+            StoreItem(
+                id = "10",
+                name = "Tomatoes 1kg",
+                imageRes = R.drawable.foodimage1,
+                originalPrice = 80,
+                discountedPrice = 60,
+                rating = 4.0f,
+                reviewCount = 130,
+                description = "Farm fresh red tomatoes, 1 kg pack"
             )
         )
     }
-    
+
+
     private fun getSampleSwiggyOptions(): List<SwiggyOption> {
         return listOf(
             SwiggyOption(

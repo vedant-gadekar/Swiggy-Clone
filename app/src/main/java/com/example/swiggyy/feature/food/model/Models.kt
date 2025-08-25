@@ -13,22 +13,7 @@ data class Restaurant(
     val hasFreeDelivery: Boolean = false,
     val hasOneBenefits: Boolean = false,
     val isFavorite: Boolean = false
-) {
-    /**
-     * Returns the first 2-3 cuisines as a formatted string
-     */
-    fun getFormattedCuisines(maxCuisines: Int = 3): String {
-        return cuisines.take(maxCuisines).joinToString(" • ")
-    }
-    
-    /**
-     * Returns the rating as a formatted string (e.g., "4.2 (500+)")
-     */
-    fun getFormattedRating(): String {
-        return "$rating (${reviewCount}+)"
-    }
-}
-
+)
 data class StoreItem(
     val id: String,
     val name: String,

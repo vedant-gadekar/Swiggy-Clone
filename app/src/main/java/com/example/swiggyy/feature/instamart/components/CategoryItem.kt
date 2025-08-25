@@ -1,7 +1,10 @@
 package com.example.instamart.components
 
+import android.provider.SyncStateContract
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -16,7 +19,30 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.instamart.state.CategoryData
+import com.example.swiggyy.feature.instamart.utils.InstamartConstants.Dimensions.CategoryItemSize
+import com.example.swiggyy.feature.instamart.utils.InstamartConstants.Dimensions.SpacingLarge
+import com.example.swiggyy.feature.instamart.utils.InstamartConstants.Dimensions.SpacingXLarge
+import com.example.swiggyy.feature.instamart.utils.InstamartConstants.Typography.FontSizeMedium
 
+@Composable
+fun CategoriesSection(
+    categories: List<com.example.instamart.state.CategoryData>,
+    onCategoryClick: (String) -> Unit
+) {
+    LazyRow(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = SpacingXLarge),
+        horizontalArrangement = Arrangement.spacedBy(SpacingXLarge)
+    ) {
+        items(categories) { category ->
+            CategoryItem(
+                categoryData = category,
+                onCategoryClick = { onCategoryClick(category.id) }
+            )
+        }
+    }
+}
 @Composable
 fun CategoryItem(
     categoryData: CategoryData,
@@ -25,7 +51,7 @@ fun CategoryItem(
 ) {
     Column(
         modifier = modifier
-            .width(70.dp)
+            .width(CategoryItemSize)
             .clickable { onCategoryClick() },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -33,18 +59,18 @@ fun CategoryItem(
             model = categoryData.imageUrl,
             contentDescription = categoryData.name,
             modifier = Modifier
-                .size(70.dp)
+                .size(CategoryItemSize)
                 .clip(CircleShape),
             contentScale = ContentScale.Crop
         )
 
         Text(
             text = categoryData.name,
-            fontSize = 12.sp,
+            fontSize = FontSizeMedium,
             fontWeight = FontWeight.SemiBold,
             color = Color(0xFF5A5555),
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 15.dp)
+            modifier = Modifier.padding(SpacingLarge)
         )
     }
 }

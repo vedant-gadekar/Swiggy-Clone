@@ -11,6 +11,8 @@ import com.example.swiggyy.feature.instamart.utils.InstamartConstants
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
+
+
 class InstamartViewModel : ViewModel() {
 
     private val _state = MutableStateFlow(InstamartState())
@@ -174,7 +176,7 @@ class InstamartViewModel : ViewModel() {
                 InstamartConstants.Strings.DefaultRating,
                 InstamartConstants.Prices.Price399,
                 InstamartConstants.ImageUrls.BananaImage,
-                InstamartConstants.Categories.Fruits
+                InstamartConstants.Categories.FRUITS
             ),
             ProductData(
                 InstamartConstants.ProductIds.Pepper,
@@ -182,7 +184,7 @@ class InstamartViewModel : ViewModel() {
                 InstamartConstants.Strings.DefaultRating,
                 InstamartConstants.Prices.Price299,
                 InstamartConstants.ImageUrls.PepperImage,
-                InstamartConstants.Categories.Fruits
+                InstamartConstants.Categories.FRUITS
             ),
             ProductData(
                 InstamartConstants.ProductIds.Orange,
@@ -190,7 +192,7 @@ class InstamartViewModel : ViewModel() {
                 InstamartConstants.Strings.DefaultRating,
                 InstamartConstants.Prices.Price399,
                 InstamartConstants.ImageUrls.BananaImage,
-                InstamartConstants.Categories.Fruits
+                InstamartConstants.Categories.FRUITS
             ),
             ProductData(
                 InstamartConstants.ProductIds.Strawberry,
@@ -198,7 +200,7 @@ class InstamartViewModel : ViewModel() {
                 InstamartConstants.Strings.DefaultRating,
                 InstamartConstants.Prices.Price199,
                 InstamartConstants.ImageUrls.BananaImage,
-                InstamartConstants.Categories.Fruits
+                InstamartConstants.Categories.FRUITS
             ),
             ProductData(
                 InstamartConstants.ProductIds.Lemon,
@@ -206,7 +208,7 @@ class InstamartViewModel : ViewModel() {
                 InstamartConstants.Strings.DefaultRating,
                 InstamartConstants.Prices.Price199,
                 InstamartConstants.ImageUrls.BananaImage,
-                InstamartConstants.Categories.Fruits
+                InstamartConstants.Categories.FRUITS
             ),
             ProductData(
                 InstamartConstants.ProductIds.WaterLemon,
@@ -214,7 +216,7 @@ class InstamartViewModel : ViewModel() {
                 InstamartConstants.Strings.DefaultRating,
                 InstamartConstants.Prices.Price199,
                 InstamartConstants.ImageUrls.WaterLemonImage,
-                InstamartConstants.Categories.Fruits
+                InstamartConstants.Categories.FRUITS
             ),
             ProductData(
                 InstamartConstants.ProductIds.Apple,
@@ -222,7 +224,7 @@ class InstamartViewModel : ViewModel() {
                 InstamartConstants.Strings.DefaultRating,
                 InstamartConstants.Prices.Price199,
                 InstamartConstants.ImageUrls.BananaImage,
-                InstamartConstants.Categories.Fruits
+                InstamartConstants.Categories.FRUITS
             ),
             ProductData(
                 InstamartConstants.ProductIds.Mango,
@@ -230,7 +232,7 @@ class InstamartViewModel : ViewModel() {
                 InstamartConstants.Strings.DefaultRating,
                 InstamartConstants.Prices.Price499,
                 InstamartConstants.ImageUrls.BananaImage,
-                InstamartConstants.Categories.Fruits
+                InstamartConstants.Categories.FRUITS
             ),
             ProductData(
                 InstamartConstants.ProductIds.Grapes,
@@ -238,15 +240,7 @@ class InstamartViewModel : ViewModel() {
                 InstamartConstants.Strings.DefaultRating,
                 InstamartConstants.Prices.Price345,
                 InstamartConstants.ImageUrls.BananaImage,
-                InstamartConstants.Categories.Fruits
-            ),
-            ProductData(
-                InstamartConstants.ProductIds.PawPaw,
-                InstamartConstants.Strings.ProductPawPaw,
-                InstamartConstants.Strings.DefaultRating,
-                InstamartConstants.Prices.Price289,
-                InstamartConstants.ImageUrls.BananaImage,
-                InstamartConstants.Categories.Fruits
+                InstamartConstants.Categories.FRUITS
             )
         )
     }
@@ -259,7 +253,7 @@ class InstamartViewModel : ViewModel() {
                 InstamartConstants.Strings.DefaultRating,
                 InstamartConstants.Prices.Price529,
                 InstamartConstants.ImageUrls.PurexImage,
-                InstamartConstants.Categories.Detergent
+                InstamartConstants.Categories.DETERGENT
             ),
             ProductData(
                 InstamartConstants.ProductIds.Varnish,
@@ -267,7 +261,7 @@ class InstamartViewModel : ViewModel() {
                 InstamartConstants.Strings.DefaultRating,
                 InstamartConstants.Prices.Price529,
                 InstamartConstants.ImageUrls.VarnishImage,
-                InstamartConstants.Categories.Detergent
+                InstamartConstants.Categories.DETERGENT
             ),
             ProductData(
                 InstamartConstants.ProductIds.Harpic1,
@@ -275,7 +269,7 @@ class InstamartViewModel : ViewModel() {
                 InstamartConstants.Strings.DefaultRating,
                 InstamartConstants.Prices.Price529,
                 InstamartConstants.ImageUrls.HarpicImage,
-                InstamartConstants.Categories.Detergent
+                InstamartConstants.Categories.DETERGENT
             ),
             ProductData(
                 InstamartConstants.ProductIds.Harpic2,
@@ -283,7 +277,7 @@ class InstamartViewModel : ViewModel() {
                 InstamartConstants.Strings.DefaultRating,
                 InstamartConstants.Prices.Price529,
                 InstamartConstants.ImageUrls.HarpicImage,
-                InstamartConstants.Categories.Detergent
+                InstamartConstants.Categories.DETERGENT
             ),
             ProductData(
                 InstamartConstants.ProductIds.Purex2,
@@ -291,7 +285,7 @@ class InstamartViewModel : ViewModel() {
                 InstamartConstants.Strings.DefaultRating,
                 InstamartConstants.Prices.Price345,
                 InstamartConstants.ImageUrls.PurexImage,
-                InstamartConstants.Categories.Detergent
+                InstamartConstants.Categories.DETERGENT
             ),
             ProductData(
                 InstamartConstants.ProductIds.Dettol,
@@ -299,7 +293,7 @@ class InstamartViewModel : ViewModel() {
                 InstamartConstants.Strings.DefaultRating,
                 InstamartConstants.Prices.Price229,
                 InstamartConstants.ImageUrls.PurexImage,
-                InstamartConstants.Categories.Detergent
+                InstamartConstants.Categories.DETERGENT
             )
         )
     }
@@ -312,7 +306,7 @@ class InstamartViewModel : ViewModel() {
                 InstamartConstants.Strings.DefaultRating,
                 InstamartConstants.Prices.Price225,
                 InstamartConstants.ImageUrls.LoackerImage1,
-                InstamartConstants.Categories.Biscuit
+                InstamartConstants.Categories.BISCUIT
             ),
             ProductData(
                 InstamartConstants.ProductIds.Loacker2,
@@ -320,7 +314,7 @@ class InstamartViewModel : ViewModel() {
                 InstamartConstants.Strings.DefaultRating,
                 InstamartConstants.Prices.Price225,
                 InstamartConstants.ImageUrls.LoackerImage2,
-                InstamartConstants.Categories.Biscuit
+                InstamartConstants.Categories.BISCUIT
             ),
             ProductData(
                 InstamartConstants.ProductIds.Biscoff,
@@ -328,7 +322,7 @@ class InstamartViewModel : ViewModel() {
                 InstamartConstants.Strings.DefaultRating,
                 InstamartConstants.Prices.Price1025,
                 InstamartConstants.ImageUrls.BiscoffImage,
-                InstamartConstants.Categories.Biscuit
+                InstamartConstants.Categories.BISCUIT
             ),
             ProductData(
                 InstamartConstants.ProductIds.TUC1,
@@ -336,7 +330,7 @@ class InstamartViewModel : ViewModel() {
                 InstamartConstants.Strings.DefaultRating,
                 InstamartConstants.Prices.Price299,
                 InstamartConstants.ImageUrls.BiscoffImage,
-                InstamartConstants.Categories.Biscuit
+                InstamartConstants.Categories.BISCUIT
             ),
             ProductData(
                 InstamartConstants.ProductIds.TUC2,
@@ -344,7 +338,7 @@ class InstamartViewModel : ViewModel() {
                 InstamartConstants.Strings.DefaultRating,
                 InstamartConstants.Prices.Price399,
                 InstamartConstants.ImageUrls.BiscoffImage,
-                InstamartConstants.Categories.Biscuit
+                InstamartConstants.Categories.BISCUIT
             ),
             ProductData(
                 InstamartConstants.ProductIds.Cherries,
@@ -352,7 +346,7 @@ class InstamartViewModel : ViewModel() {
                 InstamartConstants.Strings.DefaultRating,
                 InstamartConstants.Prices.Price199,
                 InstamartConstants.ImageUrls.BiscoffImage,
-                InstamartConstants.Categories.Biscuit
+                InstamartConstants.Categories.BISCUIT
             )
         )
     }

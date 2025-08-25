@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -24,7 +26,37 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.instamart.state.ProductData
 import com.example.swiggyy.feature.instamart.utils.InstamartConstants
+import com.example.swiggyy.feature.instamart.utils.InstamartConstants.Colors.BorderGray
+import com.example.swiggyy.feature.instamart.utils.InstamartConstants.Dimensions.SpacingMedium
+import com.example.swiggyy.feature.instamart.utils.InstamartConstants.Dimensions.SpacingXSmall
+import com.example.swiggyy.feature.instamart.utils.InstamartConstants.Strings.ONE
+import com.example.swiggyy.feature.instamart.utils.InstamartConstants.Strings.ZERO
 
+
+@Composable
+fun ProductSection(
+    products: List<com.example.instamart.state.ProductData>,
+    cartItems: Map<String, Int>,
+    onProductClick: (String) -> Unit,
+    onQuantityChange: (String, Int) -> Unit
+) {
+    LazyRow(
+        modifier = Modifier.fillMaxWidth(),
+        contentPadding = PaddingValues( SpacingXSmall),
+        horizontalArrangement = Arrangement.spacedBy(SpacingMedium)
+    ) {
+        items(products) { product ->
+            ProductCard(
+                productData = product,
+                quantity = cartItems[product.id] ?: ZERO,
+                onProductClick = { onProductClick(product.id) },
+                onQuantityChange = { quantity ->
+                    onQuantityChange(product.id, quantity)
+                }
+            )
+        }
+    }
+}
 @Composable
 fun ProductCard(
     productData: ProductData,
@@ -32,16 +64,17 @@ fun ProductCard(
     onProductClick: () -> Unit,
     onQuantityChange: (Int) -> Unit,
     modifier: Modifier = Modifier
-) {
+)
+{
     Box(
         modifier = modifier
             .width(InstamartConstants.Dimensions.ProductCardWidth)
             .height(InstamartConstants.Dimensions.ProductCardHeight)
-            .clip(RoundedCornerShape(InstamartConstants.Dimensions.CornerRadiusLarge))
             .background(InstamartConstants.Colors.White)
+            .border(InstamartConstants.Dimensions.BorderWidth,BorderGray)
             .clickable { onProductClick() }
-            .padding(InstamartConstants.Dimensions.SpacingXSmall)
-    ) {
+    )
+    {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -50,16 +83,18 @@ fun ProductCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(InstamartConstants.Dimensions.ProductImageHeight)
-                    .clip(RoundedCornerShape(InstamartConstants.Dimensions.CornerRadiusMedium))
-                    .background(InstamartConstants.Colors.LightGray),
+                    .background(InstamartConstants.Colors.LightGray)
+                    .border(InstamartConstants.Dimensions.BorderWidth,BorderGray),
                 contentAlignment = Alignment.Center
-            ) {
-                if (productData.imageUrl!=0) {
+            )
+            {
+                if (productData.imageUrl!=ZERO) {
                     AsyncImage(
                         model = productData.imageUrl,
                         contentDescription = productData.name,
-                        modifier = Modifier.size(InstamartConstants.Dimensions.ProductImageSize),
-                        contentScale = ContentScale.Fit
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        contentScale = ContentScale.Crop
                     )
                 }
             }
@@ -124,11 +159,12 @@ fun ProductCard(
                 .clip(CircleShape)
                 .background(InstamartConstants.Colors.White)
                 .border(InstamartConstants.Dimensions.BorderWidth, InstamartConstants.Colors.BorderGray, CircleShape)
-        ) {
-            if (quantity == 0) {
+        )
+        {
+            if (quantity == ZERO) {
                 // Add Button
                 IconButton(
-                    onClick = { onQuantityChange(1) },
+                    onClick = { onQuantityChange(ONE) },
                     modifier = Modifier.fillMaxSize()
                 ) {
                     Icon(
@@ -144,12 +180,13 @@ fun ProductCard(
                     modifier = Modifier.fillMaxSize(),
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically
-                ) {
+                )
+                {
                     // Decrease Button
                     IconButton(
                         onClick = {
-                            if (quantity > 0) {
-                                onQuantityChange(quantity - 1)
+                            if (quantity > ZERO) {
+                                onQuantityChange(quantity - ONE)
                             }
                         },
                         modifier = Modifier.size(InstamartConstants.Dimensions.IconSizeLarge)
@@ -172,7 +209,7 @@ fun ProductCard(
 
                     // Increase Button
                     IconButton(
-                        onClick = { onQuantityChange(quantity + 1) },
+                        onClick = { onQuantityChange(quantity + ONE) },
                         modifier = Modifier.size(InstamartConstants.Dimensions.IconSizeLarge)
                     ) {
                         Icon(
