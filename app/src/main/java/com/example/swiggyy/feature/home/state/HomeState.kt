@@ -1,5 +1,6 @@
 package com.example.swiggyy.feature_home
 
+import com.example.core.state.CarouselItem
 import com.example.swiggyy.R
 
 data class HomeState(
@@ -45,7 +46,7 @@ data class HomeState(
             "To meet your daily protein intake!",
             "Order now",
             R.drawable.carousel
-            ),
+        ),
         CarouselItem(
             "BIGGEST SAVINGS EVER!",
             null,
@@ -71,14 +72,4 @@ data class Category(
     val subtitle: String,
     val offer: String?=null,
     val imageRes:Int
-)
-
-
-data class CarouselItem(
-    val overline:String?,
-    val chip:String? ,
-    val title: String,
-    val subtitle: String,
-    val buttonText: String,
-    val imageRes: Int
 )

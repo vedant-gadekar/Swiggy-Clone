@@ -1,11 +1,11 @@
 package com.example.instamart.state
 
 import androidx.compose.ui.graphics.Color
+import com.example.core.state.CarouselItem
 import com.example.swiggyy.R
 import com.example.swiggyy.feature.instamart.utils.InstamartConstants
 import com.example.swiggyy.feature.instamart.utils.InstamartConstants.InstamartDefaults.DEFAULT_SEARCH_HINT
 import com.example.swiggyy.feature.instamart.utils.InstamartConstants.Strings.ZERO
-import com.example.swiggyy.feature_home.CarouselItem
 
 data class InstamartState(
     val locationName: String = InstamartConstants.InstamartDefaults.DEFAULT_LOCATION_NAME,

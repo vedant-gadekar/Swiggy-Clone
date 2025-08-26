@@ -6,8 +6,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,18 +21,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.Role.Companion.Carousel
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.core.components.Carousel
+import com.example.core.components.LocationBar
+import com.example.core.components.SearchBar
 import com.example.swiggyy.R
-import com.example.swiggyy.shared.components.LocationBar
-import com.example.swiggyy.shared.components.SearchBar
 import com.example.swiggyy.ui.theme.SwiggyFontFamily
 import com.example.swiggyy.feature.bottomnav.state.BottomNavItem
-import com.example.swiggyy.shared.components.Carousel
 
 
 @Composable

@@ -2,8 +2,8 @@ package com.example.swiggyy.feature.instamart.utils
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.core.state.CarouselItem
 import com.example.swiggyy.R
-import com.example.swiggyy.feature_home.CarouselItem
 
 object InstamartConstants {
     object InstamartDefaults {

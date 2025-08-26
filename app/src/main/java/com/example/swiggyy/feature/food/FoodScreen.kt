@@ -37,11 +37,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Shadow
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.core.components.LocationBar
+import com.example.core.components.SearchBar
 import com.example.swiggyy.R
 import com.example.swiggyy.feature.food.components.OfferCard
 import com.example.swiggyy.feature.food.components.ReorderSection
-import com.example.swiggyy.shared.components.LocationBar
-import com.example.swiggyy.shared.components.SearchBar
 import com.example.swiggyy.ui.theme.SwiggyFontFamily
 import com.example.swiggyy.feature_food.viewmodel.FoodViewModel
 import com.example.swiggyy.feature.food.state.FoodIntent
@@ -97,9 +97,6 @@ fun Food() {
 
         // Promotional Banner
         FeastivalBanner()
-
-
-
         Spacer(Modifier.height(20.dp))
 
         // What's on your mind? Categories
