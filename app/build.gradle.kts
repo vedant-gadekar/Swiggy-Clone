@@ -45,8 +45,8 @@ android {
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":dineout"))
-    implementation(project(":food"))
+    implementation(project(":feature-dineout"))
+    implementation(project(":feature-food"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
