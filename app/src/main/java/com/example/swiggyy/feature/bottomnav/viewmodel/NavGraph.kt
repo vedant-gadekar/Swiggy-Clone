@@ -4,9 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.dineout.Dineout
 import com.example.instamart.components.InstaMart
 import com.example.swiggyy.feature.bottomnav.state.BottomNavItem
-import com.example.swiggyy.feature_dineout.Dineout
 import com.example.swiggyy.feature_food.Food
 import com.example.swiggyy.feature_home.HomeScreen
 import com.example.swiggyy.feature_home.HomeViewModel
