@@ -11,6 +11,7 @@ import com.example.swiggyy.feature_food.Food
 import com.example.swiggyy.feature_home.HomeScreen
 import com.example.swiggyy.feature_home.HomeViewModel
 
+
 @Composable
 fun NavigationGraph(navController: NavHostController,
                     homeViewModel: HomeViewModel

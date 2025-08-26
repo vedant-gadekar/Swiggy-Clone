@@ -23,3 +23,4 @@ rootProject.name = "Swiggyy"
 include(":app")
 include(":core")
 include(":dineout")
+include(":food")

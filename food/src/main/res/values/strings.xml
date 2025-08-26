@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Swiggyy</string>
+    <string name="retry">Retry</string>
+    <string name="no_data_available">No data available</string>
+</resources>
