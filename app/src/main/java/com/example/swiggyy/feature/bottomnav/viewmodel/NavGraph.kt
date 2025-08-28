@@ -10,6 +10,7 @@ import com.example.swiggyy.feature.bottomnav.state.BottomNavItem
 import com.example.swiggyy.feature_food.Food
 import com.example.swiggyy.feature_home.HomeScreen
 import com.example.swiggyy.feature_home.HomeViewModel
+import com.example.core.components.SearchScreen
 
 
 @Composable
@@ -21,13 +22,26 @@ fun NavigationGraph(navController: NavHostController,
             HomeScreen(homeViewModel, navController)
         }
         composable(BottomNavItem.InstaMart.screenRoute) {
-            InstaMart()
+            InstaMart(navController = navController)
         }
         composable(BottomNavItem.Dineout.screenRoute) {
             Dineout()
         }
         composable(BottomNavItem.Food.screenRoute) {
-            Food()
+            Food(navController = navController)
+        }
+        composable("search") {
+            SearchScreen(
+                onNavigateBack = {
+                    navController.popBackStack()
+                },
+                onNavigateToFood = { cuisineFilter ->
+                    navController.navigate(BottomNavItem.Food.screenRoute)
+                },
+                onNavigateToInstamart = { itemFilter ->
+                    navController.navigate(BottomNavItem.InstaMart.screenRoute)
+                }
+            )
         }
     }
 }

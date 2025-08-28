@@ -47,13 +47,25 @@ fun BottomNavigationBar(navController: NavController,
                 onClick = {
                     if (currentRoute != item.screenRoute) {
                         navController.navigate(item.screenRoute) {
-                            popUpTo(
-                                navController.graph.startDestinationRoute ?: return@navigate
-                            ) {
-                                saveState = true
+                            // Special handling only for search screen
+                            if (currentRoute == "search") {
+                                // If coming from search screen, clear everything back to start destination
+                                popUpTo(
+                                    navController.graph.startDestinationRoute ?: return@navigate
+                                ) {
+                                    inclusive = false
+                                    saveState = false
+                                }
+                            } else {
+                                // Original behavior for all other screens (including bottom nav items)
+                                popUpTo(
+                                    navController.graph.startDestinationRoute ?: return@navigate
+                                ) {
+                                    saveState = true
+                                }
+                                restoreState = true
                             }
                             launchSingleTop = true
-                            restoreState = true
                         }
                     }
                 },
@@ -69,4 +81,3 @@ fun BottomNavigationBar(navController: NavController,
         }
     }
 }
-

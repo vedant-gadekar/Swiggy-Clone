@@ -48,7 +48,7 @@ import com.example.swiggyy.feature.food.state.UiState
 import com.example.food.R
 
 @Composable
-fun Food() {
+fun Food(navController: androidx.navigation.NavHostController? = null) {
     val viewModel: FoodViewModel = viewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
     
@@ -90,7 +90,10 @@ fun Food() {
         // Search Bar - Exact Home screen implementation
         SearchBar(
             query = state.searchQuery,
-            onQueryChange = { viewModel.handleIntent(FoodIntent.SearchQueryChanged(it)) }
+            onQueryChange = { viewModel.handleIntent(FoodIntent.SearchQueryChanged(it)) },
+            onClick = {
+                navController?.navigate("search")
+            }
         )
 
         Spacer(Modifier.height(20.dp))
@@ -481,4 +484,3 @@ fun FeastivalBanner() {
         }
     }
 }
-

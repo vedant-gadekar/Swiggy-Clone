@@ -11,6 +11,10 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/feature-dineout" />
+            <option value="$PROJECT_DIR$/feature-food" />
+            <option value="$PROJECT_DIR$/feature-instamart" />
           </set>
         </option>
       </GradleProjectSettings>

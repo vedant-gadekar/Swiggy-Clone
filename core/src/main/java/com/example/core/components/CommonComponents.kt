@@ -142,7 +142,8 @@ fun LocationBar(name: String, address: String, onLocationClick: (() -> Unit)? = 
 fun SearchBar(
     query: String,
     onQueryChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null
 ) {
     // Animation states
     var isVisible by remember { mutableStateOf(false) }
@@ -194,7 +195,13 @@ fun SearchBar(
                 .fillMaxWidth()
                 .border(1.dp, borderColor, RoundedCornerShape(24.dp))
                 .padding(horizontal = 12.dp, vertical = 8.dp)
-                .clickable { isFocused = !isFocused },
+                .let { modifier ->
+                    if (onClick != null) {
+                        modifier.clickable { onClick.invoke() }
+                    } else {
+                        modifier
+                    }
+                },
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Animated search icon
@@ -212,32 +219,44 @@ fun SearchBar(
 
             Spacer(modifier = Modifier.width(10.dp))
 
-            // Text Field without underline
-            BasicTextField(
-                value = query,
-                onValueChange = {
-                    onQueryChange(it)
-                    if (!isFocused) isFocused = true
-                },
-                singleLine = true,
-                textStyle = TextStyle(
+            // Text Field without underline or placeholder text when onClick is provided
+            if (onClick != null) {
+                // When onClick is provided, show non-interactive placeholder text
+                Text(
+                    text = if (query.isEmpty()) "Search for 'Milk'" else query,
+                    color = if (query.isEmpty()) Color.Gray else Color.Black,
                     fontFamily = SwiggyFontFamily,
-                    color = Color.Black,
-                    fontSize = 16.sp
-                ),
-                decorationBox = { innerTextField ->
-                    if (query.isEmpty()) {
-                        Text(
-                            text = "Search for 'Milk'",
-                            color = Color.Gray,
-                            fontFamily = SwiggyFontFamily,
-                            fontSize = 16.sp
-                        )
-                    }
-                    innerTextField()
-                },
-                modifier = Modifier.weight(1f)
-            )
+                    fontSize = 16.sp,
+                    modifier = Modifier.weight(1f)
+                )
+            } else {
+                // When onClick is null, allow normal text input
+                BasicTextField(
+                    value = query,
+                    onValueChange = {
+                        onQueryChange(it)
+                        if (!isFocused) isFocused = true
+                    },
+                    singleLine = true,
+                    textStyle = TextStyle(
+                        fontFamily = SwiggyFontFamily,
+                        color = Color.Black,
+                        fontSize = 16.sp
+                    ),
+                    decorationBox = { innerTextField ->
+                        if (query.isEmpty()) {
+                            Text(
+                                text = "Search for 'Milk'",
+                                color = Color.Gray,
+                                fontFamily = SwiggyFontFamily,
+                                fontSize = 16.sp
+                            )
+                        }
+                        innerTextField()
+                    },
+                    modifier = Modifier.weight(1f)
+                )
+            }
 
             // Divider between text and mic icon
             Box(

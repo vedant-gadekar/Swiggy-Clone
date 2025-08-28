@@ -74,7 +74,10 @@ fun HomeScreen(viewModel: HomeViewModel, navController: androidx.navigation.NavH
 
         SearchBar(
             query = state.searchQuery,
-            onQueryChange = { viewModel.handleIntent(HomeIntent.SearchQueryChanged(it)) }
+            onQueryChange = { viewModel.handleIntent(HomeIntent.SearchQueryChanged(it)) },
+            onClick = {
+                navController.navigate("search")
+            }
         )
 
         Spacer(Modifier.height(20.dp))
@@ -291,4 +294,3 @@ fun AppFooter(modifier: Modifier = Modifier) {
         }
     }
 }
-

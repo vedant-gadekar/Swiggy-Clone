@@ -41,7 +41,8 @@ import com.example.feature_instamart.R
 
 @Composable
 fun InstaMart(
-    viewModel: InstamartViewModel = viewModel()
+    viewModel: InstamartViewModel = viewModel(),
+    navController: androidx.navigation.NavHostController? = null
 ) {
     val context = LocalContext.current
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -122,7 +123,10 @@ fun InstaMart(
             // Promotional Sliders
             SearchBar(
                 query = state.searchQuery,
-                onQueryChange = { viewModel.handleEvent(InstamartEvent.SearchQueryChanged(it)) }
+                onQueryChange = { viewModel.handleEvent(InstamartEvent.SearchQueryChanged(it)) },
+                onClick = {
+                    navController?.navigate("search")
+                }
             )
 
 
@@ -209,6 +213,3 @@ fun InstaMart(
         }
     }
 }
-
-
-
