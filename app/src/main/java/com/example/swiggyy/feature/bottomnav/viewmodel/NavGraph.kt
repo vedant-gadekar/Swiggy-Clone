@@ -11,13 +11,54 @@ import com.example.swiggyy.feature_food.Food
 import com.example.swiggyy.feature_home.HomeScreen
 import com.example.swiggyy.feature_home.HomeViewModel
 import com.example.core.components.SearchScreen
+import com.example.core.auth.WelcomeScreen
+import com.example.core.auth.OTPVerificationScreen
 
 
 @Composable
 fun NavigationGraph(navController: NavHostController,
-                    homeViewModel: HomeViewModel
+                    homeViewModel: HomeViewModel,
+                    isAuthenticated: Boolean = false
 ) {
-    NavHost(navController, startDestination = BottomNavItem.Home.screenRoute) {
+    val startDestination = if (isAuthenticated) BottomNavItem.Home.screenRoute else "welcome"
+
+    NavHost(navController, startDestination = startDestination) {
+        // Authentication screens
+        composable("welcome") {
+            WelcomeScreen(
+                onContinue = { phoneNumber ->
+                    navController.navigate("otp_verification/$phoneNumber")
+                },
+                onSocialLogin = { provider ->
+                    // Handle social login
+                    navController.navigate(BottomNavItem.Home.screenRoute) {
+                        popUpTo("welcome") { inclusive = true }
+                    }
+                }
+            )
+        }
+        composable("otp_verification/{phoneNumber}") { backStackEntry ->
+            val phoneNumber = backStackEntry.arguments?.getString("phoneNumber") ?: ""
+            OTPVerificationScreen(
+                phoneNumber = "+91-$phoneNumber",
+                onBack = {
+                    navController.popBackStack()
+                },
+                onVerified = {
+                    navController.navigate(BottomNavItem.Home.screenRoute) {
+                        popUpTo("welcome") { inclusive = true }
+                    }
+                },
+                onTryOtherMethods = {
+                    navController.popBackStack("welcome", inclusive = false)
+                },
+                onResendOTP = {
+                    // Handle resend OTP logic
+                }
+            )
+        }
+
+        // Main app screens
         composable(BottomNavItem.Home.screenRoute) {
             HomeScreen(homeViewModel, navController)
         }
