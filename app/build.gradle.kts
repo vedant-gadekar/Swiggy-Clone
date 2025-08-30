@@ -45,6 +45,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":feature-auth"))
     implementation(project(":feature-dineout"))
     implementation(project(":feature-food"))
     implementation(project(":feature-instamart"))

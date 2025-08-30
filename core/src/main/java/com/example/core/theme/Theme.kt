@@ -10,12 +10,18 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.graphics.Color
+import com.example.core.AppConstants
 
 
 object AppColors {
-    val Primary = Color(0xFF53B175)
-    val PrimaryDark = Color(0xFF489B61)
+    val Primary = AppConstants.BrandColors.SWIGGY_ORANGE
+    val PrimaryDark = AppConstants.BrandColors.SWIGGY_ORANGE_DARK
     val Secondary = Color(0xFF181725)
+
+    // Swiggy Brand Colors
+    val SwiggyOrange = AppConstants.BrandColors.SWIGGY_ORANGE
+    val SwiggyOrangeDark = AppConstants.BrandColors.SWIGGY_ORANGE_DARK
+    val SwiggyOrangeLight = AppConstants.BrandColors.SWIGGY_ORANGE_LIGHT
     val Background = Color(0xFFFCFCFC)
     val Surface = Color(0xFFFFFFFF)
     val Error = Color(0xFFE74C3C)

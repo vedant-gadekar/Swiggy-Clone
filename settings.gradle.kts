@@ -22,6 +22,7 @@ dependencyResolutionManagement {
 rootProject.name = "Swiggyy"
 include(":app")
 include(":core")
+include(":feature-auth")
 include(":feature-dineout")
 include(":feature-food")
 include(":feature-instamart")

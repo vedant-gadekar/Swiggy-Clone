@@ -1,6 +1,8 @@
 package com.example.swiggyy.feature.bottomnav.viewmodel
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -11,50 +13,58 @@ import com.example.swiggyy.feature_food.Food
 import com.example.swiggyy.feature_home.HomeScreen
 import com.example.swiggyy.feature_home.HomeViewModel
 import com.example.core.components.SearchScreen
-import com.example.core.auth.WelcomeScreen
-import com.example.core.auth.OTPVerificationScreen
-
+import com.example.feature_auth.WelcomeScreen
+import com.example.feature_auth.OTPVerificationScreen
+import com.example.feature_auth.viewmodel.AuthViewModel
+import com.example.feature_auth.state.AuthEffect
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun NavigationGraph(navController: NavHostController,
-                    homeViewModel: HomeViewModel,
-                    isAuthenticated: Boolean = false
+fun NavigationGraph(
+    navController: NavHostController,
+    homeViewModel: HomeViewModel,
+    isAuthenticated: Boolean = false
 ) {
+    val authViewModel: AuthViewModel = viewModel()
     val startDestination = if (isAuthenticated) BottomNavItem.Home.screenRoute else "welcome"
+
+    // Handle auth effects
+    LaunchedEffect(authViewModel.effect) {
+        authViewModel.effect.collectLatest { effect ->
+            when (effect) {
+                is AuthEffect.NavigateToOtp -> {
+                    navController.navigate("otp_verification/${effect.phoneNumber}")
+                }
+                is AuthEffect.NavigateToWelcome -> {
+                    navController.popBackStack("welcome", inclusive = false)
+                }
+                is AuthEffect.NavigateToHome -> {
+                    navController.navigate(BottomNavItem.Home.screenRoute) {
+                        popUpTo("welcome") { inclusive = true }
+                    }
+                }
+                is AuthEffect.ShowToast -> {
+                    // Handle toast - you can implement a toast system here
+                    // For now, we'll just ignore it as the UI shows loading states
+                }
+                is AuthEffect.ShowError -> {
+                    // Handle error - the error is already shown in the UI state
+                }
+            }
+        }
+    }
 
     NavHost(navController, startDestination = startDestination) {
         // Authentication screens
         composable("welcome") {
-            WelcomeScreen(
-                onContinue = { phoneNumber ->
-                    navController.navigate("otp_verification/$phoneNumber")
-                },
-                onSocialLogin = { provider ->
-                    // Handle social login
-                    navController.navigate(BottomNavItem.Home.screenRoute) {
-                        popUpTo("welcome") { inclusive = true }
-                    }
-                }
-            )
+            WelcomeScreen(viewModel = authViewModel)
         }
+        
         composable("otp_verification/{phoneNumber}") { backStackEntry ->
             val phoneNumber = backStackEntry.arguments?.getString("phoneNumber") ?: ""
             OTPVerificationScreen(
-                phoneNumber = "+91-$phoneNumber",
-                onBack = {
-                    navController.popBackStack()
-                },
-                onVerified = {
-                    navController.navigate(BottomNavItem.Home.screenRoute) {
-                        popUpTo("welcome") { inclusive = true }
-                    }
-                },
-                onTryOtherMethods = {
-                    navController.popBackStack("welcome", inclusive = false)
-                },
-                onResendOTP = {
-                    // Handle resend OTP logic
-                }
+                phoneNumber = phoneNumber,
+                viewModel = authViewModel
             )
         }
 
