@@ -13,4 +13,3 @@ sealed class InstamartEvent {
     data class SearchQueryChanged(val query: String) : InstamartEvent()
     object ClearError : InstamartEvent()
 }
-

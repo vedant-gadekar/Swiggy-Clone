@@ -75,9 +75,9 @@ fun NavigationGraph(
         composable(BottomNavItem.InstaMart.screenRoute) {
             InstaMart(navController = navController)
         }
-        composable(BottomNavItem.Dineout.screenRoute) {
-            Dineout()
-        }
+//        composable(BottomNavItem.Dineout.screenRoute) {
+//            Dineout()
+//        }
         composable(BottomNavItem.Food.screenRoute) {
             Food(navController = navController)
         }

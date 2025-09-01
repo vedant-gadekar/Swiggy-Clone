@@ -39,6 +39,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.core.components.LocationBar
 import com.example.core.components.SearchBar
+import com.example.feature_food.presentation.constants.Colors
+import com.example.feature_food.presentation.constants.Dimensions
+import com.example.feature_food.presentation.constants.Strings
 import com.example.food.components.OfferCard
 import com.example.food.components.ReorderSection
 import com.example.swiggyy.ui.theme.SwiggyFontFamily
@@ -57,7 +60,7 @@ fun Food(navController: androidx.navigation.NavHostController? = null) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(Dimensions.PADDING_MAIN)
             .verticalScroll(scrollState)
     )
     {
@@ -65,23 +68,23 @@ fun Food(navController: androidx.navigation.NavHostController? = null) {
         Row(Modifier.fillMaxWidth()) {
             Column(modifier = Modifier
                 .weight(0.80f)
-                .padding(8.dp))
+                .padding(Dimensions.PADDING_SECTION))
             {
                 LocationBar(state.locationName, state.locationAddress)
             }
 
             Column (Modifier
                 .weight(0.20f)
-                .padding(8.dp),
+                .padding(Dimensions.PADDING_SECTION),
                 horizontalAlignment = Alignment.End)
             {
                  Image(
                      painter = painterResource(R.drawable.profile),
-                     contentDescription = "Profile Picture",
+                     contentDescription = Strings.PROFILE_PICTURE,
                      modifier = Modifier
-                         .size(36.dp)
+                         .size(Dimensions.PROFILE_SIZE)
                          .clip(CircleShape)
-                         .border(1.dp, Color.LightGray, CircleShape),
+                         .border(Dimensions.BORDER_WIDTH, Colors.LIGHT_GRAY, CircleShape),
                      contentScale = ContentScale.Crop
                  )
             }
@@ -96,11 +99,11 @@ fun Food(navController: androidx.navigation.NavHostController? = null) {
             }
         )
 
-        Spacer(Modifier.height(20.dp))
+        Spacer(Modifier.height(Dimensions.SPACER_HEIGHT))
 
         // Promotional Banner
         FeastivalBanner()
-        Spacer(Modifier.height(20.dp))
+        Spacer(Modifier.height(Dimensions.SPACER_HEIGHT))
 
         // What's on your mind? Categories
         val categoriesState = state.categories
@@ -121,20 +124,20 @@ fun Food(navController: androidx.navigation.NavHostController? = null) {
                 // Show error state
                 Text(
                     text = categoriesState.message,
-                    color = Color.Red,
+                    color = Colors.RED,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
             }
             is UiState.Empty -> {
                 // Show empty state
                 Text(
-                    text = "No categories available",
+                    text = Strings.NO_CATEGORIES_AVAILABLE,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
             }
         }
 
-        Spacer(Modifier.height(20.dp))
+        Spacer(Modifier.height(Dimensions.SPACER_HEIGHT))
 
         // Restaurant Carousel with Toggle Tabs
         val reorderRestaurantsState = state.reorderRestaurants
@@ -158,26 +161,26 @@ fun Food(navController: androidx.navigation.NavHostController? = null) {
             reorderRestaurantsState is UiState.Error -> {
                 Text(
                     text = reorderRestaurantsState.message,
-                    color = Color.Red,
+                    color = Colors.RED,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
             }
             quickDeliveryRestaurantsState is UiState.Error -> {
                 Text(
                     text = quickDeliveryRestaurantsState.message,
-                    color = Color.Red,
+                    color = Colors.RED,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
             }
             reorderRestaurantsState is UiState.Empty && quickDeliveryRestaurantsState is UiState.Empty -> {
                 Text(
-                    text = "No restaurants available",
+                    text = Strings.NO_RESTAURANTS_AVAILABLE,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
             }
         }
 
-        Spacer(Modifier.height(20.dp))
+        Spacer(Modifier.height(Dimensions.SPACER_HEIGHT))
 
         // 99 Store Section
         val ninetyNineStoreItemsState = state.ninetyNineStoreItems
@@ -197,7 +200,7 @@ fun Food(navController: androidx.navigation.NavHostController? = null) {
             is UiState.Error -> {
                 Text(
                     text = ninetyNineStoreItemsState.message,
-                    color = Color.Red,
+                    color = Colors.RED,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
             }
@@ -209,7 +212,7 @@ fun Food(navController: androidx.navigation.NavHostController? = null) {
             }
         }
 
-        Spacer(Modifier.height(20.dp))
+        Spacer(Modifier.height(Dimensions.SPACER_HEIGHT))
 
 
 
@@ -240,7 +243,7 @@ fun Food(navController: androidx.navigation.NavHostController? = null) {
             is UiState.Error -> {
                 Text(
                     text = featuredRestaurantsState.message,
-                    color = Color.Red,
+                    color = Colors.RED,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
             }

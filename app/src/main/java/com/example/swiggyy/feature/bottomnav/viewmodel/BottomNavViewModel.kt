@@ -26,7 +26,7 @@ data class BottomNavState (
         BottomNavItem.Home,
         BottomNavItem.Food,
         BottomNavItem.InstaMart,
-        BottomNavItem.Dineout,
+//        BottomNavItem.Dineout,
     )
 )
 

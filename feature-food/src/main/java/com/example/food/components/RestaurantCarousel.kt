@@ -12,6 +12,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.feature_food.presentation.constants.Colors
+import com.example.feature_food.presentation.constants.Dimensions
+import com.example.feature_food.presentation.constants.Strings
 import com.example.swiggyy.feature_food.model.Restaurant
 import com.example.swiggyy.ui.theme.SwiggyFontFamily
 
@@ -32,26 +35,25 @@ fun RestaurantCarousel(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 16.dp)
+            .padding(vertical = Dimensions.CAROUSEL_VERTICAL_PADDING)
     ) {
         // Toggle Section with two tabs
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                .padding(horizontal = Dimensions.CAROUSEL_TAB_HORIZONTAL_PADDING, vertical = Dimensions.CAROUSEL_TAB_VERTICAL_PADDING),
+            horizontalArrangement = Arrangement.spacedBy(Dimensions.CAROUSEL_TAB_SPACING)
         ) {
             // REORDER Tab
             TabButton(
-                text = "REORDER",
+                text = Strings.TAB_REORDER,
                 isSelected = selectedTab == RestaurantTab.REORDER,
                 onClick = { selectedTab = RestaurantTab.REORDER },
                 modifier = Modifier.weight(1f)
             )
-            
-            // FOOD IN 10 MINS Tab
+            // QUICK DELIVERY Tab
             TabButton(
-                text = "FOOD IN 10 MINS",
+                text = Strings.TAB_QUICK_DELIVERY,
                 isSelected = selectedTab == RestaurantTab.QUICK_DELIVERY,
                 onClick = { selectedTab = RestaurantTab.QUICK_DELIVERY },
                 modifier = Modifier.weight(1f)
@@ -90,10 +92,10 @@ fun TabButton(
         modifier = modifier
             .clickable { onClick() },
         colors = CardDefaults.cardColors(
-            containerColor = if (isSelected) Color.White else Color.Transparent
+            containerColor = if (isSelected) Colors.WHITE else Color.Transparent
         ),
-        shape = RoundedCornerShape(20.dp),
-        elevation = if (isSelected) CardDefaults.cardElevation(defaultElevation = 2.dp) else CardDefaults.cardElevation(defaultElevation = 0.dp)
+        shape = RoundedCornerShape(Dimensions.RESTAURANT_CARD_CORNER_RADIUS),
+        elevation = if (isSelected) CardDefaults.cardElevation(defaultElevation = Dimensions.RESTAURANT_CARD_ELEVATION_PRESSED) else CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Text(
             text = text,

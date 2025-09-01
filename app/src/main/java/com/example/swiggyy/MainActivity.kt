@@ -43,8 +43,10 @@ class MainActivity : ComponentActivity() {
                 val currentRoute = navBackStackEntry?.destination?.route
                 if (currentRoute == BottomNavItem.Home.screenRoute ||
                     currentRoute == BottomNavItem.Food.screenRoute ||
-                    currentRoute == BottomNavItem.InstaMart.screenRoute ||
-                    currentRoute == BottomNavItem.Dineout.screenRoute) {
+                    currentRoute == BottomNavItem.InstaMart.screenRoute
+//                    currentRoute == BottomNavItem.Dineout.screenRoute
+                    )
+                {
                     isAuthenticated.value = true
                 }
             }

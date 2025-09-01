@@ -133,73 +133,73 @@ fun InstaMart(
 
             // Categories Section
 
-                CategoriesSection(
-                    categories = state.categories,
-                    onCategoryClick = { categoryId ->
-                        viewModel.handleEvent(InstamartEvent.CategoryClicked(categoryId))
-                    }
-                )
+            CategoriesSection(
+                categories = state.categories,
+                onCategoryClick = { categoryId ->
+                    viewModel.handleEvent(InstamartEvent.CategoryClicked(categoryId))
+                }
+            )
 
 
             // Fruits Section
-                SectionHeader(
-                    title = FRUITS,
-                    onSeeAllClick = {
-                        viewModel.handleEvent(InstamartEvent.SeeAllClicked(FRUITS))
-                    }
-                )
+            SectionHeader(
+                title = FRUITS,
+                onSeeAllClick = {
+                    viewModel.handleEvent(InstamartEvent.SeeAllClicked(FRUITS))
+                }
+            )
 
 
-                ProductSection(
-                    products = state.fruits,
-                    cartItems = state.cartItems,
-                    onProductClick = { productId ->
-                        viewModel.handleEvent(InstamartEvent.ProductClicked(productId))
-                    },
-                    onQuantityChange = { productId, quantity ->
-                        viewModel.handleEvent(InstamartEvent.UpdateQuantity(productId, quantity))
-                    }
-                )
+            ProductSection(
+                products = state.fruits,
+                cartItems = state.cartItems,
+                onProductClick = { productId ->
+                    viewModel.handleEvent(InstamartEvent.ProductClicked(productId))
+                },
+                onQuantityChange = { productId, quantity ->
+                    viewModel.handleEvent(InstamartEvent.UpdateQuantity(productId, quantity))
+                }
+            )
 
 
             // Detergent Section
-                SectionHeader(
-                    title = DETERGENT,
-                    onSeeAllClick = {
-                        viewModel.handleEvent(InstamartEvent.SeeAllClicked(DETERGENT))
-                    }
-                )
+            SectionHeader(
+                title = DETERGENT,
+                onSeeAllClick = {
+                    viewModel.handleEvent(InstamartEvent.SeeAllClicked(DETERGENT))
+                }
+            )
 
 
-                ProductSection(
-                    products = state.detergents,
-                    cartItems = state.cartItems,
-                    onProductClick = { productId ->
-                        viewModel.handleEvent(InstamartEvent.ProductClicked(productId))
-                    },
-                    onQuantityChange = { productId, quantity ->
-                        viewModel.handleEvent(InstamartEvent.UpdateQuantity(productId, quantity))
-                    }
-                )
+            ProductSection(
+                products = state.detergents,
+                cartItems = state.cartItems,
+                onProductClick = { productId ->
+                    viewModel.handleEvent(InstamartEvent.ProductClicked(productId))
+                },
+                onQuantityChange = { productId, quantity ->
+                    viewModel.handleEvent(InstamartEvent.UpdateQuantity(productId, quantity))
+                }
+            )
 
             // Biscuit Section
-                SectionHeader(
-                    title = BISCUIT,
-                    onSeeAllClick = {
-                        viewModel.handleEvent(InstamartEvent.SeeAllClicked(BISCUIT))
-                    }
-                )
+            SectionHeader(
+                title = BISCUIT,
+                onSeeAllClick = {
+                    viewModel.handleEvent(InstamartEvent.SeeAllClicked(BISCUIT))
+                }
+            )
 
-                ProductSection(
-                    products = state.biscuits,
-                    cartItems = state.cartItems,
-                    onProductClick = { productId ->
-                        viewModel.handleEvent(InstamartEvent.ProductClicked(productId))
-                    },
-                    onQuantityChange = { productId, quantity ->
-                        viewModel.handleEvent(InstamartEvent.UpdateQuantity(productId, quantity))
-                    }
-                )
+            ProductSection(
+                products = state.biscuits,
+                cartItems = state.cartItems,
+                onProductClick = { productId ->
+                    viewModel.handleEvent(InstamartEvent.ProductClicked(productId))
+                },
+                onQuantityChange = { productId, quantity ->
+                    viewModel.handleEvent(InstamartEvent.UpdateQuantity(productId, quantity))
+                }
+            )
 
             Spacer(Modifier.height(SECTION_HEIGHT))
         }

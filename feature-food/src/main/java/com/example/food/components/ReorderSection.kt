@@ -12,6 +12,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.feature_food.presentation.constants.Colors
+import com.example.feature_food.presentation.constants.Dimensions
+import com.example.feature_food.presentation.constants.Strings
 import com.example.swiggyy.feature_food.model.Restaurant
 import com.example.swiggyy.ui.theme.SwiggyFontFamily
 
@@ -24,33 +27,33 @@ fun ReorderSection(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 16.dp)
+            .padding(vertical = Dimensions.REORDER_SECTION_VERTICAL_PADDING)
     ) {
         // Section Header - REORDER button/tab
         Card(
             modifier = Modifier
-                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .padding(horizontal = Dimensions.REORDER_CARD_HORIZONTAL_PADDING, vertical = Dimensions.REORDER_CARD_VERTICAL_PADDING)
                 .clickable { },
-            colors = CardDefaults.cardColors(containerColor = Color.White),
-            shape = RoundedCornerShape(20.dp),
-            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+            colors = CardDefaults.cardColors(containerColor = Colors.WHITE),
+            shape = RoundedCornerShape(Dimensions.REORDER_CARD_CORNER_RADIUS),
+            elevation = CardDefaults.cardElevation(defaultElevation = Dimensions.REORDER_CARD_ELEVATION)
         ) {
             Text(
-                text = "REORDER",
+                text = Strings.REORDER,
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontFamily = SwiggyFontFamily,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFFFF6F00)
+                    color = Colors.ORANGE
                 ),
-                modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
+                modifier = Modifier.padding(horizontal = Dimensions.REORDER_CARD_TEXT_HORIZONTAL_PADDING, vertical = Dimensions.REORDER_CARD_TEXT_VERTICAL_PADDING),
                 textAlign = TextAlign.Center
             )
         }
         
         // Horizontal scrollable restaurant cards
         LazyRow(
-            contentPadding = PaddingValues(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            contentPadding = PaddingValues(horizontal = Dimensions.REORDER_LAZYROW_HORIZONTAL_PADDING),
+            horizontalArrangement = Arrangement.spacedBy(Dimensions.REORDER_LAZYROW_ITEM_SPACING)
         ) {
             items(restaurants) { restaurant ->
                 RestaurantCard(
@@ -62,5 +65,3 @@ fun ReorderSection(
         }
     }
 }
-
-

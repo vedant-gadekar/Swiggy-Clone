@@ -8,4 +8,3 @@ sealed class InstamartEffect {
     data class ShowToast(val message: String) : InstamartEffect()
     object NavigateToCart : InstamartEffect()
 }
-

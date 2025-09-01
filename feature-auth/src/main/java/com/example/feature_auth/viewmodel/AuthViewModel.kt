@@ -2,6 +2,10 @@ package com.example.feature_auth.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.core.Numbers
+import com.example.core.Strings
+import com.example.core.Animation
+import com.example.core.Timer
 import com.example.feature_auth.state.AuthEffect
 import com.example.feature_auth.state.AuthEvent
 import com.example.feature_auth.state.AuthScreen
@@ -46,7 +50,7 @@ class AuthViewModel : ViewModel() {
     
     private fun handlePhoneNumberChanged(phoneNumber: String) {
         // Only allow digits and limit to 10 characters
-        val filteredPhoneNumber = phoneNumber.filter { it.isDigit() }.take(10)
+        val filteredPhoneNumber = phoneNumber.filter { it.isDigit() }.take(Numbers.PHONE_NUMBER_LENGTH)
         _state.update { 
             it.copy(
                 phoneNumber = filteredPhoneNumber,
@@ -59,17 +63,17 @@ class AuthViewModel : ViewModel() {
         viewModelScope.launch {
             // Validate phone number
             if (phoneNumber.isEmpty()) {
-                _state.update { it.copy(errorMessage = "Phone number cannot be empty") }
+                _state.update { it.copy(errorMessage = Strings.ERROR_PHONE_EMPTY) }
                 return@launch
             }
-            
+
             if (!phoneNumber.all { it.isDigit() }) {
-                _state.update { it.copy(errorMessage = "Phone number must contain only digits") }
+                _state.update { it.copy(errorMessage = Strings.ERROR_PHONE_INVALID) }
                 return@launch
             }
-            
-            if (phoneNumber.length != 10) {
-                _state.update { it.copy(errorMessage = "Phone number must be 10 digits") }
+
+            if (phoneNumber.length != Numbers.PHONE_NUMBER_LENGTH) {
+                _state.update { it.copy(errorMessage = Strings.ERROR_PHONE_LENGTH) }
                 return@launch
             }
             
@@ -77,29 +81,29 @@ class AuthViewModel : ViewModel() {
             
             try {
                 // Simulate API call to send OTP
-                delay(1000)
-                
-                _state.update { 
+                delay(Animation.NETWORK_DELAY_SHORT.toLong())
+
+                _state.update {
                     it.copy(
                         isLoading = false,
                         currentScreen = AuthScreen.OtpVerification,
-                        resendTimer = 15,
+                        resendTimer = Timer.OTP_RESEND_TIMER,
                         otp = ""
-                    ) 
+                    )
                 }
                 
                 _effect.emit(AuthEffect.NavigateToOtp(phoneNumber))
-                _effect.emit(AuthEffect.ShowToast("OTP sent to +91-$phoneNumber"))
-                
+                _effect.emit(AuthEffect.ShowToast(Strings.SUCCESS_OTP_SENT_TO_PHONE.format(phoneNumber)))
+
                 // Start resend timer
                 startResendTimer()
                 
             } catch (e: Exception) {
-                _state.update { 
+                _state.update {
                     it.copy(
                         isLoading = false,
-                        errorMessage = "Failed to send OTP. Please try again."
-                    ) 
+                        errorMessage = Strings.ERROR_SEND_OTP_FAILED
+                    )
                 }
             }
         }
@@ -107,22 +111,22 @@ class AuthViewModel : ViewModel() {
     
     private fun handleSocialLogin(provider: String) {
         viewModelScope.launch {
-            _state.update { it.copy(isLoading = true) }
-            
+            _state.update { it.copy(isLoading = true, errorMessage = null) }
+
             try {
                 // Simulate social login
-                delay(1000)
-                
+                delay(Animation.NETWORK_DELAY_SHORT.toLong())
+
                 _state.update { it.copy(isLoading = false) }
                 _effect.emit(AuthEffect.NavigateToHome)
-                _effect.emit(AuthEffect.ShowToast("Login successful"))
-                
+                _effect.emit(AuthEffect.ShowToast(Strings.SUCCESS_LOGIN))
+
             } catch (e: Exception) {
-                _state.update { 
+                _state.update {
                     it.copy(
                         isLoading = false,
-                        errorMessage = "Social login failed. Please try again."
-                    ) 
+                        errorMessage = Strings.ERROR_SOCIAL_LOGIN_FAILED
+                    )
                 }
             }
         }
@@ -130,45 +134,45 @@ class AuthViewModel : ViewModel() {
     
     private fun handleOtpChanged(otp: String) {
         // Only allow digits and limit to 6 characters
-        val filteredOtp = otp.filter { it.isDigit() }.take(6)
-        _state.update { 
+        val filteredOtp = otp.filter { it.isDigit() }.take(Numbers.OTP_LENGTH)
+        _state.update {
             it.copy(
                 otp = filteredOtp,
-                isOtpComplete = filteredOtp.length == 6,
+                isOtpComplete = filteredOtp.length == Numbers.OTP_LENGTH,
                 errorMessage = null
-            ) 
+            )
         }
-        
+
         // Auto-verify when OTP is complete
-        if (filteredOtp.length == 6) {
+        if (filteredOtp.length == Numbers.OTP_LENGTH) {
             handleVerifyOtp(filteredOtp)
         }
     }
     
     private fun handleVerifyOtp(otp: String) {
         viewModelScope.launch {
-            if (otp.length != 6) {
-                _state.update { it.copy(errorMessage = "Please enter complete 6-digit OTP") }
+            if (otp.length != Numbers.OTP_LENGTH) {
+                _state.update { it.copy(errorMessage = Strings.ERROR_OTP_INCOMPLETE) }
                 return@launch
             }
-            
+
             _state.update { it.copy(isLoading = true, errorMessage = null) }
-            
+
             try {
                 // Simulate OTP verification
-                delay(1500)
-                
+                delay(Animation.NETWORK_DELAY_MEDIUM.toLong())
+
                 // For demo purposes, accept any 6-digit OTP
                 _state.update { it.copy(isLoading = false) }
                 _effect.emit(AuthEffect.NavigateToHome)
-                _effect.emit(AuthEffect.ShowToast("OTP verified successfully"))
-                
+                _effect.emit(AuthEffect.ShowToast(Strings.SUCCESS_OTP_VERIFIED))
+
             } catch (e: Exception) {
-                _state.update { 
+                _state.update {
                     it.copy(
                         isLoading = false,
-                        errorMessage = "Invalid OTP. Please try again."
-                    ) 
+                        errorMessage = Strings.ERROR_OTP_INVALID
+                    )
                 }
             }
         }
@@ -184,25 +188,25 @@ class AuthViewModel : ViewModel() {
             
             try {
                 // Simulate resend OTP API call
-                delay(1000)
-                
-                _state.update { 
+                delay(Animation.NETWORK_DELAY_SHORT.toLong())
+
+                _state.update {
                     it.copy(
                         isLoading = false,
-                        resendTimer = 15,
+                        resendTimer = Timer.OTP_RESEND_TIMER,
                         otp = ""
-                    ) 
+                    )
                 }
-                
-                _effect.emit(AuthEffect.ShowToast("OTP resent successfully"))
+
+                _effect.emit(AuthEffect.ShowToast(Strings.SUCCESS_OTP_RESENT))
                 startResendTimer()
-                
+
             } catch (e: Exception) {
-                _state.update { 
+                _state.update {
                     it.copy(
                         isLoading = false,
-                        errorMessage = "Failed to resend OTP. Please try again."
-                    ) 
+                        errorMessage = Strings.ERROR_RESEND_FAILED
+                    )
                 }
             }
         }
@@ -250,7 +254,7 @@ class AuthViewModel : ViewModel() {
     private fun startResendTimer() {
         viewModelScope.launch {
             while (_state.value.resendTimer > 0) {
-                delay(1000)
+                delay(Timer.TIMER_TICK_INTERVAL)
                 _state.update { it.copy(resendTimer = it.resendTimer - 1) }
             }
         }

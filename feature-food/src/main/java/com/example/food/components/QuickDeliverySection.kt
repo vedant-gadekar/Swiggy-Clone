@@ -23,6 +23,8 @@ import androidx.compose.ui.unit.sp
 import com.example.swiggyy.feature_food.model.Restaurant
 import com.example.swiggyy.ui.theme.SwiggyFontFamily
 import com.example.food.R
+import com.example.feature_food.presentation.constants.Animation
+import com.example.feature_food.presentation.constants.Dimensions
 
 @Composable
 fun QuickDeliverySection(
@@ -38,23 +40,19 @@ fun QuickDeliverySection(
     }
     
     val slideInOffset by animateFloatAsState(
-        targetValue = if (isVisible) 0f else 100f,
-        animationSpec = tween(500)
+        targetValue = if (isVisible) 0f else Animation.SLIDE_IN_OFFSET,
+        animationSpec = tween(Animation.CARD_ANIMATION_DURATION)
     )
-    
     val alpha by animateFloatAsState(
         targetValue = if (isVisible) 1f else 0f,
-        animationSpec = tween(700)
+        animationSpec = tween(Animation.CARD_ANIMATION_DURATION + 200)
     )
     
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 16.dp)
-            .graphicsLayer(
-                translationX = slideInOffset,
-                alpha = alpha
-            ),
+            .graphicsLayer(alpha = alpha, translationY = slideInOffset)
+            .padding(vertical = Dimensions.CAROUSEL_VERTICAL_PADDING),
         shape = RoundedCornerShape(24.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF8E1))
@@ -135,5 +133,3 @@ fun QuickDeliverySection(
         }
     }
 }
-
-

@@ -28,6 +28,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import com.example.food.R
+import com.example.feature_food.presentation.constants.Animation
+import com.example.feature_food.presentation.constants.Colors
+import com.example.feature_food.presentation.constants.Dimensions
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import androidx.compose.ui.unit.dp
@@ -52,28 +55,24 @@ fun RestaurantCard(
     }
     
     val scale by animateFloatAsState(
-        targetValue = if (isPressed) 0.95f else 1f,
-        animationSpec = tween(100)
+        targetValue = if (isPressed) Animation.SCALE_PRESSED else Animation.SCALE_DEFAULT,
+        animationSpec = tween(Animation.CARD_PRESS_ANIMATION_DURATION)
     )
-    
     val cardElevation by animateFloatAsState(
-        targetValue = if (isPressed) 2.dp.value else 8.dp.value,
-        animationSpec = tween(100)
+        targetValue = if (isPressed) Dimensions.RESTAURANT_CARD_ELEVATION_PRESSED.value else Dimensions.RESTAURANT_CARD_ELEVATION_DEFAULT.value,
+        animationSpec = tween(Animation.CARD_PRESS_ANIMATION_DURATION)
     )
-    
     val slideInOffset by animateFloatAsState(
-        targetValue = if (isVisible) 0f else 100f,
-        animationSpec = tween(500, delayMillis = 100)
+        targetValue = if (isVisible) 0f else Animation.SLIDE_IN_OFFSET,
+        animationSpec = tween(Animation.CARD_ANIMATION_DURATION, delayMillis = Animation.CARD_ANIMATION_DELAY)
     )
-    
     val alpha by animateFloatAsState(
         targetValue = if (isVisible) 1f else 0f,
-        animationSpec = tween(500, delayMillis = 100)
+        animationSpec = tween(Animation.CARD_ANIMATION_DURATION, delayMillis = Animation.CARD_ANIMATION_DELAY)
     )
-    
     Card(
         modifier = Modifier
-            .width(300.dp)
+            .width(Dimensions.RESTAURANT_CARD_WIDTH)
             .graphicsLayer(alpha = alpha, scaleX = scale, scaleY = scale, translationY = slideInOffset)
             .pointerInput(Unit) {
                 detectTapGestures(
@@ -85,8 +84,8 @@ fun RestaurantCard(
                     }
                 )
             },
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = Colors.WHITE),
+        shape = RoundedCornerShape(Dimensions.RESTAURANT_CARD_CORNER_RADIUS),
         elevation = CardDefaults.cardElevation(defaultElevation = cardElevation.dp)
     ) {
         Column {

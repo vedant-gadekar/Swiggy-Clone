@@ -2,7 +2,6 @@ package com.example.feature_auth
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -13,9 +12,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -23,13 +20,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.core.R
-import com.example.core.AppConstants
-import com.example.swiggyy.ui.theme.AppColors
+import com.example.core.Colors as CoreColors
+import com.example.core.BrandColors
+import com.example.core.Dimensions as CoreDimensions
+import com.example.core.FontSizes as CoreFontSizes
+import com.example.core.Spacing as CoreSpacing
+import com.example.core.Numbers as CoreNumbers
+import com.example.core.Alpha as CoreAlpha
+import com.example.core.Strings as CoreStrings
+import com.example.core.Layout as CoreLayout
 import com.example.feature_auth.state.AuthEvent
 import com.example.feature_auth.viewmodel.AuthViewModel
 
@@ -42,66 +45,126 @@ fun WelcomeScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(CoreColors.WHITE)
     ) {
         // Orange background section
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(AppConstants.Dimensions.BANNER_HEIGHT)
-            .background(AppColors.SwiggyOrange)
+                .height(CoreDimensions.BANNER_HEIGHT)
+                .background(BrandColors.SWIGGY_ORANGE)
         )
         
         // Content
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            // Food images
-            FoodImagesSection()
-            
-            Spacer(modifier = Modifier.height(16.dp))
-            
+            // Food images section
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(CoreLayout.FOOD_IMAGES_HEIGHT)
+            ) {
+                // Burger image
+                Image(
+                    painter = painterResource(R.drawable.burger),
+                    contentDescription = CoreStrings.CONTENT_DESC_BURGER,
+                    modifier = Modifier
+                        .size(CoreDimensions.IMAGE_BANNER)
+                        .offset(
+                            x = CoreDimensions.OFFSET_SMALL,
+                            y = CoreDimensions.OFFSET_Y_GIANT
+                        )
+                        .rotate(CoreNumbers.ROTATION_ANGLE_MEDIUM),
+                    contentScale = ContentScale.Crop
+                )
+
+                // Float image
+                Image(
+                    painter = painterResource(R.drawable.shake),
+                    contentDescription = CoreStrings.CONTENT_DESC_FLOAT,
+                    modifier = Modifier
+                        .size(CoreDimensions.IMAGE_MASSIVE)
+                        .offset(
+                            x = CoreDimensions.OFFSET_Y_EXTREME,
+                            y = CoreDimensions.OFFSET_Y_MASSIVE
+                        )
+                        .rotate(CoreNumbers.ROTATION_ANGLE_REVERSE),
+                    contentScale = ContentScale.Crop
+                )
+
+                // Cake image
+                Image(
+                    painter = painterResource(R.drawable.cake),
+                    contentDescription = CoreStrings.CONTENT_DESC_CAKE,
+                    modifier = Modifier
+                        .size(
+                            CoreDimensions.IMAGE_GIANT,
+                            CoreDimensions.IMAGE_HUGE
+                        )
+                        .offset(
+                            x = CoreDimensions.OFFSET_LARGE,
+                            y = CoreDimensions.OFFSET_Y_SMALL
+                        ),
+                    contentScale = ContentScale.Crop
+                )
+
+                // Pizza image
+                Image(
+                    painter = painterResource(R.drawable.pizza),
+                    contentDescription = CoreStrings.CONTENT_DESC_PIZZA,
+                    modifier = Modifier
+                        .size(
+                            CoreDimensions.PIZZA_WIDTH,
+                            CoreDimensions.PIZZA_HEIGHT
+                        )
+                        .offset(
+                            x = CoreDimensions.PIZZA_OFFSET_X,
+                            y = CoreDimensions.PIZZA_OFFSET_Y
+                        ),
+                    contentScale = ContentScale.Crop
+                )
+            }
+
             // Main content section
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = AppConstants.Dimensions.INPUT_PADDING_HORIZONTAL),
+                    .padding(horizontal = CoreDimensions.INPUT_PADDING_HORIZONTAL),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Title and subtitle
+                // Title
                 Text(
-                    text = "India's #1 Food Delivery\nand Dining App",
-                    color = Color.Black,
-                    fontSize = 25.sp,
+                    text = CoreStrings.WELCOME_TITLE,
+                    color = CoreColors.BLACK,
+                    fontSize = CoreFontSizes.HEADING,
                     fontWeight = FontWeight.ExtraBold,
                     textAlign = TextAlign.Center,
-                    lineHeight = 30.sp,
-                    modifier = Modifier.padding(horizontal = 25.dp)
+                    lineHeight = CoreFontSizes.LINE_HEIGHT,
+                    modifier = Modifier.padding(horizontal = CoreSpacing.MASSIVE_SMALL)
                 )
                 
-                Spacer(modifier = Modifier.height(27.dp))
-                
-                // Log in or sign up text
+                Spacer(modifier = Modifier.height(CoreSpacing.MASSIVE))
+
                 Text(
-                    text = "Log in or sign up",
-                    color = Color.Black.copy(alpha = 0.66f),
-                    fontSize = 15.sp,
+                    text = CoreStrings.LOG_IN_OR_SIGN_UP,
+                    color = CoreColors.BLACK_ALPHA_66,
+                    fontSize = CoreFontSizes.BODY,
                     fontWeight = FontWeight.Medium
                 )
-                
-                Spacer(modifier = Modifier.height(6.dp))
-                
-                // Divider lines
+
+                Spacer(modifier = Modifier.height(CoreSpacing.SMALL))
+
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(1.dp)
-                        .background(Color.Black.copy(alpha = 0.2f))
+                        .height(CoreDimensions.BORDER_WIDTH)
+                        .background(CoreColors.BLACK_ALPHA_20)
                 )
-                
-                Spacer(modifier = Modifier.height(21.dp))
-                
-                // Phone input section
+
+                Spacer(modifier = Modifier.height(CoreSpacing.HUGE))
+
+                // Phone input
                 PhoneInputSection(
                     phoneNumber = state.phoneNumber,
                     onPhoneNumberChange = { phoneNumber ->
@@ -109,7 +172,7 @@ fun WelcomeScreen(
                     }
                 )
                 
-                Spacer(modifier = Modifier.height(15.dp))
+                Spacer(modifier = Modifier.height(CoreSpacing.MEDIUM_LARGE))
 
                 // Continue button
                 Button(
@@ -118,24 +181,24 @@ fun WelcomeScreen(
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(AppConstants.Dimensions.BUTTON_HEIGHT),
+                        .height(CoreDimensions.BUTTON_HEIGHT),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = AppColors.SwiggyOrange
+                        containerColor = BrandColors.SWIGGY_ORANGE
                     ),
-                    shape = RoundedCornerShape(8.dp),
+                    shape = RoundedCornerShape(CoreDimensions.CORNER_RADIUS_NORMAL),
                     enabled = !state.isLoading
                 ) {
                     if (state.isLoading) {
                         CircularProgressIndicator(
-                            modifier = Modifier.size(18.dp),
-                            color = Color.White,
-                            strokeWidth = 2.dp
+                            modifier = Modifier.size(CoreDimensions.ICON_MEDIUM),
+                            color = CoreColors.WHITE,
+                            strokeWidth = CoreDimensions.BORDER_WIDTH_MEDIUM
                         )
                     } else {
                         Text(
-                            text = "Continue",
-                            color = Color.White,
-                            fontSize = 18.sp,
+                            text = CoreStrings.CONTINUE,
+                            color = CoreColors.WHITE,
+                            fontSize = CoreFontSizes.EXTRA_LARGE,
                             fontWeight = FontWeight.Normal
                         )
                     }
@@ -143,51 +206,47 @@ fun WelcomeScreen(
                 
                 // Error message
                 state.errorMessage?.let { errorMessage ->
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(CoreSpacing.MEDIUM_SMALL))
                     Text(
                         text = errorMessage,
-                        color = Color.Red,
-                        fontSize = 12.sp,
+                        color = CoreColors.ERROR_RED,
+                        fontSize = CoreFontSizes.MEDIUM,
                         fontWeight = FontWeight.Medium
                     )
                 }
                 
-                Spacer(modifier = Modifier.height(14.dp))
-                
-                // "or" text
+                Spacer(modifier = Modifier.height(CoreSpacing.MEDIUM_LARGE))
+
                 Text(
-                    text = "or",
-                    color = Color.Black.copy(alpha = 0.66f),
-                    fontSize = 15.sp,
+                    text = CoreStrings.OR,
+                    color = CoreColors.BLACK_ALPHA_66,
+                    fontSize = CoreFontSizes.BODY,
                     fontWeight = FontWeight.Medium
                 )
                 
-                Spacer(modifier = Modifier.height(6.dp))
-                
-                // Divider lines
+                Spacer(modifier = Modifier.height(CoreSpacing.SMALL))
+
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(1.dp)
-                        .background(Color.Black.copy(alpha = 0.2f))
+                        .height(CoreDimensions.BORDER_WIDTH)
+                        .background(CoreColors.BLACK_ALPHA_20)
                 )
-                
-                Spacer(modifier = Modifier.height(14.dp))
-                
+
+                Spacer(modifier = Modifier.height(CoreSpacing.MEDIUM_LARGE))
+
                 // Social login buttons
-                SocialLoginSection(
+                SocialLoginButtons(
                     onSocialLogin = { provider ->
                         viewModel.handleEvent(AuthEvent.SocialLoginClicked(provider))
                     },
                     isLoading = state.isLoading
                 )
                 
-                Spacer(modifier = Modifier.height(15.dp))
-                
+                Spacer(modifier = Modifier.height(CoreSpacing.MEDIUM_LARGE))
+
                 // Footer
                 FooterSection()
-                
-                Spacer(modifier = Modifier.height(24.dp))
             }
         }
         
@@ -195,68 +254,17 @@ fun WelcomeScreen(
         Column(
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .padding(top = 151.dp),
+                .padding(top = CoreLayout.WELCOME_TOP_PADDING.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "SWIGGY",
-                color = Color.White,
-                fontSize = 48.sp,
+                text = CoreStrings.SWIGGY_BRAND,
+                color = CoreColors.WHITE,
+                fontSize = CoreFontSizes.BRAND,
                 fontWeight = FontWeight.Normal,
                 textAlign = TextAlign.Center
             )
         }
-    }
-}
-
-@Composable
-private fun FoodImagesSection() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(367.dp)
-    ) {
-        // Burger image (rotated)
-        Image(
-            painter = painterResource(R.drawable.burger),
-            contentDescription = "Burger",
-            modifier = Modifier
-                .size(150.dp)
-                .offset(x = (-10).dp, y = 200.dp)
-                .rotate(30.921f),
-            contentScale = ContentScale.Crop
-        )
-        
-        // Float image
-        Image(
-            painter = painterResource(R.drawable.shake),
-            contentDescription = "Float",
-            modifier = Modifier
-                .size(180.dp)
-                .offset(x = 290.dp, y = 177.dp)
-                .rotate(-20.921f),
-            contentScale = ContentScale.Crop
-        )
-        
-        // Cake image
-        Image(
-            painter = painterResource(R.drawable.cake),
-            contentDescription = "Cake",
-            modifier = Modifier
-                .size(181.dp, 157.dp)
-                .offset(x = (-35).dp, y = 5.dp),
-            contentScale = ContentScale.Crop
-        )
-        
-        // Pizza image
-        Image(
-            painter = painterResource(R.drawable.pizza),
-            contentDescription = "Pizza",
-            modifier = Modifier
-                .size(223.dp, 212.dp)
-                .offset(x = 250.dp, y = (-41).dp),
-            contentScale = ContentScale.Crop
-        )
     }
 }
 
@@ -268,35 +276,38 @@ private fun PhoneInputSection(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(40.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
+            .height(CoreLayout.PHONE_INPUT_HEIGHT),
+        horizontalArrangement = Arrangement.spacedBy(CoreSpacing.NORMAL)
     ) {
         // Country code section
         Card(
             modifier = Modifier
-                .width(64.dp)
+                .width(CoreLayout.COUNTRY_CODE_WIDTH)
                 .fillMaxHeight(),
-            colors = CardDefaults.cardColors(containerColor = Color.White),
-            elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
-            shape = RoundedCornerShape(8.dp)
+            colors = CardDefaults.cardColors(containerColor = CoreColors.WHITE),
+            elevation = CardDefaults.cardElevation(defaultElevation = CoreDimensions.CARD_ELEVATION_TINY),
+            shape = RoundedCornerShape(CoreDimensions.CORNER_RADIUS_NORMAL)
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 8.dp),
+                    .padding(horizontal = CoreLayout.COUNTRY_CODE_HORIZONTAL_PADDING),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Image(
                     painter = painterResource(R.drawable.india_flag),
-                    contentDescription = "India flag",
-                    modifier = Modifier.size(width = 24.dp, height = 16.dp)
+                    contentDescription = CoreStrings.CONTENT_DESC_INDIA_FLAG,
+                    modifier = Modifier.size(
+                        width = CoreLayout.FLAG_WIDTH,
+                        height = CoreLayout.FLAG_HEIGHT
+                    )
                 )
                 Icon(
                     painter = painterResource(R.drawable.dropdown),
-                    contentDescription = "Dropdown",
-                    modifier = Modifier.size(14.dp),
-                    tint = Color(0xFFB0B0B0)
+                    contentDescription = CoreStrings.CONTENT_DESC_DROPDOWN,
+                    modifier = Modifier.size(CoreLayout.DROPDOWN_ICON_SIZE),
+                    tint = CoreColors.GRAY_DROPDOWN
                 )
             }
         }
@@ -306,32 +317,32 @@ private fun PhoneInputSection(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxHeight(),
-            colors = CardDefaults.cardColors(containerColor = Color.White),
-            elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
-            shape = RoundedCornerShape(8.dp)
+            colors = CardDefaults.cardColors(containerColor = CoreColors.WHITE),
+            elevation = CardDefaults.cardElevation(defaultElevation = CoreDimensions.CARD_ELEVATION_TINY),
+            shape = RoundedCornerShape(CoreDimensions.CORNER_RADIUS_NORMAL)
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 10.dp),
+                    .padding(horizontal = CoreLayout.PHONE_INPUT_HORIZONTAL_PADDING),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "+91",
-                    color = Color.Black,
-                    fontSize = 15.sp,
+                    text = CoreNumbers.COUNTRY_CODE,
+                    color = CoreColors.BLACK,
+                    fontSize = CoreFontSizes.PHONE_TEXT,
                     fontWeight = FontWeight.Medium
                 )
 
-                Spacer(modifier = Modifier.width(6.dp))
+                Spacer(modifier = Modifier.width(CoreLayout.PHONE_INPUT_SPACER))
 
                 BasicTextField(
                     value = phoneNumber,
                     onValueChange = onPhoneNumberChange,
                     modifier = Modifier.weight(1f),
                     textStyle = TextStyle(
-                        color = Color.Black,
-                        fontSize = 15.sp,
+                        color = CoreColors.BLACK,
+                        fontSize = CoreFontSizes.PHONE_TEXT,
                         fontWeight = FontWeight.Normal
                     ),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
@@ -339,9 +350,9 @@ private fun PhoneInputSection(
                     decorationBox = { innerTextField ->
                         if (phoneNumber.isEmpty()) {
                             Text(
-                                text = "Enter Phone Number",
-                                color = Color.Black.copy(alpha = 0.4f),
-                                fontSize = 15.sp
+                                text = CoreStrings.ENTER_PHONE_NUMBER,
+                                color = CoreColors.BLACK.copy(alpha = CoreAlpha.HINT_TEXT),
+                                fontSize = CoreFontSizes.PHONE_HINT
                             )
                         }
                         innerTextField()
@@ -353,7 +364,7 @@ private fun PhoneInputSection(
 }
 
 @Composable
-private fun SocialLoginSection(
+private fun SocialLoginButtons(
     onSocialLogin: (String) -> Unit,
     isLoading: Boolean
 ) {
@@ -364,10 +375,10 @@ private fun SocialLoginSection(
         // Google login button
         Card(
             modifier = Modifier
-                .size(40.dp)
+                .size(CoreLayout.SOCIAL_BUTTON_SIZE)
                 .clickable(enabled = !isLoading) { onSocialLogin("google") },
-            colors = CardDefaults.cardColors(containerColor = Color.White),
-            elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
+            colors = CardDefaults.cardColors(containerColor = CoreColors.WHITE),
+            elevation = CardDefaults.cardElevation(defaultElevation = CoreDimensions.CARD_ELEVATION_TINY),
             shape = CircleShape
         ) {
             Box(
@@ -376,21 +387,21 @@ private fun SocialLoginSection(
             ) {
                 Image(
                     painter = painterResource(R.drawable.google),
-                    contentDescription = "Google",
-                    modifier = Modifier.size(21.dp)
+                    contentDescription = CoreStrings.CONTENT_DESC_GOOGLE,
+                    modifier = Modifier.size(CoreLayout.SOCIAL_ICON_SIZE)
                 )
             }
         }
         
-        Spacer(modifier = Modifier.width(47.dp))
-        
+        Spacer(modifier = Modifier.width(CoreNumbers.SOCIAL_LOGIN_SPACING.dp))
+
         // More options button
         Card(
             modifier = Modifier
-                .size(40.dp)
+                .size(CoreLayout.SOCIAL_BUTTON_SIZE)
                 .clickable(enabled = !isLoading) { onSocialLogin("more") },
-            colors = CardDefaults.cardColors(containerColor = Color.White),
-            elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
+            colors = CardDefaults.cardColors(containerColor = CoreColors.WHITE),
+            elevation = CardDefaults.cardElevation(defaultElevation = CoreDimensions.CARD_ELEVATION_TINY),
             shape = CircleShape
         ) {
             Box(
@@ -398,13 +409,13 @@ private fun SocialLoginSection(
                 contentAlignment = Alignment.Center
             ) {
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(2.5.dp)
+                    horizontalArrangement = Arrangement.spacedBy(CoreLayout.DOT_SPACING)
                 ) {
                     repeat(3) {
                         Box(
                             modifier = Modifier
-                                .size(2.5.dp)
-                                .background(Color.Black, CircleShape)
+                                .size(CoreLayout.DOT_SIZE)
+                                .background(CoreColors.BLACK, CircleShape)
                         )
                     }
                 }
@@ -419,21 +430,21 @@ private fun FooterSection() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "By continuing, you agree to our",
-            color = Color.Black.copy(alpha = 0.66f),
-            fontSize = 12.sp,
+            text = CoreStrings.BY_CONTINUING_TEXT,
+            color = CoreColors.BLACK.copy(alpha = CoreAlpha.SUBTITLE_TEXT),
+            fontSize = CoreFontSizes.FOOTER_TEXT,
             fontWeight = FontWeight.Medium,
             textAlign = TextAlign.Center
         )
         
-        Spacer(modifier = Modifier.height(14.dp))
-        
+        Spacer(modifier = Modifier.height(CoreSpacing.MEDIUM_LARGE))
+
         Row(
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
+            horizontalArrangement = Arrangement.spacedBy(CoreLayout.FOOTER_LINK_SPACING)
         ) {
-            FooterLink("Terms of Services")
-            FooterLink("Privacy Policy")
-            FooterLink("Content Policy")
+            FooterLink(CoreStrings.TERMS_OF_SERVICE)
+            FooterLink(CoreStrings.PRIVACY_POLICY)
+            FooterLink(CoreStrings.CONTENT_POLICY)
         }
     }
 }
@@ -445,20 +456,20 @@ private fun FooterLink(text: String) {
     ) {
         Text(
             text = text,
-            color = Color.Black.copy(alpha = 0.66f),
-            fontSize = 12.sp,
+            color = CoreColors.BLACK.copy(alpha = CoreAlpha.SUBTITLE_TEXT),
+            fontSize = CoreFontSizes.FOOTER_TEXT,
             fontWeight = FontWeight.Medium,
             textAlign = TextAlign.Center,
             modifier = Modifier.clickable { }
         )
         
-        Spacer(modifier = Modifier.height(2.dp))
-        
+        Spacer(modifier = Modifier.height(CoreLayout.FOOTER_LINK_BOTTOM_SPACING))
+
         Box(
             modifier = Modifier
-                .width(text.length * 5.dp)
-                .height(1.dp)
-                .background(Color.Black.copy(alpha = 0.2f))
+                .width(text.length * CoreNumbers.FOOTER_LINK_MULTIPLIER.dp)
+                .height(CoreLayout.FOOTER_UNDERLINE_HEIGHT)
+                .background(CoreColors.BLACK.copy(alpha = CoreAlpha.SEMI_TRANSPARENT))
         )
     }
 }

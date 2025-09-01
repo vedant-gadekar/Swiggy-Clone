@@ -19,6 +19,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.feature_food.presentation.constants.Animation
+import com.example.feature_food.presentation.constants.Colors
 import com.example.swiggyy.ui.theme.SwiggyFontFamily
 
 @Composable
@@ -26,7 +28,7 @@ fun OfferCard(
     title: String,
     subtitle: String,
     modifier: Modifier = Modifier,
-    backgroundColor: Color = Color(0xFF1E4A4A),
+    backgroundColor: Color = Colors.OFFER_CARD_BG,
     isSpecialOffer: Boolean = false,
     index: Int = 0 // Add index parameter for staggered animation
 ) {
@@ -35,19 +37,16 @@ fun OfferCard(
     
     // Entrance animations with staggered delay based on index
     val cardScale by animateFloatAsState(
-        targetValue = if (visible) 1f else 0.7f,
-        animationSpec = spring(dampingRatio = 0.6f, stiffness = 300f)
+        targetValue = if (visible) Animation.CARD_SCALE_EXPANDED else Animation.CARD_SCALE_COLLAPSED,
+        animationSpec = spring(dampingRatio = Animation.SPRING_DAMPING_RATIO, stiffness = Animation.SPRING_STIFFNESS)
     )
-    
     val cardAlpha by animateFloatAsState(
-        targetValue = if (visible) 1f else 0f,
-        animationSpec = tween(durationMillis = 500, delayMillis = 100 * index)
+        targetValue = if (visible) Animation.CARD_SCALE_EXPANDED else 0f,
+        animationSpec = tween(durationMillis = Animation.CARD_ALPHA_DURATION, delayMillis = Animation.CARD_ALPHA_DELAY_PER_INDEX * index)
     )
-    
-    // Click animation for subtle pulsing effect
     val clickScale by animateFloatAsState(
-        targetValue = if (isPressed) 0.95f else 1f,
-        animationSpec = tween(150)
+        targetValue = if (isPressed) Animation.CARD_SCALE_PRESSED else Animation.CARD_SCALE_EXPANDED,
+        animationSpec = tween(Animation.CARD_CLICK_ANIMATION_DURATION)
     )
     
     // Create gradient based on the background color with enhanced vibrancy
