@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/feature-dineout" />
             <option value="$PROJECT_DIR$/feature-food" />
             <option value="$PROJECT_DIR$/feature-instamart" />
+            <option value="$PROJECT_DIR$/featureAuth" />
           </set>
         </option>
       </GradleProjectSettings>

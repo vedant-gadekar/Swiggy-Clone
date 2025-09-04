@@ -1,4 +1,4 @@
-package com.example.swiggyy.feature.food.state
+package com.example.swiggyy.bottomNavBar.food.state
 
 /**
  * Base sealed class representing the state of a UI component.

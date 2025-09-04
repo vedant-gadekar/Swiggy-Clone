@@ -1,7 +1,6 @@
 package com.example.core.components
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -14,8 +13,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -31,9 +28,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
-import com.example.core.search.state.SearchEvent
-import com.example.core.search.state.SearchEffect
-import com.example.core.search.viewmodel.SearchViewModel
+import com.example.core.state.PopularCuisineData
+import com.example.core.state.PopularItemData
+import com.example.core.state.SearchEvent
+import com.example.core.state.SearchEffect
+import com.example.core.state.TrendingSearchData
+import com.example.core.viewmodel.SearchViewModel
 import com.example.swiggyy.ui.theme.SwiggyFontFamily
 import kotlinx.coroutines.flow.collectLatest
 
@@ -168,7 +168,7 @@ private fun HeaderSection(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun TrendingSearchesSection(
-    trendingSearches: List<com.example.core.search.state.TrendingSearchData>,
+    trendingSearches: List<TrendingSearchData>,
     onTrendingSearchClick: (String) -> Unit
 ) {
     Column {
@@ -253,8 +253,8 @@ private fun TrendingSearchChip(
 
 @Composable
 private fun PopularInstamartSection(
-    popularItems: List<com.example.core.search.state.PopularItemData>,
-    onItemClick: (com.example.core.search.state.PopularItemData) -> Unit
+    popularItems: List<PopularItemData>,
+    onItemClick: (PopularItemData) -> Unit
 ) {
     Column {
         // Section header
@@ -304,7 +304,7 @@ private fun PopularInstamartSection(
 
 @Composable
 private fun PopularItemCard(
-    item: com.example.core.search.state.PopularItemData,
+    item: PopularItemData,
     onClick: () -> Unit
 ) {
     Column(
@@ -344,8 +344,8 @@ private fun PopularItemCard(
 
 @Composable
 private fun PopularCuisinesSection(
-    cuisines: List<com.example.core.search.state.PopularCuisineData>,
-    onCuisineClick: (com.example.core.search.state.PopularCuisineData) -> Unit
+    cuisines: List<PopularCuisineData>,
+    onCuisineClick: (PopularCuisineData) -> Unit
 ) {
     Column {
         // Section header
@@ -388,7 +388,7 @@ private fun PopularCuisinesSection(
 
 @Composable
 private fun CuisineCard(
-    cuisine: com.example.core.search.state.PopularCuisineData,
+    cuisine: PopularCuisineData,
     onClick: () -> Unit
 ) {
     Column(

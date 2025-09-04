@@ -12,8 +12,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.swiggyy.feature.bottomnav.state.BottomNavItem
-import com.example.swiggyy.feature.bottomnav.viewmodel.NavigationGraph
+import com.example.swiggyy.bottomNavBar.state.BottomNavItem
+import com.example.swiggyy.bottomNavBar.viewmodel.NavigationGraph
+
 import com.example.swiggyy.feature_bottomNavBar.BottomNavViewModel
 import com.example.swiggyy.feature_bottomNavBar.BottomNavigationBar
 import com.example.swiggyy.feature_home.HomeViewModel
@@ -29,18 +30,21 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val BottomNavViewModel: BottomNavViewModel by viewModels()
+            val homeViewModel: HomeViewModel by viewModels()
 
             val navController = rememberNavController()
-            val homeViewModel: HomeViewModel by viewModels()
+            // Listen for navigation to main screens to update auth state
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+
 
             // For demo purposes, set to false to show welcome screen first
             // In a real app, this would be determined by checking auth state
             val isAuthenticated = remember { mutableStateOf(false) }
 
-            // Listen for navigation to main screens to update auth state
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
+
             LaunchedEffect(navBackStackEntry) {
                 val currentRoute = navBackStackEntry?.destination?.route
+
                 if (currentRoute == BottomNavItem.Home.screenRoute ||
                     currentRoute == BottomNavItem.Food.screenRoute ||
                     currentRoute == BottomNavItem.InstaMart.screenRoute

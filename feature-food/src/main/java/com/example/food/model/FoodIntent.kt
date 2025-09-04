@@ -1,4 +1,4 @@
-package com.example.swiggyy.feature.food.state
+package com.example.swiggyy.bottomNavBar.food.state
 
 import com.example.swiggyy.feature_food.model.Category
 import com.example.swiggyy.feature_food.model.Restaurant

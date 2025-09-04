@@ -46,8 +46,8 @@ import com.example.food.components.OfferCard
 import com.example.food.components.ReorderSection
 import com.example.swiggyy.ui.theme.SwiggyFontFamily
 import com.example.swiggyy.feature_food.viewmodel.FoodViewModel
-import com.example.swiggyy.feature.food.state.FoodIntent
-import com.example.swiggyy.feature.food.state.UiState
+import com.example.swiggyy.bottomNavBar.food.state.FoodIntent
+import com.example.swiggyy.bottomNavBar.food.state.UiState
 import com.example.food.R
 
 @Composable

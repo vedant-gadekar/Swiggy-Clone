@@ -20,9 +20,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-/**
- * ViewModel for authentication flow using MVI pattern.
- */
+
 class AuthViewModel : ViewModel() {
     
     private val _state = MutableStateFlow(AuthState())
@@ -30,10 +28,7 @@ class AuthViewModel : ViewModel() {
     
     private val _effect = MutableSharedFlow<AuthEffect>()
     val effect: SharedFlow<AuthEffect> = _effect.asSharedFlow()
-    
-    /**
-     * Handles all user events in the auth flow.
-     */
+
     fun handleEvent(event: AuthEvent) {
         when (event) {
             is AuthEvent.PhoneNumberChanged -> handlePhoneNumberChanged(event.phoneNumber)
