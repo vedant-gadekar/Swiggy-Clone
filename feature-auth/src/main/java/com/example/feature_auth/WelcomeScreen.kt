@@ -32,13 +32,16 @@ import com.example.core.Spacing as CoreSpacing
 import com.example.core.Numbers as CoreNumbers
 import com.example.core.Alpha as CoreAlpha
 import com.example.core.Strings as CoreStrings
+import com.example.feature_auth.utils.Strings as AuthStrings
 import com.example.core.Layout as CoreLayout
 import com.example.feature_auth.state.AuthEvent
 import com.example.feature_auth.viewmodel.AuthViewModel
+import com.example.feature_auth.components.PhoneInputSection
 
 @Composable
 fun WelcomeScreen(
-    viewModel: AuthViewModel = viewModel()
+    viewModel: AuthViewModel = viewModel(),
+    showArtwork: Boolean = true
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     
@@ -59,71 +62,73 @@ fun WelcomeScreen(
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            // Food images section
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(CoreLayout.FOOD_IMAGES_HEIGHT)
-            ) {
-                // Burger image
-                Image(
-                    painter = painterResource(R.drawable.burger),
-                    contentDescription = CoreStrings.CONTENT_DESC_BURGER,
+            // Food images section (skippable for tests to avoid huge bitmaps)
+            if (showArtwork) {
+                Box(
                     modifier = Modifier
-                        .size(CoreDimensions.IMAGE_BANNER)
-                        .offset(
-                            x = CoreDimensions.OFFSET_SMALL,
-                            y = CoreDimensions.OFFSET_Y_GIANT
-                        )
-                        .rotate(CoreNumbers.ROTATION_ANGLE_MEDIUM),
-                    contentScale = ContentScale.Crop
-                )
+                        .fillMaxWidth()
+                        .height(CoreLayout.FOOD_IMAGES_HEIGHT)
+                ) {
+                    // Burger image
+                    Image(
+                        painter = painterResource(R.drawable.burger),
+                        contentDescription = CoreStrings.CONTENT_DESC_BURGER,
+                        modifier = Modifier
+                            .size(CoreDimensions.IMAGE_BANNER)
+                            .offset(
+                                x = CoreDimensions.OFFSET_SMALL,
+                                y = CoreDimensions.OFFSET_Y_GIANT
+                            )
+                            .rotate(CoreNumbers.ROTATION_ANGLE_MEDIUM),
+                        contentScale = ContentScale.Crop
+                    )
 
-                // Float image
-                Image(
-                    painter = painterResource(R.drawable.shake),
-                    contentDescription = CoreStrings.CONTENT_DESC_FLOAT,
-                    modifier = Modifier
-                        .size(CoreDimensions.IMAGE_MASSIVE)
-                        .offset(
-                            x = CoreDimensions.OFFSET_Y_EXTREME,
-                            y = CoreDimensions.OFFSET_Y_MASSIVE
-                        )
-                        .rotate(CoreNumbers.ROTATION_ANGLE_REVERSE),
-                    contentScale = ContentScale.Crop
-                )
+                    // Float image
+                    Image(
+                        painter = painterResource(R.drawable.shake),
+                        contentDescription = CoreStrings.CONTENT_DESC_FLOAT,
+                        modifier = Modifier
+                            .size(CoreDimensions.IMAGE_MASSIVE)
+                            .offset(
+                                x = CoreDimensions.OFFSET_Y_EXTREME,
+                                y = CoreDimensions.OFFSET_Y_MASSIVE
+                            )
+                            .rotate(CoreNumbers.ROTATION_ANGLE_REVERSE),
+                        contentScale = ContentScale.Crop
+                    )
 
-                // Cake image
-                Image(
-                    painter = painterResource(R.drawable.cake),
-                    contentDescription = CoreStrings.CONTENT_DESC_CAKE,
-                    modifier = Modifier
-                        .size(
-                            CoreDimensions.IMAGE_GIANT,
-                            CoreDimensions.IMAGE_HUGE
-                        )
-                        .offset(
-                            x = CoreDimensions.OFFSET_LARGE,
-                            y = CoreDimensions.OFFSET_Y_SMALL
-                        ),
-                    contentScale = ContentScale.Crop
-                )
+                    // Cake image
+                    Image(
+                        painter = painterResource(R.drawable.cake),
+                        contentDescription = CoreStrings.CONTENT_DESC_CAKE,
+                        modifier = Modifier
+                            .size(
+                                CoreDimensions.IMAGE_GIANT,
+                                CoreDimensions.IMAGE_HUGE
+                            )
+                            .offset(
+                                x = CoreDimensions.OFFSET_LARGE,
+                                y = CoreDimensions.OFFSET_Y_SMALL
+                            ),
+                        contentScale = ContentScale.Crop
+                    )
 
-                // Pizza image
-                Image(
-                    painter = painterResource(R.drawable.pizza),
-                    contentDescription = CoreStrings.CONTENT_DESC_PIZZA,
-                    modifier = Modifier
-                        .size(
-                            CoreDimensions.PIZZA_WIDTH,
-                            CoreDimensions.PIZZA_HEIGHT
-                        )
-                        .offset(
-                            x = CoreDimensions.PIZZA_OFFSET_X,
-                            y = CoreDimensions.PIZZA_OFFSET_Y
-                        ),
-                    contentScale = ContentScale.Crop
-                )
+                    // Pizza image
+                    Image(
+                        painter = painterResource(R.drawable.pizza),
+                        contentDescription = CoreStrings.CONTENT_DESC_PIZZA,
+                        modifier = Modifier
+                            .size(
+                                CoreDimensions.PIZZA_WIDTH,
+                                CoreDimensions.PIZZA_HEIGHT
+                            )
+                            .offset(
+                                x = CoreDimensions.PIZZA_OFFSET_X,
+                                y = CoreDimensions.PIZZA_OFFSET_Y
+                            ),
+                        contentScale = ContentScale.Crop
+                    )
+                }
             }
 
             // Main content section
@@ -135,7 +140,7 @@ fun WelcomeScreen(
             ) {
                 // Title
                 Text(
-                    text = CoreStrings.WELCOME_TITLE,
+                    text = AuthStrings.WELCOME_TITLE,
                     color = CoreColors.BLACK,
                     fontSize = CoreFontSizes.HEADING,
                     fontWeight = FontWeight.ExtraBold,
@@ -147,7 +152,7 @@ fun WelcomeScreen(
                 Spacer(modifier = Modifier.height(CoreSpacing.MASSIVE))
 
                 Text(
-                    text = CoreStrings.LOG_IN_OR_SIGN_UP,
+                    text = AuthStrings.LOG_IN_OR_SIGN_UP,
                     color = CoreColors.BLACK_ALPHA_66,
                     fontSize = CoreFontSizes.BODY,
                     fontWeight = FontWeight.Medium
@@ -196,7 +201,7 @@ fun WelcomeScreen(
                         )
                     } else {
                         Text(
-                            text = CoreStrings.CONTINUE,
+                            text = AuthStrings.CONTINUE,
                             color = CoreColors.WHITE,
                             fontSize = CoreFontSizes.EXTRA_LARGE,
                             fontWeight = FontWeight.Normal
@@ -218,7 +223,7 @@ fun WelcomeScreen(
                 Spacer(modifier = Modifier.height(CoreSpacing.MEDIUM_LARGE))
 
                 Text(
-                    text = CoreStrings.OR,
+                    text = AuthStrings.OR,
                     color = CoreColors.BLACK_ALPHA_66,
                     fontSize = CoreFontSizes.BODY,
                     fontWeight = FontWeight.Medium
@@ -264,101 +269,6 @@ fun WelcomeScreen(
                 fontWeight = FontWeight.Normal,
                 textAlign = TextAlign.Center
             )
-        }
-    }
-}
-
-@Composable
-private fun PhoneInputSection(
-    phoneNumber: String,
-    onPhoneNumberChange: (String) -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(CoreLayout.PHONE_INPUT_HEIGHT),
-        horizontalArrangement = Arrangement.spacedBy(CoreSpacing.NORMAL)
-    ) {
-        // Country code section
-        Card(
-            modifier = Modifier
-                .width(CoreLayout.COUNTRY_CODE_WIDTH)
-                .fillMaxHeight(),
-            colors = CardDefaults.cardColors(containerColor = CoreColors.WHITE),
-            elevation = CardDefaults.cardElevation(defaultElevation = CoreDimensions.CARD_ELEVATION_TINY),
-            shape = RoundedCornerShape(CoreDimensions.CORNER_RADIUS_NORMAL)
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = CoreLayout.COUNTRY_CODE_HORIZONTAL_PADDING),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.india_flag),
-                    contentDescription = CoreStrings.CONTENT_DESC_INDIA_FLAG,
-                    modifier = Modifier.size(
-                        width = CoreLayout.FLAG_WIDTH,
-                        height = CoreLayout.FLAG_HEIGHT
-                    )
-                )
-                Icon(
-                    painter = painterResource(R.drawable.dropdown),
-                    contentDescription = CoreStrings.CONTENT_DESC_DROPDOWN,
-                    modifier = Modifier.size(CoreLayout.DROPDOWN_ICON_SIZE),
-                    tint = CoreColors.GRAY_DROPDOWN
-                )
-            }
-        }
-
-        // Phone number input
-        Card(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight(),
-            colors = CardDefaults.cardColors(containerColor = CoreColors.WHITE),
-            elevation = CardDefaults.cardElevation(defaultElevation = CoreDimensions.CARD_ELEVATION_TINY),
-            shape = RoundedCornerShape(CoreDimensions.CORNER_RADIUS_NORMAL)
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = CoreLayout.PHONE_INPUT_HORIZONTAL_PADDING),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = CoreNumbers.COUNTRY_CODE,
-                    color = CoreColors.BLACK,
-                    fontSize = CoreFontSizes.PHONE_TEXT,
-                    fontWeight = FontWeight.Medium
-                )
-
-                Spacer(modifier = Modifier.width(CoreLayout.PHONE_INPUT_SPACER))
-
-                BasicTextField(
-                    value = phoneNumber,
-                    onValueChange = onPhoneNumberChange,
-                    modifier = Modifier.weight(1f),
-                    textStyle = TextStyle(
-                        color = CoreColors.BLACK,
-                        fontSize = CoreFontSizes.PHONE_TEXT,
-                        fontWeight = FontWeight.Normal
-                    ),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
-                    singleLine = true,
-                    decorationBox = { innerTextField ->
-                        if (phoneNumber.isEmpty()) {
-                            Text(
-                                text = CoreStrings.ENTER_PHONE_NUMBER,
-                                color = CoreColors.BLACK.copy(alpha = CoreAlpha.HINT_TEXT),
-                                fontSize = CoreFontSizes.PHONE_HINT
-                            )
-                        }
-                        innerTextField()
-                    }
-                )
-            }
         }
     }
 }
@@ -430,7 +340,7 @@ private fun FooterSection() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = CoreStrings.BY_CONTINUING_TEXT,
+            text = AuthStrings.BY_CONTINUING_TEXT,
             color = CoreColors.BLACK.copy(alpha = CoreAlpha.SUBTITLE_TEXT),
             fontSize = CoreFontSizes.FOOTER_TEXT,
             fontWeight = FontWeight.Medium,
@@ -442,9 +352,9 @@ private fun FooterSection() {
         Row(
             horizontalArrangement = Arrangement.spacedBy(CoreLayout.FOOTER_LINK_SPACING)
         ) {
-            FooterLink(CoreStrings.TERMS_OF_SERVICE)
-            FooterLink(CoreStrings.PRIVACY_POLICY)
-            FooterLink(CoreStrings.CONTENT_POLICY)
+            FooterLink(AuthStrings.TERMS_OF_SERVICE)
+            FooterLink(AuthStrings.PRIVACY_POLICY)
+            FooterLink(AuthStrings.CONTENT_POLICY)
         }
     }
 }

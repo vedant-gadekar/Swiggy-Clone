@@ -35,7 +35,9 @@ import com.example.core.state.SearchEffect
 import com.example.core.state.TrendingSearchData
 import com.example.core.viewmodel.SearchViewModel
 import com.example.swiggyy.ui.theme.SwiggyFontFamily
+import com.example.core.Strings as CoreStrings
 import kotlinx.coroutines.flow.collectLatest
+import com.example.core.theme.LocalDimensions
 
 @Composable
 fun SearchScreen(
@@ -46,6 +48,7 @@ fun SearchScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val scrollState = rememberScrollState()
+    val dims = LocalDimensions.current
 
     // Handle effects
     LaunchedEffect(viewModel.effect) {
@@ -76,11 +79,11 @@ fun SearchScreen(
 
         // Main content
         Column(
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier.padding(horizontal = dims.paddingMedium)
         ) {
             // Search suggestion text
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dims.spacingMedium))
             
             // Trending searches section
             TrendingSearchesSection(
@@ -90,7 +93,7 @@ fun SearchScreen(
                 }
             )
             
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(dims.spacingLarge))
             
             // Popular on Instamart section
             PopularInstamartSection(
@@ -100,7 +103,7 @@ fun SearchScreen(
                 }
             )
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(dims.spacingLarge))
 
             // Popular Cuisines section
             PopularCuisinesSection(
@@ -110,7 +113,7 @@ fun SearchScreen(
                 }
             )
             
-            Spacer(modifier = Modifier.height(100.dp))
+            Spacer(modifier = Modifier.height(dims.spacingExtraLarge))
         }
     }
 }
@@ -125,16 +128,17 @@ private fun HeaderSection(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.White)
-            .padding(16.dp)
+            .padding(LocalDimensions.current.paddingMedium)
     ) {
         // Top section with back button and "Search for" text
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            val dims = LocalDimensions.current
             IconButton(
                 onClick = onBackClick,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(dims.iconSizeMedium)
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -143,10 +147,10 @@ private fun HeaderSection(
                 )
             }
             
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(dims.spacingSmall))
             
             Text(
-                text = "Search for dishes, restaurants& groceries",
+                text = CoreStrings.SEARCH_HEADER_PROMPT,
                 color = Color(0xFF424444),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Normal,
@@ -154,7 +158,7 @@ private fun HeaderSection(
             )
         }
         
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(LocalDimensions.current.spacingMedium))
         
         // Use the common SearchBar component (without onClick to allow typing)
         SearchBar(
@@ -173,7 +177,7 @@ private fun TrendingSearchesSection(
 ) {
     Column {
         Text(
-            text = "TRENDING SEARCHES",
+            text = CoreStrings.TRENDING_SEARCHES,
             color = Color(0xFF454747),
             fontSize = 13.sp,
             fontWeight = FontWeight.Normal,
@@ -263,21 +267,21 @@ private fun PopularInstamartSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Popular ",
+                text = CoreStrings.POPULAR,
                 color = Color(0xFF30343B),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Normal,
                 fontFamily = SwiggyFontFamily
             )
             Text(
-                text = "on ",
+                text = CoreStrings.ON,
                 color = Color(0xFF3A3844),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Normal,
                 fontFamily = SwiggyFontFamily
             )
             Text(
-                text = "Instamart",
+                text = CoreStrings.INSTAMART,
                 color = Color(0xFF8F1C4E),
                 fontSize = 19.sp,
                 fontWeight = FontWeight.Normal,
@@ -354,14 +358,14 @@ private fun PopularCuisinesSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Popular ",
+                text = CoreStrings.POPULAR,
                 color = Color(0xFF141618),
                 fontSize = 17.sp,
                 fontWeight = FontWeight.Normal,
                 fontFamily = SwiggyFontFamily
             )
             Text(
-                text = "Cuisines",
+                text = CoreStrings.CUISINES,
                 color = Color(0xFF07090D),
                 fontSize = 17.sp,
                 fontWeight = FontWeight.Normal,

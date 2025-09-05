@@ -388,7 +388,6 @@ object Strings {
     // Navigation
     const val HOME = "Home"
     const val FOOD = "Food"
-    const val INSTAMART = "InstaMart"
     const val DINEOUT = "Dineout"
 
     // Auth related
@@ -493,6 +492,15 @@ object Strings {
     const val RATING_WITH_REVIEWS_FORMAT = "%.1f (%s) • %s"
     const val CURRENCY_FORMAT = "₹%d"
     const val RESEND_TIMER_FORMAT = "Resend SMS in %d"
+
+    // Core module: Search & common labels
+    const val SEARCH_HEADER_PROMPT = "Search for dishes, restaurants& groceries"
+    const val TRENDING_SEARCHES = "TRENDING SEARCHES"
+    const val POPULAR = "Popular "
+    const val ON = "on "
+    const val INSTAMART = "Instamart"
+    const val POPULAR_CUISINES_PREFIX = "Popular "
+    const val CUISINES = "Cuisines"
 }
 
 /**
@@ -554,6 +562,23 @@ object Numbers {
     const val OTP_BOX_COUNT = 6
     const val SOCIAL_LOGIN_SPACING = 47
     const val FOOTER_LINK_MULTIPLIER = 5
+}
+
+/**
+ * Boolean flags - Common boolean constants
+ */
+object Booleans {
+    const val ENABLED = true
+    const val DISABLED = false
+    const val DEFAULT_LOADING = false
+}
+
+/**
+ * Character constants - Common char values
+ */
+object Chars {
+    const val ZERO = '0'
+    const val SPACE = ' '
 }
 
 /**
@@ -629,3 +654,5 @@ object Layout {
     val FOOTER_UNDERLINE_HEIGHT = 1.dp
     val FOOTER_LINK_BOTTOM_SPACING = 2.dp
 }
+
+const val INSTAMART = "InstaMart"

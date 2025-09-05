@@ -2,10 +2,10 @@ package com.example.feature_auth.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.core.Numbers
-import com.example.core.Strings
-import com.example.core.Animation
-import com.example.core.Timer
+import com.example.feature_auth.utils.Numbers
+import com.example.feature_auth.utils.Strings
+import com.example.feature_auth.utils.Animation
+import com.example.feature_auth.utils.Timer
 import com.example.feature_auth.state.AuthEffect
 import com.example.feature_auth.state.AuthEvent
 import com.example.feature_auth.state.AuthScreen
@@ -136,11 +136,6 @@ class AuthViewModel : ViewModel() {
                 isOtpComplete = filteredOtp.length == Numbers.OTP_LENGTH,
                 errorMessage = null
             )
-        }
-
-        // Auto-verify when OTP is complete
-        if (filteredOtp.length == Numbers.OTP_LENGTH) {
-            handleVerifyOtp(filteredOtp)
         }
     }
     

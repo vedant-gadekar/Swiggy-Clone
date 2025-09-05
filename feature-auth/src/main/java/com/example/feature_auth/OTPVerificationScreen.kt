@@ -25,11 +25,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.core.BrandColors
 import com.example.feature_auth.state.AuthEvent
 import com.example.feature_auth.viewmodel.AuthViewModel
 import com.example.feature_auth.utils.Colors
 import com.example.feature_auth.utils.Strings
 import com.example.feature_auth.utils.Dimensions
+import com.example.feature_auth.utils.Chars
+import com.example.core.Dimensions as CoreDimensions
+import com.example.core.FontSizes as CoreFontSizes
+import com.example.feature_auth.components.OTPInputBox
+import com.example.feature_auth.utils.Strings as AuthStrings
 
 @Composable
 fun OTPVerificationScreen(
@@ -42,8 +48,8 @@ fun OTPVerificationScreen(
     
     // Split OTP into individual digits for the input boxes
     val otpDigits = remember(state.otp) {
-        val digits = state.otp.padEnd(6, ' ').take(6).toList()
-        digits.map { if (it == ' ') "" else it.toString() }
+        val digits = state.otp.padEnd(6, Chars.SPACE).take(6).toList()
+        digits.map { if (it == Chars.SPACE) "" else it.toString() }
     }
     
     Column(
@@ -109,12 +115,12 @@ fun OTPVerificationScreen(
                     value = value,
                     onValueChange = { newValue ->
                         if (newValue.length <= 1 && newValue.all { it.isDigit() }) {
-                            val currentOtp = state.otp.padEnd(6, '0').take(6).toMutableList()
+                            val currentOtp = state.otp.padEnd(6, Chars.ZERO).take(6).toMutableList()
                             
                             if (newValue.isEmpty()) {
                                 // Handle backspace
                                 if (index < currentOtp.size) {
-                                    currentOtp[index] = '0'
+                                    currentOtp[index] = Chars.ZERO
                                 }
                             } else {
                                 // Handle digit input
@@ -123,7 +129,7 @@ fun OTPVerificationScreen(
                                 }
                             }
                             
-                            val newOtp = currentOtp.joinToString("").replace("0", "").take(6)
+                            val newOtp = currentOtp.joinToString("").replace(Chars.ZERO.toString(), "").take(6)
                             viewModel.handleEvent(AuthEvent.OtpChanged(newOtp))
                             
                             // Move focus to next box if current is filled
@@ -150,6 +156,40 @@ fun OTPVerificationScreen(
             )
             Spacer(modifier = Modifier.height(Dimensions.SPACER_HEIGHT_ERROR))
         }
+
+        // Verify button (submit)
+        Button(
+            onClick = {
+                // Close keyboard and submit OTP for verification
+                keyboardController?.hide()
+                viewModel.handleEvent(AuthEvent.VerifyOtp(state.otp))
+            },
+            enabled = !state.isLoading && state.isOtpComplete,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(CoreDimensions.BUTTON_HEIGHT),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = BrandColors.SWIGGY_ORANGE
+            ),
+            shape = RoundedCornerShape(CoreDimensions.CORNER_RADIUS_NORMAL),
+        ) {
+            if (state.isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(CoreDimensions.ICON_MEDIUM),
+                    color = Colors.WHITE,
+                    strokeWidth = Dimensions.PROGRESS_STROKE
+                )
+            } else {
+                Text(
+                    text = "Verify",
+                    color = Colors.WHITE,
+                    fontSize = Dimensions.BUTTON_FONT_SIZE,
+                    fontWeight = FontWeight.Medium,
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(Dimensions.SPACER_HEIGHT_OTP))
         // Resend SMS button
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -205,8 +245,8 @@ fun OTPVerificationScreen(
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Try other login methods",
-                color = Color(0xFFFF5722),
+                text = AuthStrings.TRY_OTHER_LOGIN_METHODS,
+                color = BrandColors.SWIGGY_ORANGE,
                 fontSize = Dimensions.TRY_OTHER_METHODS_FONT_SIZE,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center,
@@ -230,15 +270,15 @@ private fun OTPInputBox(
 ) {
     Card(
         modifier = modifier
-            .size(42.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
-        shape = RoundedCornerShape(7.dp)
+            .size(CoreDimensions.OTP_INPUT_SIZE),
+        colors = CardDefaults.cardColors(containerColor = Colors.WHITE),
+        elevation = CardDefaults.cardElevation(defaultElevation = CoreDimensions.CARD_ELEVATION_NONE),
+        shape = RoundedCornerShape(CoreDimensions.CORNER_RADIUS_MEDIUM)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .border(1.dp, Color.Black, RoundedCornerShape(7.dp)),
+                .border(Dimensions.BORDER_WIDTH, Colors.BLACK, RoundedCornerShape(CoreDimensions.CORNER_RADIUS_MEDIUM)),
             contentAlignment = Alignment.Center
         ) {
             BasicTextField(
@@ -246,8 +286,8 @@ private fun OTPInputBox(
                 onValueChange = onValueChange,
                 modifier = Modifier.fillMaxSize(),
                 textStyle = TextStyle(
-                    color = Color.Black,
-                    fontSize = 18.sp,
+                    color = Colors.BLACK,
+                    fontSize = CoreFontSizes.EXTRA_LARGE,
                     fontWeight = FontWeight.Medium,
                     textAlign = TextAlign.Center
                 ),
