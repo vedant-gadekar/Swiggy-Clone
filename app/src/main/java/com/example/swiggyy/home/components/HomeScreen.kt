@@ -31,6 +31,7 @@ import com.example.core.components.SearchBar
 import com.example.swiggyy.R
 import com.example.swiggyy.bottomNavBar.state.BottomNavItem
 import com.example.swiggyy.ui.theme.SwiggyFontFamily
+import androidx.compose.ui.platform.testTag
 
 
 @Composable
@@ -44,6 +45,7 @@ fun HomeScreen(viewModel: HomeViewModel, navController: NavHostController) {
             .fillMaxSize()
             .padding(16.dp)
             .verticalScroll(scrollState)
+            .testTag("home_scroll")
     )
     {
         Row(Modifier.fillMaxWidth()) {
@@ -74,6 +76,7 @@ fun HomeScreen(viewModel: HomeViewModel, navController: NavHostController) {
         SearchBar(
             query = state.searchQuery,
             onQueryChange = { viewModel.handleIntent(HomeIntent.SearchQueryChanged(it)) },
+            modifier = Modifier.testTag("home_search_bar"),
             onClick = {
                 navController.navigate("search")
             }
@@ -185,6 +188,7 @@ fun CategoryGrid(categories: List<Category>, onCategoryClick: (Category) -> Unit
                         modifier = Modifier
                             .weight(1f)
                             .height(140.dp)
+                            .testTag("category_${category.title}")
                             .clickable { onCategoryClick(category) },
                         shape = RoundedCornerShape(12.dp),
                         colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -258,7 +262,6 @@ fun CategoryGrid(categories: List<Category>, onCategoryClick: (Category) -> Unit
 
 
 
-
 @Composable
 fun AppFooter(modifier: Modifier = Modifier) {
     Box(
@@ -277,6 +280,7 @@ fun AppFooter(modifier: Modifier = Modifier) {
                 color = Color(0xFF757575), // Dark Gray
                 fontSize = 60.sp,
                 fontWeight = FontWeight.ExtraBold,
+                modifier = Modifier.testTag("footer_live_it_up"),
                 fontFamily = SwiggyFontFamily,
                 textAlign = TextAlign.Start,
                 lineHeight = 54.sp // Set line height smaller than font size for overlap
@@ -288,7 +292,8 @@ fun AppFooter(modifier: Modifier = Modifier) {
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Medium,
                 fontFamily = SwiggyFontFamily,
-                textAlign = TextAlign.Start
+                textAlign = TextAlign.Start,
+                modifier = Modifier.testTag("footer_crafted")
             )
         }
     }

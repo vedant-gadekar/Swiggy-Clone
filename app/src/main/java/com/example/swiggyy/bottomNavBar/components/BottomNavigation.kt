@@ -67,6 +67,11 @@ fun BottomNavigationBar(navController: NavController,
                             }
                             launchSingleTop = true
                         }
+                        // Keep ViewModel state in sync with navigation for tests and logic
+                        viewModel.handleIntent(BottomNavIntent.OnBottomNavItemClick(item.screenRoute))
+                    } else {
+                        // Clicking the already-selected item should still keep state consistent
+                        viewModel.handleIntent(BottomNavIntent.OnBottomNavItemClick(item.screenRoute))
                     }
                 },
                 colors = NavigationBarItemDefaults.colors(

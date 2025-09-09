@@ -32,6 +32,7 @@ import com.example.core.state.CarouselItem
 import com.example.swiggyy.ui.theme.SwiggyFontFamily
 import kotlin.math.sin
 import com.example.core.R
+import androidx.compose.ui.platform.testTag
 
 @Composable
 fun LocationBar(name: String, address: String, onLocationClick: (() -> Unit)? = null) {
@@ -334,7 +335,8 @@ fun Carousel(
             pageSpacing = 12.dp,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp),
+                .height(200.dp)
+                .testTag("home_carousel"),
             contentPadding = PaddingValues(horizontal = 7.dp)
         ) { page ->
             CarouselCard(item = items[page], onButtonClick = onButtonClick)
@@ -352,7 +354,8 @@ fun CarouselCard(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .height(250.dp),
+            .height(250.dp)
+            .testTag("carousel_item_${item.title}"),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
 

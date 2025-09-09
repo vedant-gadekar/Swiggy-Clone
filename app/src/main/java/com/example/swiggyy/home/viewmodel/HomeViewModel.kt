@@ -5,9 +5,9 @@ import com.example.core.state.CarouselItem
 import kotlinx.coroutines.flow.*
 
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(initialState: HomeState = HomeState()) : ViewModel() {
 
-    private val _state = MutableStateFlow(HomeState())
+    private val _state = MutableStateFlow(initialState)
     val state: StateFlow<HomeState> = _state.asStateFlow()
 
 
