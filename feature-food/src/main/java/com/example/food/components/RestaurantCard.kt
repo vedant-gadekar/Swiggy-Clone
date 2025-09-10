@@ -40,7 +40,7 @@ import com.example.swiggyy.ui.theme.SwiggyFontFamily
 import kotlinx.coroutines.MainScope
 
 @Composable
-fun RestaurantCard(
+fun  RestaurantCard(
     restaurant: Restaurant,
     onClick: () -> Unit,
     onFavoriteClick: () -> Unit

@@ -43,7 +43,7 @@ import com.example.feature_food.presentation.constants.Colors
 import com.example.feature_food.presentation.constants.Dimensions
 import com.example.feature_food.presentation.constants.Strings
 import com.example.food.components.OfferCard
-import com.example.food.components.ReorderSection
+import com.example.food.components.RestaurantCarousel
 import com.example.swiggyy.ui.theme.SwiggyFontFamily
 import com.example.swiggyy.feature_food.viewmodel.FoodViewModel
 import com.example.swiggyy.bottomNavBar.food.state.FoodIntent
@@ -137,7 +137,7 @@ fun Food(navController: androidx.navigation.NavHostController? = null) {
             }
         }
 
-        Spacer(Modifier.height(Dimensions.SPACER_HEIGHT))
+//        Spacer(Modifier.height(Dimensions.SPACER_HEIGHT))
 
         // Restaurant Carousel with Toggle Tabs
         val reorderRestaurantsState = state.reorderRestaurants
@@ -145,8 +145,9 @@ fun Food(navController: androidx.navigation.NavHostController? = null) {
         
         when {
             reorderRestaurantsState is UiState.Success && quickDeliveryRestaurantsState is UiState.Success -> {
-                ReorderSection(
-                    restaurants = reorderRestaurantsState.data,
+                RestaurantCarousel(
+                    reorderRestaurants = reorderRestaurantsState.data,
+                    quickDeliveryRestaurants = quickDeliveryRestaurantsState.data,
                     onRestaurantClick = { viewModel.handleIntent(FoodIntent.RestaurantClicked(it)) },
                     onFavoriteClick = { restaurant ->
                         viewModel.handleIntent(FoodIntent.ToggleFavorite(restaurant.id, !restaurant.isFavorite))

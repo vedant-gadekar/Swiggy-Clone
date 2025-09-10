@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -14,6 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.feature_food.presentation.constants.Colors
 import com.example.feature_food.presentation.constants.Dimensions
+import com.example.feature_food.presentation.constants.Dimensions.SPACER_HEIGHT
 import com.example.feature_food.presentation.constants.Strings
 import com.example.swiggyy.feature_food.model.Restaurant
 import com.example.swiggyy.ui.theme.SwiggyFontFamily
@@ -59,6 +61,7 @@ fun RestaurantCarousel(
                 modifier = Modifier.weight(1f)
             )
         }
+        Spacer(Modifier.height(SPACER_HEIGHT))
         
         // Restaurant Carousel based on selected tab
         LazyRow(
@@ -90,22 +93,27 @@ fun TabButton(
 ) {
     Card(
         modifier = modifier
+            .height(48.dp)
             .clickable { onClick() },
         colors = CardDefaults.cardColors(
-            containerColor = if (isSelected) Colors.WHITE else Color.Transparent
+            containerColor = if (isSelected) Colors.WHITE else Color(0xFFF5F5F5)
         ),
-        shape = RoundedCornerShape(Dimensions.RESTAURANT_CARD_CORNER_RADIUS),
-        elevation = if (isSelected) CardDefaults.cardElevation(defaultElevation = Dimensions.RESTAURANT_CARD_ELEVATION_PRESSED) else CardDefaults.cardElevation(defaultElevation = 0.dp)
+        shape = RoundedCornerShape(Dimensions.REORDER_CARD_CORNER_RADIUS),
+        elevation = CardDefaults.cardElevation(defaultElevation = Dimensions.REORDER_CARD_ELEVATION)
     ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.titleMedium.copy(
-                fontFamily = SwiggyFontFamily,
-                fontWeight = FontWeight.Bold,
-                color = if (isSelected) Color(0xFFFF6F00) else Color.Gray
-            ),
-            modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
-            textAlign = TextAlign.Center
-        )
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = text,
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontFamily = SwiggyFontFamily,
+                    fontWeight = FontWeight.Bold,
+                    color = if (isSelected) Colors.ORANGE else Color.Gray
+                ),
+                textAlign = TextAlign.Center
+            )
+        }
     }
 }
